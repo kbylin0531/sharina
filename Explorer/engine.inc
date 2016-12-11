@@ -112,30 +112,11 @@ global $L;
 if (isset($_COOKIE['kod_user_language'])) {
     $lang = $_COOKIE['kod_user_language'];
 } else {//没有cookie
-    preg_match('/^([a-z\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
-    $lang = $matches[1];
-    switch (substr($lang, 0, 2)) {
-        case 'zh':
-            if ($lang != 'zn-TW') {
-                $lang = 'zh-CN';
-            }
-            break;
-        case 'en':
-            $lang = 'en';
-            break;
-        default:
-            $lang = 'en';
-            break;
-    }
-    $lang = str_replace('-', '_', $lang);
+    $lang = \Sharin\Library\UserAgent::getClientLang(LANG_EN_US);
     setcookie('kod_user_language', $lang, time() + 3600 * 24 * 365);
 }
-if ($lang == '') $lang = 'en';
-
-$lang = str_replace(array('/', '\\', '..', '.'), '', $lang);
-define('LANGUAGE_TYPE', $lang);
-include(LANGUAGE_PATH . $lang . '/main.php');
-$GLOBALS['L'] = $L;
+define('LANGUAGE_TYPE', $lang ? str_replace(array('/', '\\', '..', '.'), '', $lang) : LANG_EN_US);
+$GLOBALS['L'] = \Sharin\Core\Language::getLang(LANGUAGE_TYPE);
 
 
 //--------------------------------------- INTI SETTING ------------------------------------------------------------------
