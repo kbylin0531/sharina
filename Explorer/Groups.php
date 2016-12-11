@@ -19,6 +19,6 @@ class Groups extends FileCache
 
     function __construct()
     {
-        parent::__construct(__DIR__ . '/system/group.php');
+        parent::__construct(DATA_PATH . '/system/group.php');
     }
 }

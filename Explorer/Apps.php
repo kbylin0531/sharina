@@ -19,7 +19,7 @@ class Apps extends FileCache
 
     function __construct()
     {
-        parent::__construct(__DIR__ . '/system/apps.php');
+        parent::__construct(DATA_PATH . '/system/apps.php');
     }
 
 }
