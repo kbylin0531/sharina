@@ -15,8 +15,6 @@ class Index
             'address' => 'https://github.com/lichtung/Sharin',
         ]);
         $this->display();
-
-        die('a');
     }
 
 }
