@@ -40,12 +40,17 @@ class Util
                 $error .= '<li>' . str_replace($parent, '', $value) . '/	' . $L['php_env_error_path'] . '</li>';
             }
         }
-        if (!function_exists('imagecreatefromjpeg') ||
-            !function_exists('imagecreatefromgif') ||
-            !function_exists('imagecreatefrompng') ||
-            !function_exists('imagecolorallocate')
-        ) {
-            $error .= '<li>' . $L['php_env_error_gd'] . '</li>';
+        if(!function_exists('imagecreatefromjpeg')){
+            $error .= '<li> libjpeg not exist! </li>';
+        }
+        if(!function_exists('imagecreatefromgif')){
+            $error .= '<li> libgif not exist! </li>';
+        }
+        if(!function_exists('imagecreatefrompng')){
+            $error .= '<li> libpng not exist! </li>';
+        }
+        if(!function_exists('imagecolorallocate')){
+            $error .= '<li> function \'imagecolorallocate\' not exist! </li>';
         }
         return $error;
     }
