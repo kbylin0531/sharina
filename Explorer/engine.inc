@@ -32,7 +32,6 @@ define('APPHOST', HOST . str_replace(WEB_ROOT, '', SR_PATH_BASE));//程序根目
 define('TEMPLATE', SR_PATH_EXPLORER . 'template/');    //模版文件路径
 define('CONTROLLER_DIR', SR_PATH_EXPLORER . 'controller/'); //控制器目录
 define('LIB_DIR', SR_PATH_EXPLORER . 'lib/');        //库目录
-define('FUNCTION_DIR', LIB_DIR . 'function/');        //函数库目录
 define('CLASS_DIR', LIB_DIR . 'class/');            //内目录
 define('CORER_DIR', LIB_DIR . 'core/');            //核心目录
 define('LANGUAGE_PATH', SR_PATH_EXPLORER . 'i18n/');        //多语言目录
@@ -70,9 +69,9 @@ Util::checkDir(PUBLIC_PATH);
  */
 const OFFICE_SERVER = 'https://view.officeapps.live.com/op/view.aspx?src=';
 
-include(FUNCTION_DIR . 'file.function.php');
-include(__DIR__ . '/Controller.class.php');
-include(FUNCTION_DIR . 'common.function.php');
+include(__DIR__ . '/lib/function/file.function.php');
+include(__DIR__ . '/Controller.php');
+include(__DIR__ . '/lib/function/common.function.php');
 
 //--------------------------------------- SETTING BEGIN -------------------------------------------------------------------
 //配置数据,可在setting_user.php中更改覆盖

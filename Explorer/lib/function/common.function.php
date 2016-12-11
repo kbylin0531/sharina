@@ -14,9 +14,7 @@ function _autoload($className){
 		require_once(CLASS_DIR . strtolower($className) . '.class.php');
 	} else if (file_exists(CONTROLLER_DIR . strtolower($className) . '.class.php')) {
 		require_once(CONTROLLER_DIR . strtolower($className) . '.class.php');
-	} else if (file_exists(MODEl_DIR . strtolower($className) . '.class.php')) {
-		require_once(MODEl_DIR . strtolower($className) . '.class.php');
-	} else {
+	}else {
 		// error code;
 	} 
 }
@@ -42,17 +40,6 @@ function init_controller($controller_name){
  */
 function load_class($class){
 	$filename = CLASS_DIR.$class.'.class.php';
-	if (file_exists($filename)) {
-		require($filename);
-	}else{
-		pr($filename.' is not exist',1);
-	}
-}
-/**
- * 加载函数库
- */
-function load_function($function){
-	$filename = FUNCTION_DIR.$function.'.function.php';
 	if (file_exists($filename)) {
 		require($filename);
 	}else{
