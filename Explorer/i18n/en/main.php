@@ -83,7 +83,6 @@ $L = array(
 	"group_role_fileDownload"	=> "Download",
 	"group_role_share"  		=> "Share",
 
-	"system_setting"  			=> "system settings",
 	"system_setting_menu"  		=> "menu management",
 	"system_name"  				=> "program name",
 	"system_name_desc"  		=> "logo program",
@@ -282,7 +281,6 @@ Even as webIDE, can be directly online development. You can also integrate the t
 	//download / upload
 	"upload"                     =>	"upload",
 	"upload_ready"               =>	"loading...",	
-	"uploading"                  =>	"uploading...",
 	"upload_success"             =>	"uploaded successfully",
 	"upload_path_current"        =>	"current",	
 	"upload_select"              =>	"select",	
@@ -319,7 +317,6 @@ Even as webIDE, can be directly online development. You can also integrate the t
 	"search_ext_tips"            =>	"separated by |;such as php|js|css<br/>if null search in default text file",
 	"file_type"                  =>	"file type",
 	"goto"                       =>	"jump to",
-	"contain"                    =>	"contains",
 	"server_dwonload_desc"       =>	"task is added to the download list",
 	"parent_permission"          =>	"parent permission",
 
@@ -409,7 +406,6 @@ Even as webIDE, can be directly online development. You can also integrate the t
 	"group_role_search"          =>	"search",
 	"group_role_filesave"        =>	"edit and save",
 	"group_role_can_upload"      =>	"upload",	
-	"group_role_upload"          =>	"upload",
 	"group_role_download"        =>	"server download",
 	"group_role_passowrd"        =>	"change password",
 	"group_role_config"          =>	"user data",

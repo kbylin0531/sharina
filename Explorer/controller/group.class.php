@@ -10,7 +10,7 @@ class group extends Controller{
     private $sql;
     function __construct()    {
         parent::__construct();
-        $this->sql=new \Sharin\Library\FileCache(USER_SYSTEM.'group.php');
+        $this->sql=\Explorer\Groups::getInstance();
     }
     
     public function get() {

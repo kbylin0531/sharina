@@ -272,7 +272,7 @@ class user extends Controller
 
         //有权限限制的函数
         $key = ST . ':' . ACT;
-        $group = new \Sharin\Library\FileCache(USER_SYSTEM . 'group.php');
+        $group = \Explorer\Groups::getInstance();
         $auth = $group->get($this->user['role']);
 
         //向下版本兼容处理

@@ -319,6 +319,10 @@ END;
  * 打包返回AJAX请求的数据
  * @params {int} 返回状态码， 通常0表示正常
  * @params {array} 返回的数据集合
+ * @param $data
+ * @param bool $code
+ * @param string $info
+ * @return void
  */
 function show_json($data,$code = true,$info=''){
 	$use_time = mtime() - $GLOBALS['config']['app_startTime'];
