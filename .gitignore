@@ -1,3 +1,6 @@
 Public/isea/
+Public/dynamic/
+Data/*
+!.htaccess
 Runtime/
 Sharin
