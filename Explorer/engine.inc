@@ -18,40 +18,6 @@ function P($path)
     return str_replace('\\', '/', $path);
 }
 
-function php_env_check()
-{
-    global $L;
-    $error = '';
-    $base_path = get_path_this(SR_PATH_BASE) . '/';
-    if (!function_exists('iconv')) $error .= '<li>' . $L['php_env_error_iconv'] . '</li>';
-    if (!function_exists('mb_convert_encoding')) $error .= '<li>' . $L['php_env_error_mb_string'] . '</li>';
-    if (!version_compare(PHP_VERSION, '5.0', '>=')) $error .= '<li>' . $L['php_env_error_version'] . '</li>';
-    if (!function_exists('file_get_contents')) $error .= '<li>' . $L['php_env_error_file'] . '</li>';
-    if (!path_writable(SR_PATH_BASE)) $error .= '<li>' . $base_path . '	' . $L['php_env_error_path'] . '</li>';
-    if (!path_writable(SR_PATH_BASE . 'data')) $error .= '<li>' . $base_path . 'data	' . $L['php_env_error_path'] . '</li>';
-
-    $parent = get_path_father(SR_PATH_BASE);
-    $arr_check = array(
-        SR_PATH_BASE,
-        SR_PATH_BASE . 'data',
-        SR_PATH_BASE . 'data/system',
-        SR_PATH_BASE . 'data/User',
-        SR_PATH_BASE . 'data/thumb',
-    );
-    foreach ($arr_check as $value) {
-        if (!path_writable($value)) {
-            $error .= '<li>' . str_replace($parent, '', $value) . '/	' . $L['php_env_error_path'] . '</li>';
-        }
-    }
-    if (!function_exists('imagecreatefromjpeg') ||
-        !function_exists('imagecreatefromgif') ||
-        !function_exists('imagecreatefrompng') ||
-        !function_exists('imagecolorallocate')
-    ) {
-        $error .= '<li>' . $L['php_env_error_gd'] . '</li>';
-    }
-    return $error;
-}
 const ENTRY_FILE = 'explorer.php';
 const SR_PATH_EXPLORER = __DIR__ . '/';//dirname(dirname(__FILE__))
 

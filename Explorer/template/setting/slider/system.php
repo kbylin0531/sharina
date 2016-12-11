@@ -97,7 +97,7 @@
 </div>
 
 <?php
-	$error = php_env_check();
+	$error = \Explorer\Util::checkEnv();
 	if ($error!='' && $GLOBALS['is_root'] == 1) {
 		$info = '<a href="javascript:;" class="button warning path_ext_tips"><i class="icon-warning-sign"></i>phpinfo</a>';
 		echo '<div class="alert alert-warning" role="alert"><h3>'.$L['php_env_error'].$info.'</h3>'.$error.'</div>';

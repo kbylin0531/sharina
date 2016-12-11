@@ -170,7 +170,7 @@ function get_filename_auto($path,$file_add = "",$same_file_type='replace'){
 function path_writable($path){
     if (is_dir($path)) {
         $file = $path.'/writeable_test_'.time().'.txt';
-		@touch($file);
+		touch($file);
 		if(file_exists($file)){
 		    @unlink($file);
 		    return true;

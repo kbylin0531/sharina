@@ -27,7 +27,7 @@
 		<div class="form" style="padding: 10px 20px;">
 			<h3><?php echo $L['php_env_check'];?></h3>
 			<?php
-	            $error = php_env_check();
+	            $error = \Explorer\Util::checkEnv();
 	            if ($error=='') {
 	            	echo '<div class="success"><h4>Successful!</h4>',$L['install_login'],
 	            	'<br/>'.$L['install_user_default'].'</div></div><div class="guest"><a href="./explorer.php?user/loginFirst">'.$L['login'].'</a></div>';
