@@ -24,7 +24,7 @@ use Sharin\Traits\Singleton;
  *  3. signOut() clean the memory of user info and this login
  *
  * Class Sign
- * @package Sharin\Addon\Sign
+ * @package Web\System\Sign
  */
 class Sign extends Component
 {
