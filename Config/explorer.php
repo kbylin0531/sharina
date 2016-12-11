@@ -27,7 +27,7 @@ $config['setting_system_default'] = array(
 
 // 配置项可选值
 $config['setting_all'] = array(
-    'language' => "en:English,zh_CN:简体中文,zh_TW:繁體中文",
+    'language' => "en-US:English,zh_CN:简体中文,zh_TW:繁體中文",
     'themeall' => "default/:<b>areo blue</b>:default,simple/:<b>simple</b>:simple,metro/:<b>metro</b>:metro,metro/blue_:metro-blue:color,metro/leaf_:metro-green:color,metro/green_:metro-green+:color,metro/grey_:metro-grey:color,metro/purple_:metro-purple:color,metro/pink_:metro-pink:color,metro/orange_:metro-orange:color",
     'codethemeall' => "chrome,clouds,crimson_editor,eclipse,github,solarized_light,tomorrow,xcode,ambiance,idle_fingers,monokai,pastel_on_dark,solarized_dark,tomorrow_night_blue,tomorrow_night_eighties",
     'wallall' => "1,2,3,4,5,6,7,8,9,10,11,12,13",

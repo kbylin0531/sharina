@@ -118,7 +118,6 @@ if (isset($_COOKIE['kod_user_language'])) {
 define('LANGUAGE_TYPE', $lang ? str_replace(array('/', '\\', '..', '.'), '', $lang) : LANG_EN_US);
 $GLOBALS['L'] = \Sharin\Core\Language::getLang(LANGUAGE_TYPE);
 
-
 //--------------------------------------- INTI SETTING ------------------------------------------------------------------
 global $config;
 $setting_file = USER_SYSTEM . 'system_setting.php';
