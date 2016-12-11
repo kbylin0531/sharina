@@ -49,10 +49,10 @@ $config['setting_default'] = array(
 
 //初始化默认菜单配置
 $config['setting_menu_default'] = array(
-    array('name' => 'desktop', 'type' => 'system', 'url' => 'index.php?desktop', 'target' => '_self', 'use' => '1'),
-    array('name' => 'explorer', 'type' => 'system', 'url' => 'index.php?explorer', 'target' => '_self', 'use' => '1'),
-    array('name' => 'editor', 'type' => 'system', 'url' => 'index.php?editor', 'target' => '_self', 'use' => '1'),
-    array('name' => 'adminer', 'type' => '', 'url' => './lib/plugins/adminer/', 'target' => '_blank', 'use' => '1')
+    array('name' => 'desktop', 'type' => 'system', 'url' => 'explorer.php?desktop', 'target' => '_self', 'use' => '1'),
+    array('name' => 'explorer', 'type' => 'system', 'url' => 'explorer.php?explorer', 'target' => '_self', 'use' => '1'),
+    array('name' => 'editor', 'type' => 'system', 'url' => 'explorer.php?editor', 'target' => '_self', 'use' => '1'),
+    array('name' => 'adminer', 'type' => '', 'url' => 'adminer.php', 'target' => '_blank', 'use' => '1')
 );
 
 //权限配置；精确到需要做权限控制的控制器和方法
