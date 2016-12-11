@@ -26,11 +26,11 @@ class Util
 
         $parent = get_path_father(SR_PATH_BASE);
         $arr_check = array(
-            SR_PATH_BASE,
-            SR_PATH_BASE . 'data',
-            SR_PATH_BASE . 'data/system',
-            SR_PATH_BASE . 'data/User',
-            SR_PATH_BASE . 'data/thumb',
+            DATA_PATH,
+            USER_SYSTEM,
+            USER_PATH,
+            DATA_THUMB,
+
         );
         foreach ($arr_check as $value) {
             if (!path_writable($value)) {
