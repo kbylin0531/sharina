@@ -424,7 +424,7 @@ function copy_dir($source, $dest)
             $dest = $dest . basename($source);
         }
         if (!is_dir($dest)) {
-            mkdir($dest, 0777);
+            mkdir($dest, 0777,true);
         }
         if (!$dh = opendir($source)) return false;
         while (($file = readdir($dh)) !== false) {
@@ -451,13 +451,13 @@ function copy_dir($source, $dest)
  */
 function mk_dir($dir, $mode = 0777)
 {
-    if (is_dir($dir) || @mkdir($dir, $mode)) {
+    if (is_dir($dir) or mkdir($dir, $mode,true)) {
         return true;
     }
     if (!mk_dir(dirname($dir), $mode)) {
         return false;
     }
-    return @mkdir($dir, $mode);
+    return mkdir($dir, $mode,true);
 }
 
 /*
