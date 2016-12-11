@@ -135,7 +135,6 @@ if (!is_array($setting['menu'])) {
     $setting['menu'] = $config['setting_menu_default'];
 }
 
-
 $config['setting_system'] = $setting;//全局
 $L['kod_name'] = $setting['system_name'];
 $L['kod_name_desc'] = $setting['system_desc'];
@@ -154,32 +153,10 @@ empty($URI[0]) and $URI[0] = $setting['first_in'];//设置默认控制器
 empty($URI[1]) and $URI[1] = 'index';//设置默认控制器操作
 define('ST', $URI[0]);
 define('ACT', $URI[1]);
-/**
- * 运行controller 的方法
- * @param $class , controller类名。
- * @param $function , 方法名
- * @return mixed
- */
-function appRun($class, $function)
-{
-    $class_file = CONTROLLER_DIR . $class . '.class.php';
-    if (!is_file($class_file)) {
-        pr($class . ' controller not exists!', 1);
-    }
-    require_once $class_file;
-    if (!class_exists($class)) {
-        pr($class . ' class not exists', 1);
-    }
-    $instance = new $class();
-    if (!method_exists($instance, $function)) {
-        pr($function . ' method not exists', 1);
-    }
-    return $instance->$function();
-}
 
 if (count($config['autorun']) > 0) {
     foreach ($config['autorun'] as $key => $var) {
-        appRun($var['controller'], $var['function']);
+        Util::appRun($var['controller'], $var['function']);
     }
 }
-appRun(ST, ACT);
+Util::appRun(ST, ACT);

@@ -12,6 +12,28 @@ namespace Explorer;
 
 class Util
 {
+    /**
+     * 运行controller 的方法
+     * @param $class , controller类名。
+     * @param $function , 方法名
+     * @return mixed
+     */
+    public static function appRun($class, $function)
+    {
+        $class_file = CONTROLLER_DIR . $class . '.class.php';
+        if (!is_file($class_file)) {
+            pr($class . ' controller not exists!', 1);
+        }
+        require_once $class_file;
+        if (!class_exists($class)) {
+            pr($class . ' class not exists', 1);
+        }
+        $instance = new $class();
+        if (!method_exists($instance, $function)) {
+            pr($function . ' method not exists', 1);
+        }
+        return $instance->$function();
+    }
 
     public static function checkEnv()
     {
@@ -40,16 +62,16 @@ class Util
                 $error .= '<li>' . str_replace($parent, '', $value) . '/	' . $L['php_env_error_path'] . '</li>';
             }
         }
-        if(!function_exists('imagecreatefromjpeg')){
+        if (!function_exists('imagecreatefromjpeg')) {
             $error .= '<li> libjpeg not exist! </li>';
         }
-        if(!function_exists('imagecreatefromgif')){
+        if (!function_exists('imagecreatefromgif')) {
             $error .= '<li> libgif not exist! </li>';
         }
-        if(!function_exists('imagecreatefrompng')){
+        if (!function_exists('imagecreatefrompng')) {
             $error .= '<li> libpng not exist! </li>';
         }
-        if(!function_exists('imagecolorallocate')){
+        if (!function_exists('imagecolorallocate')) {
             $error .= '<li> function \'imagecolorallocate\' not exist! </li>';
         }
         return $error;
