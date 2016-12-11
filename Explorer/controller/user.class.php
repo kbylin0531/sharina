@@ -302,7 +302,7 @@ class user extends Controller
         $auth['explorer:officeView'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
         $auth['explorer:officeSave'] = $this->_fetchAuth($auth, 'editor:fileSave');
         $auth['userShare:del'] = $this->_fetchAuth($auth, 'userShare:set');
-        if ($auth[$key] != 1) show_json($this->L['no_permission'], false);
+        $this->_fetchAuth($auth, $key) or show_json($this->L['no_permission'], false);
 
         $GLOBALS['auth'] = $auth;//全局
         //扩展名限制：新建文件&上传文件&重命名文件&保存文件&zip解压文件
