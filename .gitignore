@@ -1,7 +1,6 @@
 Public/isea/
 Public/dynamic/
-Data/*
-!Data/Explorer/system/*
+Data/
 !.htaccess
 Runtime/
 Sharin
