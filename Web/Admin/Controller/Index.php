@@ -5,7 +5,7 @@
  * Date: 11/12/16
  * Time: 10:29 PM
  */
-namespace Web\Admin\Blog\Controller;
+namespace Web\Admin\Controller;
 
 use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Controller\Render;
@@ -26,7 +26,7 @@ class Index
     {
         $this->sign = Sign::getInstance(SignModel::getInstance());
         if (!$this->sign->getInfo()) {
-            $this->redirect('Admin/Publics/login');
+            $this->redirect('Admin/Blog/Publics/login');
         }
     }
 

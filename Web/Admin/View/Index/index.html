@@ -5,13 +5,12 @@
     <title>Angular Material Dashboard</title>
     <meta name="description" content="Angular admin dashboard with material design">
     <meta name="viewport" content="width=device-width">
-    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <style>
         @font-face {
             font-family: 'Material Icons';
             font-style: normal;
             font-weight: 400;
-            src: local('Material Icons'), local('MaterialIcons-Regular'), url(__PUBLIC__/assets/material+icons.woff2) format('woff2');
+            src: local('Material Icons'), local('MaterialIcons-Regular'), url(__PUBLIC__/static/font/material+icons.woff2) format('woff2');
         }
 
         .material-icons {
@@ -33,14 +32,14 @@
 </head>
 <body>
 <div ui-view="" layout="row" layout-fill=""></div>
-<script src="__PUBLIC__isea/index.js"></script>
+<script src="__PUBLIC__/isea/index.js"></script>
 <script>
     var psrg_vars = isea.util.toObj('{$psrg_vars}');
     isea.loader.load([
-        'styles/vendor.css',
-        'styles/app.css',
-        'scripts/vendor.js',
-        'scripts/app.js'
+        'static/styles/vendor.css',
+        'static/styles/app.css',
+        'static/scripts/vendor.js',
+        'static/scripts/app.js'
     ]);
 </script>
 </body>

@@ -5,7 +5,7 @@
  * Date: 11/22/16
  * Time: 10:24 PM
  */
-namespace Web\Admin\Blog\Controller;
+namespace Web\Admin\Controller;
 
 /**
  * Class Article 文章管理
