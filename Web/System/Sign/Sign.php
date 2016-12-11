@@ -9,7 +9,6 @@ namespace Web\System\Sign;
 
 use Sharin\Component;
 use Sharin\Core\Cookie;
-use Sharin\Core\SEK;
 use Sharin\Core\Session;
 use Sharin\Developer;
 use Sharin\Library\Base64;
@@ -66,7 +65,7 @@ class Sign extends Component
     public function getInfo($tname = null, $replacement = null)
     {
         if (!$this->info) {
-            if ($this->info = SEK::getInfoFromMemory($this->getKey())) {
+            if ($this->info = self::getInfoFromMemory($this->getKey())) {
                 Developer::trace('load Login info from session or cookie!');
             } else {
                 return $replacement;
@@ -75,6 +74,30 @@ class Sign extends Component
         return $tname ?
             (isset($this->info[$tname]) ? $this->info[$tname] : $replacement) :
             (isset($this->info) ? $this->info : $replacement);
+    }
+
+
+    /**
+     * try get some info from memory (session or cookie) by the key.
+     * And it will try cookie if session is empty,if cookie is set,the session will also set .
+     * if session and cookie both empty,it means the any sign path of member is not set.
+     * @param $key
+     * @return mixed|null
+     */
+    public static function getInfoFromMemory($key)
+    {
+        $info = Session::get($key);//return null if not set
+        if (!$info) {
+            //未登录时检查cookie中是否记录账户要求rememeber的未过期的信息
+            $cookie = Cookie::get($key);
+            if ($cookie) {
+                $info = unserialize(Base64::decrypt($cookie, $key));
+                Session::set($key, $info);
+            } else {
+                return null;
+            }
+        }
+        return $info;
     }
 
     /**
