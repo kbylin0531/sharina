@@ -1,0 +1,17 @@
+<?php
+/**
+ * Repository: https://github.com/kbylin0531/Sharin.git
+ * User: linzh
+ * Date: 2016/11/22
+ * Time: 9:26
+ */
+
+namespace Sharin\Addon\Backup;
+use Sharin\Library\Addon;
+/**
+ * Data backup addon
+ */
+class BackupAddon extends Addon
+{
+
+}
