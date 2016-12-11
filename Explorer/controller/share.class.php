@@ -85,7 +85,7 @@ class share extends Controller{
     }
     private function _init_info(){
         //获取用户组，根据是否为root 定义前缀
-        $member = new \Sharin\Library\FileCache(USER_SYSTEM.'member.php');
+        $member = \Explorer\Member::getInstance();
         $user = $member->get($this->in['user']);
         if (!is_array($user) || !isset($user['password'])) {
             $this->error($this->L['share_error_user']);

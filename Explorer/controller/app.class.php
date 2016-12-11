@@ -40,7 +40,7 @@ class app extends Controller{
             file_put_contents($path, json_encode($data));
         }
         $user_info['status'] = 1;
-        $member = new \Sharin\Library\FileCache(USER_SYSTEM.'member.php');
+        $member = \Explorer\Member::getInstance();
         $member->update($user_info['name'],$user_info);
     }
 

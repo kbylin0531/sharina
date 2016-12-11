@@ -48,7 +48,7 @@ Util::checkDir(DATA_THUMB);
 
 define('STATIC_JS', 'app');  //_dev(开发状态)||app(打包压缩)
 define('STATIC_LESS', 'css');//less(开发状态)||css(打包压缩)
-define('STATIC_PATH', "./static/");//静态文件目录
+define('STATIC_PATH', "static/");//静态文件目录
 //define('STATIC_PATH','http://static.kalcaddle.com/static/');//静态文件统分离,可单独将static部署到CDN
 
 /*

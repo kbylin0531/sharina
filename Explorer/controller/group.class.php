@@ -37,7 +37,7 @@ class group extends Controller{
         if ($role_old == 'root') show_json($this->L['default_group_can_not_do'],false);
 
         if ($this->sql->replace_update($role_old,$this->in['role'],$group)){
-            $member = new \Sharin\Library\FileCache(USER_SYSTEM.'member.php');
+            $member = \Explorer\Member::getInstance();
             if ($member -> update('role',$this->in['role'],$role_old)) {
                 show_json($this->L['success']);
             }
@@ -54,7 +54,7 @@ class group extends Controller{
         if (!$role) show_json($this->L["groupname_can_not_null"],false);
         if ($role == 'root') show_json($this->L['default_group_can_not_do'],false);
         if($this->sql->delete($role)){
-            $member = new \Sharin\Library\FileCache(USER_SYSTEM.'member.php');
+            $member = \Explorer\Member::getInstance();
             $member -> update('role','',$role);//改组用户设置为空
             show_json($this->L['success']);
         }
