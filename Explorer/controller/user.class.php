@@ -58,7 +58,7 @@ class user extends Controller
             $this->config['user_fav_file'] = USER . 'data/fav.php';    // 收藏夹文件存放地址.
             $this->config['user_seting_file'] = USER . 'data/config.php'; //用户配置文件
             $this->config['user'] = \Sharin\Library\FileCache::load($this->config['user_seting_file']);
-            if ($this->config['user']['theme'] == '') {
+            if (empty($this->config['user']['theme'])) {
                 $this->config['user'] = $this->config['setting_default'];
             }
             return null;

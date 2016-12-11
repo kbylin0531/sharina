@@ -10,6 +10,7 @@
 namespace Explorer;
 
 
+use Sharin\Core\Storage;
 use Sharin\Library\FileCache;
 use Sharin\Traits\Singleton;
 
@@ -19,6 +20,10 @@ class Apps extends FileCache
 
     function __construct()
     {
+        $file = DATA_PATH . '/system/apps.php';
+        if(!is_file($file)){
+            copy(__DIR__.'/backup/apps.php',$file);
+        }
         parent::__construct(DATA_PATH . '/system/apps.php');
     }
 

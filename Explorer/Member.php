@@ -19,6 +19,10 @@ class Member extends FileCache
 
     function __construct()
     {
+        $file = DATA_PATH . '/system/member.php';
+        if(!is_file($file)){
+            copy(__DIR__.'/backup/member.php',$file);
+        }
         parent::__construct(DATA_PATH . '/system/member.php');
     }
 }
