@@ -22,9 +22,15 @@ class Util
         is_dir($dir) or mkdir($dir, 0700, true);
     }
 
-    public static function stripslashesDeepin($value)
+    public static function stripslashesDeepin(&$value)
     {
-        $value = is_array($value) ? self::stripslashesDeepin($value) : (isset($value) ? stripslashes($value) : null);
+        if (is_array($value)) {
+            foreach ($value as &$item) {
+                self::stripslashesDeepin($item);
+            }
+        } else {
+            $value = isset($value) ? stripslashes($value) : null;
+        }
         return $value;
     }
 
@@ -105,18 +111,21 @@ class Util
         }
         return $result;
     }
-    public static function getCharset(&$str) {
+
+    public static function getCharset(&$str)
+    {
         if ($str == '') return 'utf-8';
         //前面检测成功则，自动忽略后面
-        $charset=strtolower(mb_detect_encoding($str,$GLOBALS['config']['check_charset']));
-        if (substr($str,0,3)==chr(0xEF).chr(0xBB).chr(0xBF)){
-            $charset='utf-8';
-        }else if($charset=='cp936'){
-            $charset='gbk';
+        $charset = strtolower(mb_detect_encoding($str, $GLOBALS['config']['check_charset']));
+        if (substr($str, 0, 3) == chr(0xEF) . chr(0xBB) . chr(0xBF)) {
+            $charset = 'utf-8';
+        } else if ($charset == 'cp936') {
+            $charset = 'gbk';
         }
         if ($charset == 'ascii') $charset = 'utf-8';
         return strtolower($charset);
     }
+
     /**
      * 扩展名权限判断 有权限则返回1 不是true
      * @static
