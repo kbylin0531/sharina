@@ -33,6 +33,9 @@ class Util
 
         );
         foreach ($arr_check as $value) {
+            if (!is_dir($value)) {
+                mkdir($value, 0777, true);
+            }
             if (!path_writable($value)) {
                 $error .= '<li>' . str_replace($parent, '', $value) . '/	' . $L['php_env_error_path'] . '</li>';
             }
