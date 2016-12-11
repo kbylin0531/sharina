@@ -214,8 +214,7 @@ define('ACT', $URI[1]);
  */
 function appRun($class, $function)
 {
-    $sub_dir = $this->sub_dir ? $this->sub_dir . '/' : '';
-    $class_file = CONTROLLER_DIR . $sub_dir . $class . '.class.php';
+    $class_file = CONTROLLER_DIR  . $class . '.class.php';
     if (!is_file($class_file)) {
         pr($class . ' controller not exists!', 1);
     }
