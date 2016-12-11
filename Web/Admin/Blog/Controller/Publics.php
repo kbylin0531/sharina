@@ -5,8 +5,7 @@
  * Date: 11/15/16
  * Time: 10:39 PM
  */
-
-namespace Web\Admin\Controller;
+namespace Web\Admin\Blog\Controller;
 
 use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Controller\Render;
