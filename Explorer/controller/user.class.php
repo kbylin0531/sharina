@@ -110,7 +110,7 @@ class user extends Controller
     public function common_js()
     {
         $basic_path = SR_PATH_BASE;
-        if (!$GLOBALS['is_root']) {
+        if (!empty($GLOBALS['is_root'])) {
             $basic_path = '/';//对非root用户隐藏所有地址
         }
         $the_config = array(
@@ -127,7 +127,7 @@ class user extends Controller
             'version' => KOD_VERSION,
             'version_desc' => $this->config['settings']['version_desc'],
 
-            'json_data' => "",
+            'json_data' => '',
             'theme' => $this->config['user']['theme'], //列表排序依照的字段
             'list_type' => $this->config['user']['list_type'], //列表排序依照的字段
             'sort_field' => $this->config['user']['list_sort_field'], //列表排序依照的字段
@@ -258,6 +258,12 @@ class user extends Controller
         }
     }
 
+
+    private function _fetchAuth(&$auth, $name)
+    {
+        return empty($auth[$name]) ? 0 : 1;
+    }
+
     /**
      * 权限验证；统一入口检验
      */
@@ -285,17 +291,17 @@ class user extends Controller
         }
         //默认扩展功能 等价权限
         $auth['user:common_js'] = 1;//权限数据配置后输出到前端
-        $auth['explorer:pathChmod'] = $auth['explorer:pathRname'];
-        $auth['explorer:pathDeleteRecycle'] = $auth['explorer:pathDelete'];
-        $auth['explorer:pathCopyDrag'] = $auth['explorer:pathCuteDrag'];
+        $auth['explorer:pathChmod'] = $this->_fetchAuth($auth, 'explorer:pathRname');
+        $auth['explorer:pathDeleteRecycle'] = $this->_fetchAuth($auth, 'explorer:pathDelete');
+        $auth['explorer:pathCopyDrag'] = $this->_fetchAuth($auth, 'explorer:pathCuteDrag');
 
-        $auth['explorer:fileDownloadRemove'] = $auth['explorer:fileDownload'];
-        $auth['explorer:zipDownload'] = $auth['explorer:fileDownload'];
-        $auth['explorer:fileProxy'] = $auth['explorer:fileDownload'];
-        $auth['editor:fileGet'] = $auth['explorer:fileDownload'];
-        $auth['explorer:officeView'] = $auth['explorer:fileDownload'];
-        $auth['explorer:officeSave'] = $auth['editor:fileSave'];
-        $auth['userShare:del'] = $auth['userShare:set'];
+        $auth['explorer:fileDownloadRemove'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
+        $auth['explorer:zipDownload'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
+        $auth['explorer:fileProxy'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
+        $auth['editor:fileGet'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
+        $auth['explorer:officeView'] = $this->_fetchAuth($auth, 'explorer:fileDownload');
+        $auth['explorer:officeSave'] = $this->_fetchAuth($auth, 'editor:fileSave');
+        $auth['userShare:del'] = $this->_fetchAuth($auth, 'userShare:set');
         if ($auth[$key] != 1) show_json($this->L['no_permission'], false);
 
         $GLOBALS['auth'] = $auth;//全局
