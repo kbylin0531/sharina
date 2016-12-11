@@ -4,9 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title></title>
 	<link href="<?php echo STATIC_PATH;?>style/bootstrap.css" rel="stylesheet"/>
-	<link rel="stylesheet" href="static/style/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="./static/style/font-awesome/css/font-awesome.css">
 	<!--[if IE 7]>
-	<link rel="stylesheet" href="static/style/font-awesome/css/font-awesome-ie7.css">
+	<link rel="stylesheet" href="./static/style/font-awesome/css/font-awesome-ie7.css">
 	<![endif]-->
 
 	
