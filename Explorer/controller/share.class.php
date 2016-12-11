@@ -221,7 +221,8 @@ class share extends Controller{
         $js .= 'AUTH=[];';
         $js .= 'G='.json_encode($the_config).';';
         header("Content-Type:application/javascript");
-        echo $js;
+        \Sharin\Developer::closeTrace();
+        die($js) ;
     }
 
 
