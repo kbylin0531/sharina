@@ -24,7 +24,7 @@ class Util
 
     public static function stripslashesDeepin(&$value)
     {
-        if (is_array($value)) {
+        if (is_array($value)) { 
             foreach ($value as &$item) {
                 self::stripslashesDeepin($item);
             }
