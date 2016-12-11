@@ -44,7 +44,7 @@ Util::checkDir(LOG_PATH);
 define('USER_SYSTEM', DATA_PATH . 'system/');      //用户数据存储目录
 Util::checkDir(USER_SYSTEM);
 define('DATA_THUMB', SR_PATH_PUBLIC . 'dynamic/thumb/');       //缩略图生成存放
-Util::checkDir(USER_SYSTEM);
+Util::checkDir(DATA_THUMB);
 
 define('STATIC_JS', 'app');  //_dev(开发状态)||app(打包压缩)
 define('STATIC_LESS', 'css');//less(开发状态)||css(打包压缩)
@@ -56,9 +56,11 @@ define('STATIC_PATH', "./static/");//静态文件目录
  可以使程序更安全, 就不用限制用户的扩展名权限了;
  */
 define('USER_PATH', DATA_PATH . 'User/');        //用户目录
+Util::checkDir(USER_PATH);
 //自定义用户目录；需要先将data/User移到别的地方 再修改配置，例如：
 //define('USER_PATH',   DATA_PATH .'/Library/WebServer/Documents/User');
 define('PUBLIC_PATH', DATA_PATH . 'public/');     //公共目录
+Util::checkDir(PUBLIC_PATH);
 //公共共享目录,读写权限跟随用户目录的读写权限 再修改配置，例如：
 //define('PUBLIC_PATH','/Library/WebServer/Documents/Public/');
 
@@ -180,7 +182,7 @@ define('ACT', $URI[1]);
  */
 function appRun($class, $function)
 {
-    $class_file = CONTROLLER_DIR  . $class . '.class.php';
+    $class_file = CONTROLLER_DIR . $class . '.class.php';
     if (!is_file($class_file)) {
         pr($class . ' controller not exists!', 1);
     }
