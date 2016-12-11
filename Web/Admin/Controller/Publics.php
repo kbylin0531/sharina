@@ -29,7 +29,7 @@ class Publics
     {
         $this->sign = Sign::getInstance(SignModel::getInstance());
         if ($this->sign->getInfo()) {
-            $this->redirect('Admin/Blog/Index/index');
+            $this->redirect('Admin/Index/index');
         }
     }
 

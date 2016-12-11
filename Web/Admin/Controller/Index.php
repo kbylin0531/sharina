@@ -26,7 +26,7 @@ class Index
     {
         $this->sign = Sign::getInstance(SignModel::getInstance());
         if (!$this->sign->getInfo()) {
-            $this->redirect('Admin/Blog/Publics/login');
+            $this->redirect('Admin/Publics/login');
         }
     }
 
