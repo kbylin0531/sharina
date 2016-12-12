@@ -130,9 +130,20 @@ angular.module("app").controller("MainController", ["navService", "$mdSidenav", 
             })
         };
         u.showActions = function (e) {
+            var content = document.getElementById("content");
             t.show({
-                parent: angular.element(document.getElementById("content")),
-                templateUrl: srg_base_url + "app/views/partials/bottomSheet.html",
+                parent: angular.element(content),
+                template: '<md-bottom-sheet class="md-list md-has-header">' +
+                '<md-subheader>Select action</md-subheader>' +
+                ' <md-list>' +
+                '<md-list-item ng-repeat="action in vm.actions">' +
+                ' <md-button class="md-list-item-content"  ng-click="vm.performAction(action)" ng-href="{{action.url}}" target="_blank">' +
+                '<i class="material-icons">{{action.icon}}</i>' +
+                '<span class="share-label">{{action.name}}</span>' +
+                '</md-button>' +
+                '</md-list-item>' +
+                '</md-list>' +
+                '</md-bottom-sheet>',
                 controller: ["$mdBottomSheet", function (e) {
                     var a = this;
                     a.actions = [{
