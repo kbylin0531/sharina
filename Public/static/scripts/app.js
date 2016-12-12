@@ -89,7 +89,7 @@ angularApp.controller("MainController", ["navService", "$mdSidenav", "$mdBottomS
     "$log", "$q", "$state", "$mdToast",
     function (navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast) {
         var vm = this;
-
+        vm.baseurl = srg_base_url;
         vm.menuItems = [];
         vm.selectItem = selectItem;
         vm.toggleItemsList = toggleItemsList;
@@ -146,7 +146,6 @@ angularApp.controller("MainController", ["navService", "$mdSidenav", "$mdBottomS
 
             function SheetController($mdBottomSheet) {
                 var vm = this;
-                vm.baseurl = srg_base_url;
                 vm.actions = [
                     {
                         name: 'Share',
