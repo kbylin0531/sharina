@@ -7,43 +7,12 @@ var srg_base_url = psrg_vars["basic_url"];
  * You must include the dependency on 'ngMaterial'
  */
 angular.module("app", ["ngMaterial"]);
-//dashboard
-angular.module("app").service("performanceService", [
-    function () {
-        return {
-            getPerformanceData: function (e) {
-                return "week" === e ? [
-                    {
-                        key: "Middleware",
-                        values: [[1, 11], [2, 10], [3, 14], [4, 21], [5, 13], [6, 21], [7, 21], [8, 18], [9, 11], [10, 11], [11, 18], [12, 14], [13, 10], [14, 20], [15, 21], [16, 28], [17, 12], [18, 16], [19, 22], [20, 18], [21, 21], [22, 10], [23, 11], [24, 14], [25, 9], [26, 14], [27, 10], [28, 21], [29, 11]]
-                    }, {
-                        key: "Ruby",
-                        values: [[1, 29], [2, 36], [3, 42], [4, 25], [5, 22], [6, 34], [7, 41], [8, 19], [9, 45], [10, 31], [11, 28], [12, 36], [13, 54], [14, 41], [15, 36], [16, 39], [17, 21], [18, 20], [19, 22], [20, 44], [21, 32], [22, 20], [23, 28], [24, 24], [25, 29], [26, 19], [27, 20], [28, 31], [29, 49]]
-                    }, {
-                        key: "Web External",
-                        values: [[1, 54], [2, 74], [3, 64], [4, 68], [5, 56], [6, 44], [7, 61], [8, 63], [9, 45], [10, 51], [11, 68], [12, 46], [13, 64], [14, 51], [15, 42], [16, 63], [17, 72], [18, 60], [19, 52], [20, 58], [21, 41], [22, 40], [23, 58], [24, 30], [25, 49], [26, 54], [27, 60], [28, 41], [29, 66]]
-                    }, {
-                        key: "Database",
-                        values: [[1, 64], [2, 84], [3, 64], [4, 68], [5, 86], [6, 74], [7, 81], [8, 83], [9, 65], [10, 61], [11, 88], [12, 76], [13, 84], [14, 71], [15, 82], [16, 73], [17, 92], [18, 80], [19, 62], [20, 68], [21, 71], [22, 50], [23, 78], [24, 60], [25, 59], [26, 74], [27, 80], [28, 51], [29, 97]]
-                    }] : [{
-                    key: "Middleware",
-                    values: [[1, 13], [2, 14], [3, 24], [4, 18], [5, 16], [6, 14], [7, 11], [8, 13], [9, 15], [10, 11], [11, 18], [12, 16], [13, 28], [14, 11], [15, 12], [16, 13], [17, 12], [18, 20], [19, 22], [20, 18], [21, 11], [22, 10], [23, 18], [24, 20], [25, 9], [26, 14], [27, 10], [28, 11], [29, 17]]
-                }, {
-                    key: "Ruby",
-                    values: [[1, 29], [2, 36], [3, 42], [4, 25], [5, 22], [6, 34], [7, 41], [8, 19], [9, 45], [10, 31], [11, 28], [12, 36], [13, 54], [14, 41], [15, 36], [16, 39], [17, 21], [18, 20], [19, 22], [20, 44], [21, 32], [22, 20], [23, 28], [24, 24], [25, 29], [26, 19], [27, 20], [28, 31], [29, 49]]
-                }, {
-                    key: "Web External",
-                    values: [[1, 54], [2, 74], [3, 64], [4, 68], [5, 56], [6, 44], [7, 61], [8, 63], [9, 45], [10, 51], [11, 68], [12, 46], [13, 64], [14, 51], [15, 42], [16, 63], [17, 72], [18, 60], [19, 52], [20, 58], [21, 41], [22, 40], [23, 58], [24, 30], [25, 49], [26, 54], [27, 60], [28, 41], [29, 66]]
-                }, {
-                    key: "Database",
-                    values: [[1, 74], [2, 64], [3, 84], [4, 78], [5, 66], [6, 64], [7, 71], [8, 83], [9, 55], [10, 81], [11, 88], [12, 76], [13, 84], [14, 71], [15, 62], [16, 73], [17, 82], [18, 80], [19, 92], [20, 68], [21, 71], [22, 70], [23, 78], [24, 80], [25, 59], [26, 74], [27, 80], [28, 51], [29, 67]]
-                }]
-            }
-        };
-    }
-]);
+var angularApp = angular.module("app");
+
+
+//-------------------------------- SERVICE ---------------------------------------------
 //nav
-angular.module("app").service("navService", ["$q", function (e) {
+angularApp.service("navService", ["$q", function (e) {
     return {
         loadAllItems: function () {
             return e.when([
@@ -59,80 +28,103 @@ angular.module("app").service("navService", ["$q", function (e) {
     }
 }]);
 
-angular.module("app").service("messagesService", ["$q", function (e) {
-    return {
-        loadAllItems: function () {
-            return e.when([
-                {
-                    userPhoto: "/assets/images/user.svg",
-                    subject: "Electromagnetic radiation",
-                    userName: "Wilhelm Conrad Röntgen",
-                    date: "1901",
-                    text: "In recognition of the extraordinary services he has rendered by the discovery of the remarkable rays subsequently named after him"
-                }, {
-                    userPhoto: "/assets/images/user.svg",
-                    subject: "Atomic structure",
-                    userName: "Niels Bohr",
-                    date: "1922",
-                    text: "For his services in the investigation of the structure of atoms and of the radiation emanating from them"
-                }
-            ]);
+angularApp.service("messagesService", ["$q",   function ($q){
+    var messages = [
+        {
+            userPhoto : '/assets/images/user.svg',
+            subject: 'Electromagnetic radiation',
+            userName: 'Wilhelm Conrad Röntgen',
+            date: '1901',
+            text: 'In recognition of the extraordinary services he has rendered by the discovery of the remarkable rays subsequently named after him'
+        },
+        {
+            userPhoto : '/assets/images/user.svg',
+            subject: 'Spin theory',
+            userName: 'Wolfgang Pauli',
+            date: '1945',
+            text: 'For the discovery of the Exclusion Principle, also called the Pauli principle'
         }
-    }
+    ];
+
+    return {
+        loadAllItems : function() {
+            return $q.when(messages);
+        }
+    };
 }]);
+
+//------------------------------------ DIRECTIVE ------------------------------------------
 // panel in dashboard
-angular.module("app").directive("panelWidget", function () {
+angularApp.directive("panelWidget", function () {
     return {
-        restrict: "E",
-        replace: !0,
-        transclude: !0,
-        scope: {title: "@", template: "@", options: "@"},
-        template: '<section layout-margin class="md-whiteframe-z1 panel-widget">' +
-        '<md-toolbar md-theme="custom" class="md-hue-1 panel-widget-toolbar">' +
-        '<div class="md-toolbar-tools">' +
-        '<h3 class="panel-widget-tittle">{{title}}</h3>' +
-        '<span flex></span>' +
-        '<md-button ng-show="options" ng-click="$showOptions = !$showOptions" class="md-icon-button" aria-label="Show options">' +
-        '<i class="material-icons">more_vert</i>' +
-        '</md-button>' +
-        '</div>' +
-        '</md-toolbar>' +
-        '<div ng-include="template"></div>' +
+        restrict: 'E',
+        replace: true,
+        transclude: true,
+        scope: {title: '@', template: '@', options: '@'},
+        template: '' +
+        '<section layout-margin class="md-whiteframe-z1 panel-widget">' +
+        '  <md-toolbar md-theme="custom" class="md-hue-1 panel-widget-toolbar">' +
+        '    <div class="md-toolbar-tools">' +
+        '      <h3 class="panel-widget-tittle">{{title}}</h3>' +
+        '      <span flex></span>' +
+        '      <md-button ng-show="options" ng-click="$showOptions = !$showOptions" class="md-icon-button" aria-label="Show options">' +
+        '        <i class="material-icons">more_vert</i>' +
+        '      </md-button>' +
+        '    </div>' +
+        '  </md-toolbar>' +
+        '  <div ng-include="template"/>' +
         '</section>',
-        compile: function (e, a, t) {
-            return function (e, a) {
-                t(e, function (e) {
-                    a.append(e)
-                })
-            }
+        compile: function (element, attrs, linker) {
+            return function (scope, element) {
+                linker(scope, function (clone) {
+                    element.append(clone);
+                });
+            };
         }
-    }
+    };
 });
-
+//------------------------------------ CONTROLLER ------------------------------------------
 // Main pane
-angular.module("app").controller("MainController", ["navService", "$mdSidenav", "$mdBottomSheet",
+angularApp.controller("MainController", ["navService", "$mdSidenav", "$mdBottomSheet",
     "$log", "$q", "$state", "$mdToast",
-    function (navService, a, t, log, o, i, r) {
+    function (navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast) {
+        var vm = this;
 
-        var u = this;
-        //assign template vars
-        u.baseurl = srg_base_url;
-        u.menuItems = [];
-        u.selectItem = function (e) {
-            u.title = e.name;
-            u.toggleItemsList();
-            u.showSimpleToast(u.title)
-        };
-        u.toggleItemsList = function () {
-            var e = t.hide() || o.when(!0);
-            e.then(function () {
-                a("left").toggle()
-            })
-        };
-        u.showActions = function (e) {
-            var content = document.getElementById("content");
-            t.show({
-                parent: angular.element(content),
+        vm.menuItems = [];
+        vm.selectItem = selectItem;
+        vm.toggleItemsList = toggleItemsList;
+        vm.showActions = showActions;
+        vm.title = $state.current.data.title;
+        vm.showSimpleToast = showSimpleToast;
+        vm.toggleRightSidebar = toggleRightSidebar;
+
+        navService
+            .loadAllItems()
+            .then(function (menuItems) {
+                vm.menuItems = [].concat(menuItems);
+            });
+
+        function toggleRightSidebar() {
+            $mdSidenav('right').toggle();
+        }
+
+        function toggleItemsList() {
+            var pending = $mdBottomSheet.hide() || $q.when(true);
+
+            pending.then(function () {
+                $mdSidenav('left').toggle();
+            });
+        }
+
+        function selectItem(item) {
+            vm.title = item.name;
+            vm.toggleItemsList();
+            vm.showSimpleToast(vm.title);
+        }
+
+        function showActions($event) {
+            $mdBottomSheet.show({
+                parent: angular.element(document.getElementById('content')),
                 template: '<md-bottom-sheet class="md-list md-has-header">' +
                 '<md-subheader>Select action</md-subheader>' +
                 ' <md-list>' +
@@ -144,38 +136,44 @@ angular.module("app").controller("MainController", ["navService", "$mdSidenav", 
                 '</md-list-item>' +
                 '</md-list>' +
                 '</md-bottom-sheet>',
-                controller: ["$mdBottomSheet", function (e) {
-                    var a = this;
-                    a.actions = [{
-                        name: "Share",
-                        icon: "share",
-                        url: "#"
-                    }, {
-                        name: "Star",
-                        icon: "star",
-                        url: "#"
-                    }];
-                    a.performAction = function (a) {
-                        e.hide(a)
-                    }
-                }],
+                controller: ['$mdBottomSheet', SheetController],
                 controllerAs: "vm",
-                bindToController: !0,
-                targetEvent: e
-            }).then(function (e) {
-                e && log.debug(e.name + " clicked!")
-            })
-        };
-        u.title = i.current.data.title;
-        u.showSimpleToast = function (e) {
-            r.show(r.simple().content(e).hideDelay(2e3).position("bottom right"))
-        };
-        u.toggleRightSidebar = function () {
-            a("right").toggle()
-        };
-        navService.loadAllItems().then(function (e) {
-            u.menuItems = [].concat(e)
-        })
+                bindToController: true,
+                targetEvent: $event
+            }).then(function (clickedItem) {
+                clickedItem && $log.debug(clickedItem.name + ' clicked!');
+            });
+
+            function SheetController($mdBottomSheet) {
+                var vm = this;
+
+                vm.actions = [
+                    {
+                        name: 'Share',
+                        icon: 'share',
+                        url: 'https://twitter.com/intent/tweet?text=Angular%20Material%20Dashboard%20https://github.com/flatlogic/angular-material-dashboard%20via%20@flatlogicinc'
+                    },
+                    {
+                        name: 'Star',
+                        icon: 'star',
+                        url: 'https://github.com/flatlogic/angular-material-dashboard/stargazers'
+                    }
+                ];
+
+                vm.performAction = function (action) {
+                    $mdBottomSheet.hide(action);
+                };
+            }
+        }
+
+        function showSimpleToast(title) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(title)
+                    .hideDelay(2000)
+                    .position('bottom right')
+            );
+        }
     }]);
 
 // <html class="no-js" ng-app="angularMaterialAdmin">
