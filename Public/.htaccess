@@ -19,6 +19,6 @@
 </IfModule>
 
 <Files *>
-    #防止罗列资源文件
+    #防止罗列文件
     Options -Indexes
 </Files>

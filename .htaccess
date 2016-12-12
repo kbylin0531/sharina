@@ -1,3 +1,2 @@
-<Files *>
-    Options -Indexes
-</Files>
+deny from all
+
