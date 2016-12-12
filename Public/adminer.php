@@ -7,4 +7,4 @@
  * Time: 21:16
  */
 chdir(__DIR__.'/../Sharin/Plugins/adminer/');
-include __DIR__.'index.php';
+include __DIR__.'/../Sharin/Plugins/adminer/index.php';
