@@ -28,17 +28,17 @@ angularApp.service("navService", ["$q", function (e) {
     }
 }]);
 
-angularApp.service("messagesService", ["$q",   function ($q){
+angularApp.service("messagesService", ["$q", function ($q) {
     var messages = [
         {
-            userPhoto : '/assets/images/user.svg',
+            userPhoto: '/assets/images/user.svg',
             subject: 'Electromagnetic radiation',
             userName: 'Wilhelm Conrad Röntgen',
             date: '1901',
             text: 'In recognition of the extraordinary services he has rendered by the discovery of the remarkable rays subsequently named after him'
         },
         {
-            userPhoto : '/assets/images/user.svg',
+            userPhoto: '/assets/images/user.svg',
             subject: 'Spin theory',
             userName: 'Wolfgang Pauli',
             date: '1945',
@@ -47,7 +47,7 @@ angularApp.service("messagesService", ["$q",   function ($q){
     ];
 
     return {
-        loadAllItems : function() {
+        loadAllItems: function () {
             return $q.when(messages);
         }
     };
@@ -146,7 +146,7 @@ angularApp.controller("MainController", ["navService", "$mdSidenav", "$mdBottomS
 
             function SheetController($mdBottomSheet) {
                 var vm = this;
-
+                vm.baseurl = srg_base_url;
                 vm.actions = [
                     {
                         name: 'Share',
