@@ -5,10 +5,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     urlRouterProvider.otherwise("/"),
         stateProvider.state("index", {
             url: "/",
-            templateUrl: "/app/dashboard.html"
+            templateUrl: public_url+"app/dashboard.html"
         }).state("tables", {
             url: "/tables",
-            templateUrl: "/app/tables.html"
+            templateUrl: public_url+"app/tables.html"
         });
 }]);
 
