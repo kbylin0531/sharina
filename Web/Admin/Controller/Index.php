@@ -34,7 +34,7 @@ class Index
     public function index()
     {
         $this->assign('psrg_vars', json_encode([
-            'basic_url' => SR_PUBLIC_PATH_URL,
+            'basic_url' => SR_SCRIPT_DIR,
         ]));
         $this->display();
     }
