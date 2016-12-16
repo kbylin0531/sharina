@@ -5,6 +5,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     urlRouterProvider.otherwise("/");
 
     $.get('/Admin/API/getSideMenu', function (data) {
+        data = data.data;
         for (var x in data) {
             var item = data[x];
             var sidebar = $("ul.sidebar");

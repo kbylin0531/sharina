@@ -19,7 +19,7 @@ class API
         Response::ajaxBack([
             'status' => 1,
             'data' => [
-                'nav' => [
+                [
                     'title' => 'NAVIGATION',
                     'children' => [
                         [
