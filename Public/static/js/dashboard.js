@@ -6,13 +6,15 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     stateProvider.state("index", {
         url: "/",
         templateUrl: function () {
-            console.log(arguments);
             dashboard.reactive("/");
             return "/Admin/Index/dashboard";
         }
     }).state("tables", {
         url: "/tables",
-        templateUrl: "/Admin/Index/tables"
+        templateUrl: function () {
+            dashboard.reactive("/tables");
+            return "/Admin/Index/tables";
+        }
     });
 }]);
 
@@ -104,6 +106,9 @@ rdash.directive("rdLoading", function () {
 window.dashboard = {
     reactive: function (list) {
         list = list || location.hash;
+        if (list.indexOf("#") != 0) {
+            list = "#" + list;
+        }
         $("li.sidebar-list>a").each(function () {
             var a = $(this);
             if (a.attr("href") == list) {
