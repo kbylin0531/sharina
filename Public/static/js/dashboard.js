@@ -2,8 +2,7 @@
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
-    urlRouterProvider.otherwise("/");
-
+    // urlRouterProvider.otherwise("/");
 
     $.get('/Admin/API/getSideMenu', function (data) {
         data = data.data;
