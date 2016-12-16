@@ -97,7 +97,7 @@ rdash.directive("rdLoading", function () {
 });
 
 
-console.log(location.hash);
+console.log(location.hash,$("li.sidebar-list>a"));
 $("li.sidebar-list>a").each(function () {
     var a = $(this);
     console.log(a);
