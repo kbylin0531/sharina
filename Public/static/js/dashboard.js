@@ -24,9 +24,9 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     url: subitem.href,
                     templateUrl: function () {
                         eval("var href = '" + subitem.href + "'");
-                        eval("var url = '" + subitem.url + "'");
+                        eval("var path = '" + subitem.path + "'");
                         dashboard.reactive(href);
-                        return url;
+                        return path;
                     }
                 });
             }
