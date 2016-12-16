@@ -98,6 +98,7 @@ rdash.directive("rdLoading", function () {
 
 $(function () {
     var reactive = function (list) {
+        console.log(location.hash);
         list.each(function () {
             var a = $(this);
             if (a.attr("href") == location.hash) {
