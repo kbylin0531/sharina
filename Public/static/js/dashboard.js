@@ -95,3 +95,10 @@ rdash.directive("rdLoading", function () {
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
+
+
+console.log(location.hash);
+$("li.sidebar-list>a").each(function () {
+    var a = $(this);
+    console.log(a);
+});
