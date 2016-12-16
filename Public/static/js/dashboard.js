@@ -42,15 +42,16 @@ rdash.controller("AlertsCtrl", ["$scope", function ($scope) {
     };
 
     $scope.$watch($scope.getWidth, function (newValue, oldValue) {
-        if (newValue >= mobileView) {
+        // if (newValue >= mobileView) {
+            console.log($cookieStore.get('toggle'),angular.isDefined($cookieStore.get('toggle')));
             if (angular.isDefined($cookieStore.get('toggle'))) {
                 $scope.toggle = !$cookieStore.get('toggle') ? false : true;
             } else {
                 $scope.toggle = true;
             }
-        } else {
-            $scope.toggle = false;
-        }
+        // } else {
+        //     $scope.toggle = false;
+        // }
 
     });
 
