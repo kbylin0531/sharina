@@ -97,12 +97,15 @@ rdash.directive("rdLoading", function () {
 });
 
 $(function () {
-    $("li.sidebar-list>a").each(function () {
-        var a = $(this);
-        if (a.attr("href") == location.hash) {
-            a.addClass("active");
-        } else {
-            a.removeClass("active")
-        }
-    });
+    var reactive = function (list) {
+        list.each(function () {
+            var a = $(this);
+            if (a.attr("href") == location.hash) {
+                a.addClass("active");
+            } else {
+                a.removeClass("active")
+            }
+        });
+    };
+    reactive($("li.sidebar-list>a").click(reactive));
 });
