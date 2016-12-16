@@ -19,9 +19,11 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
-                        console.log(this)
-                        dashboard.reactive(subitem.href);
-                        return subitem.url;
+                        console.log(this);
+                        eval("var href = '" + subitem.href + "'");
+                        eval("var url = '" + subitem.url + "'");
+                        dashboard.reactive(href);
+                        return url;
                     }
                 });
             }
