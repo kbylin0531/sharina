@@ -5,7 +5,11 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     urlRouterProvider.otherwise("/");
     stateProvider.state("index", {
         url: "/",
-        templateUrl: "/Admin/Index/dashboard"
+        templateUrl: function () {
+            console.log(arguments);
+            dashboard.reactive("/");
+            return "/Admin/Index/dashboard";
+        }
     }).state("tables", {
         url: "/tables",
         templateUrl: "/Admin/Index/tables"
@@ -96,20 +100,17 @@ rdash.directive("rdLoading", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
 
-$(function () {
-    var list = $("li.sidebar-list>a");
-    var reactive = function (list) {
-        console.log(location.hash);
-        list.each(function () {
+
+window.dashboard = {
+    reactive: function (list) {
+        list = list || location.hash;
+        $("li.sidebar-list>a").each(function () {
             var a = $(this);
-            if (a.attr("href") == location.hash) {
+            if (a.attr("href") == list) {
                 a.addClass("active");
             } else {
                 a.removeClass("active")
             }
         });
-    };
-    reactive(list.click(function () {
-        reactive(list);
-    }));
-});
+    }
+};
