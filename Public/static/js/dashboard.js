@@ -14,11 +14,12 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 var subitem = item.children[y];
                 sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
                     subitem.title + ' <span class="menu-icon ' +
-                    ("icon" in subitem ? "fa fa-" + subitem : "")
+                    ("icon" in subitem ? "fa fa-" + subitem.icon : "")
                     + '"></span></a></li>');
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
+                        console.log(subitem)
                         dashboard.reactive(subitem.href);
                         return subitem.url;
                     }
