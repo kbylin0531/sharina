@@ -55,8 +55,8 @@ rdash.controller("AlertsCtrl", ["$scope", function ($scope) {
     });
 
     $scope.toggleSidebar = function () {
-        console.log($scope.toggle);
-        $cookieStore.put('toggle', $scope.toggle = !$scope.toggle);
+        $scope.toggle = !$scope.toggle;
+        $cookieStore.put('toggle', $scope.toggle);
     };
 
     window.onresize = function () {

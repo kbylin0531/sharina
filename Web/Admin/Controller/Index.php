@@ -15,6 +15,10 @@ use Web\System\Sign\SignModel;
 class Index
 {
 
+
+    /**
+     * @TODO:Think模板引擎会解析{'标签
+     */
     use Render;
     use Redirect;
     /**
