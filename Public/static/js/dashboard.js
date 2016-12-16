@@ -19,7 +19,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
-                    templateUrl: subitem.path
+                    templateUrl: function () {
+                        console.log("", subitem);
+                        return subitem.path;
+                    }
                 });
             }
         }
