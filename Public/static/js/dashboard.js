@@ -16,21 +16,6 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             })
         }
     });
-
-
-    stateProvider.state("/index", {
-        url: "/",
-        templateUrl: function () {
-            dashboard.reactive("/");
-            return "/Admin/Index/dashboard";
-        }
-    }).state("/tables", {
-        url: "/tables",
-        templateUrl: function () {
-            dashboard.reactive("/tables");
-            return "/Admin/Index/tables";
-        }
-    });
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
