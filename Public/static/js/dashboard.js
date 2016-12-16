@@ -14,7 +14,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             for (var y in item.children) {
                 var subitem = item.children[y];
                 var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
-                sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
+                sidebar.append('<li class="sidebar-list"><a href="#/' + subitem.href + '">' +
                     subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
 
                 stateProvider.state(subitem.href, {
