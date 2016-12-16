@@ -24,14 +24,12 @@ class API
                     'children' => [
                         [
                             'title' => 'Dashboard',
-                            'icon' => 'tachometer',
-                            'href' => 'index',
+                            'name' => 'tachometer',
                             'path' => '/Admin/Index/dashboard',
                         ],
                         [
                             'title' => 'Tables',
-                            'icon' => 'table',
-                            'href' => 'tables',
+                            'name' => 'table',
                             'path' => '/Admin/Index/tables',
                         ],
                     ]
