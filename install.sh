@@ -1,4 +1,6 @@
 #!/bin/bash
+USER=apache
+GROUP=apache
 
 # 用户和用户组设置
 USER=apache
