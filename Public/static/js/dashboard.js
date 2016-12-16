@@ -97,6 +97,7 @@ rdash.directive("rdLoading", function () {
 });
 
 $(function () {
+    var list = ($("li.sidebar-list>a");
     var reactive = function (list) {
         console.log(location.hash);
         list.each(function () {
@@ -108,5 +109,7 @@ $(function () {
             }
         });
     };
-    reactive($("li.sidebar-list>a").click(reactive));
+    reactive(list.click(function () {
+        reactive(list);
+    }));
 });
