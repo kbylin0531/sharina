@@ -15,7 +15,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
             stateProvider.state("index", {
                 url: "/",
-                templateUrl: function () {
+                templateUrl: function (a) {
+                    console.log(a);
                     return "/Admin/Index/dashboard";
                 }
             }).state("tables", {
@@ -31,6 +32,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     ("icon" in subitem ? "fa fa-" + subitem.icon : "")
                     + '"></span></a></li>');
 
+                console.log();
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
