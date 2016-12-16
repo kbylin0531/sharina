@@ -16,7 +16,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             stateProvider.state("index", {
                 url: "/",
                 templateUrl: function (a) {
-                    console.log(a);
+                    console.log(this);
                     return "/Admin/Index/dashboard";
                 }
             }).state("tables", {
