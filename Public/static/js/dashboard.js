@@ -99,6 +99,6 @@ rdash.directive("rdLoading", function () {
 $(function () {
     $("li.sidebar-list>a").each(function () {
         var a = $(this);
-        console.log(a);
+        console.log(a.attr("href"));
     });
 });
