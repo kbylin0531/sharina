@@ -16,12 +16,12 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     subitem.title + ' <span class="menu-icon ' +
                     ("icon" in subitem ? "fa fa-" + subitem.icon : "")
                     + '"></span></a></li>');
-                console.log(stateProvider)
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
                         eval("var href = '" + subitem.href + "'");
                         eval("var url = '" + subitem.url + "'");
+                        console.log(href, url);
                         dashboard.reactive(href);
                         return url;
                     }

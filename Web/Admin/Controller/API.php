@@ -23,13 +23,13 @@ class API
                     'title' => 'NAVIGATION',
                     'children' => [
                         [
-                            'title' => 'DASHBOARD',
+                            'title' => 'Dashboard',
                             'icon' => 'tachometer',
                             'href' => '/',
                             'path' => '/Admin/Index/dashboard',
                         ],
                         [
-                            'title' => 'TABLES',
+                            'title' => 'Tables',
                             'icon' => 'table',
                             'href' => '/tables',
                             'path' => '/Admin/Index/tables',
