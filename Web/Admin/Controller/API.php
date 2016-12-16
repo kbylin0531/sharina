@@ -25,7 +25,7 @@ class API
                         [
                             'title' => 'Dashboard',
                             'icon' => 'tachometer',
-                            'href' => '/',
+                            'href' => '',
                             'path' => '/Admin/Index/dashboard',
                         ],
                         [
