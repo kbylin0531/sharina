@@ -4,6 +4,7 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
 
+
     $.get('/Admin/API/getSideMenu', function (data) {
         data = data.data;
         for (var x in data) {
@@ -16,6 +17,18 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     subitem.title + ' <span class="menu-icon ' +
                     ("icon" in subitem ? "fa fa-" + subitem.icon : "")
                     + '"></span></a></li>');
+
+
+                stateProvider.state("index", {
+                    url: "/",
+                    templateUrl: function () {
+                        return "/Admin/Index/dashboard";
+                    }
+                }).state("tables", {
+                    url: "/tables",
+                    templateUrl: "/Admin/Index/tables"
+                });
+
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
