@@ -19,9 +19,23 @@ class API
         Response::ajaxBack([
             'status' => 1,
             'data' => [
-                //hash => path
-                '/' => '/Admin/Index/dashboard',
-                '/tables' => '/Admin/Index/tables',
+                'nav' => [
+                    'title' => 'NAVIGATION',
+                    'children' => [
+                        [
+                            'title' => 'DASHBOARD',
+                            'icon' => 'tachometer',
+                            'href' => '/',
+                            'path' => '/Admin/Index/dashboard',
+                        ],
+                        [
+                            'title' => 'TABLES',
+                            'icon' => 'table',
+                            'href' => '/tables',
+                            'path' => '/Admin/Index/tables',
+                        ],
+                    ]
+                ],
             ],
         ]);
     }

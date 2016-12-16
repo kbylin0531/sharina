@@ -4,17 +4,28 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
 
-    $.get('/Admin/API/getSideMenu', function (data) {
-        for (var x in data) {
-            if (!data.hasOwnProperty(x)) continue;
-            stateProvider.state(x, {
-                url: x,
-                templateUrl: function () {
-                    dashboard.reactive(x);
-                    return data[x];
+    $(function () {
+        $.get('/Admin/API/getSideMenu', function (data) {
+            for (var x in data) {
+                var item = data[x];
+                var sidebar = $("ul.sidebar");
+                sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
+                for (var y in item.children) {
+                    var subitem = item.children[y];
+                    sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
+                        subitem.title + ' <span class="menu-icon ' +
+                        ("icon" in subitem ? "fa fa-" + subitem : "")
+                        + '"></span></a></li>');
+                    stateProvider.state(subitem.href, {
+                        url: subitem.href,
+                        templateUrl: function () {
+                            dashboard.reactive(subitem.href);
+                            return subitem.url;
+                        }
+                    });
                 }
-            })
-        }
+            }
+        });
     });
 }]);
 
