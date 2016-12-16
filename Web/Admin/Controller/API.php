@@ -25,13 +25,13 @@ class API
                         [
                             'title' => 'Dashboard',
                             'icon' => 'tachometer',
-                            'href' => '',
+                            'href' => 'index',
                             'path' => '/Admin/Index/dashboard',
                         ],
                         [
                             'title' => 'Tables',
                             'icon' => 'table',
-                            'href' => '/tables',
+                            'href' => 'tables',
                             'path' => '/Admin/Index/tables',
                         ],
                     ]
