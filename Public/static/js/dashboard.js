@@ -128,3 +128,4 @@ window.dashboard = {
         });
     }
 };
+location.hash = "#/"
