@@ -6,6 +6,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
     $.get('/Admin/API/getSideMenu', function (data) {
         data = data.data;
+        var first = '';
         for (var x in data) {
             var item = data[x];
             var sidebar = $("ul.sidebar");
@@ -15,6 +16,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 var subitem = item.children[y];
                 var icon = "icon" in subitem ? "fa fa-" + subitem.name : "";
                 var url = "/" + subitem.name;
+                if (!first)first = url;
                 sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
                     subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
                 stateProvider.state(url, {
@@ -22,29 +24,26 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     templateUrl: subitem.path
                 });
             }
-
         }
 
-        window.dashboard = {
-            reactive: function (list) {
-                list = list || location.hash;
-                if (list.indexOf("#") != 0) {
-                    list = "#" + list;
-                }
-                $("li.sidebar-list>a").each(function () {
-                    var a = $(this);
-                    if (a.attr("href") == list) {
-                        a.addClass("active");
-                    } else {
-                        a.removeClass("active")
-                    }
-                });
+        var reactive = function (list) {
+            list = list || location.hash;
+            if (list.indexOf("#") != 0) {
+                list = "#" + list;
             }
+            $("li.sidebar-list>a").each(function () {
+                var a = $(this);
+                if (a.attr("href") == list) {
+                    a.addClass("active");
+                } else {
+                    a.removeClass("active")
+                }
+            });
         };
         //change the hash
-        dashboard.reactive(location.hash = "#/tachometer");
+        reactive(location.hash = first);
         $("li.sidebar-list>a").click(function () {
-            dashboard.reactive($(this).attr("href"));
+            reactive($(this).attr("href"));
         });
     });
 }]);
