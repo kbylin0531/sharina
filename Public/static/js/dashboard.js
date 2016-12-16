@@ -96,9 +96,9 @@ rdash.directive("rdLoading", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
 
-
-console.log(location.hash,$("li.sidebar-list>a"));
-$("li.sidebar-list>a").each(function () {
-    var a = $(this);
-    console.log(a);
+$(function () {
+    $("li.sidebar-list>a").each(function () {
+        var a = $(this);
+        console.log(a);
+    });
 });
