@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>隐藏侧边栏导航菜单效果 - Top Side</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="css/demo.css"/>
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/menu_topside.css"/>
+</head>
+<body>
+<div class="menu-wrap">
+    <nav class="menu-top">
+        <div class="profile"><img src="img/user1.png" alt="Matthew Greenberg"/><span>Matthew Greenberg</span></div>
+        <div class="icon-list">
+            <a href="#"><i class="fa fa-fw fa-star-o"></i></a>
+            <a href="#"><i class="fa fa-fw fa-bell-o"></i></a>
+            <a href="#"><i class="fa fa-fw fa-envelope-o"></i></a>
+            <a href="#"><i class="fa fa-fw fa-comment-o"></i></a>
+        </div>
+    </nav>
+    <nav class="menu-side">
+        <a href="#">Recent Stories</a>
+        <a href="#">Reading List</a>
+        <a href="#">My Stories</a>
+        <a href="#">Categories</a>
+    </nav>
+</div>
+<button class="menu-button" id="open-button">Open Menu</button>
+
+
+<div class="container">
+    <div class="content-wrap">
+
+<pre>
+&lt;div id="st-container" class="st-container"&gt;
+
+	&lt;!-- content push wrapper --&gt;
+	&lt;div class="st-pusher"&gt;
+
+		&lt;nav class="st-menu st-effect-1" id="menu-1"&gt;
+			&lt;!-- sidebar content --&gt;
+		&lt;/nav&gt;
+
+		&lt;div class="st-content"&gt;&lt;!-- this is the wrapper for the content --&gt;
+			&lt;div class="st-content-inner"&gt;&lt;!-- extra div for emulating position:fixed of the menu --&gt;
+				&lt;!-- the content --&gt;
+			&lt;/div&gt;&lt;!-- /st-content-inner --&gt;
+		&lt;/div&gt;&lt;!-- /st-content --&gt;
+
+	&lt;/div&gt;&lt;!-- /st-pusher --&gt;
+
+&lt;/div&gt;&lt;!-- /st-container --&gt;
+&lt;div id="st-container" class="st-container"&gt;
+
+	&lt;nav class="st-menu st-effect-1" id="menu-1"&gt;
+		&lt;!-- sidebar content --&gt;
+	&lt;/nav&gt;
+
+	&lt;!-- content push wrapper --&gt;
+	&lt;div class="st-pusher"&gt;
+
+		&lt;div class="st-content"&gt;&lt;!-- this is the wrapper for the content --&gt;
+			&lt;div class="st-content-inner"&gt;&lt;!-- extra div for emulating position:fixed of the menu --&gt;
+				&lt;!-- the content --&gt;
+			&lt;/div&gt;&lt;!-- /st-content-inner --&gt;
+		&lt;/div&gt;&lt;!-- /st-content --&gt;
+
+	&lt;/div&gt;&lt;!-- /st-pusher --&gt;
+
+&lt;/div&gt;&lt;!-- /st-container --&gt;
+.st-effect-7.st-container {
+	perspective: 1500px;
+	perspective-origin: 0% 50%;
+}
+
+.st-effect-7 .st-pusher {
+	transform-style: preserve-3d;
+}
+
+.st-effect-7.st-menu-open .st-pusher {
+	transform: translate3d(300px, 0, 0);
+}
+
+.st-effect-7.st-menu {
+	transform: translate3d(-100%, 0, 0) rotateY(-90deg);
+	transform-origin: 100% 50%;
+	transform-style: preserve-3d;
+}
+
+.st-effect-7.st-menu-open .st-effect-7.st-menu {
+	visibility: visible;
+	transform: translate3d(-100%, 0, 0) rotateY(0deg);
+}
+</pre>
+    </div><!-- /content-wrap -->
+</div><!-- /container -->
+<script src="js/classie.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
