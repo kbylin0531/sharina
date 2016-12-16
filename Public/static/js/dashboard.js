@@ -2,14 +2,14 @@
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
-    urlRouterProvider.otherwise("/"),
-        stateProvider.state("index", {
-            url: "/",
-            templateUrl: "/Admin/Index/dashboard"
-        }).state("tables", {
-            url: "/tables",
-            templateUrl: "/Admin/Index/tables"
-        });
+    urlRouterProvider.otherwise("/");
+    stateProvider.state("index", {
+        url: "/",
+        templateUrl: "/Admin/Index/dashboard"
+    }).state("tables", {
+        url: "/tables",
+        templateUrl: "/Admin/Index/tables"
+    });
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
