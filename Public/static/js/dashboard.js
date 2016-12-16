@@ -14,12 +14,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
             for (var y in item.children) {
                 var subitem = item.children[y];
+                var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
                 sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
-                    subitem.title + ' <span class="menu-icon ' +
-                    ("icon" in subitem ? "fa fa-" + subitem.icon : "")
-                    + '"></span></a></li>');
+                    subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
 
-                console.log(subitem);
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: subitem.path
