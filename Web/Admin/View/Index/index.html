@@ -1,51 +1,142 @@
 <!doctype html>
-<html class="no-js" ng-app="angularMaterialAdmin">
+<html lang="en" ng-app="RDash">
 <head>
-    <meta charset="utf-8">
-    <title>Angular Material Dashboard</title>
-    <meta name="description" content="Angular admin dashboard with material design">
-    <meta name="viewport" content="width=device-width">
-    <style>
-        @font-face {
-            font-family: 'Material Icons';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Material Icons'), local('MaterialIcons-Regular'), url(__PUBLIC__static/font/material+icons.woff2) format('woff2');
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        .material-icons {
-            font-family: 'Material Icons';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            line-height: 1;
-            letter-spacing: normal;
-            text-transform: none;
-            display: inline-block;
-            white-space: nowrap;
-            word-wrap: normal;
-            direction: ltr;
-            -webkit-font-feature-settings: 'liga';
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
+    <title>RDash AngularJS</title>
+    <!-- STYLES -->
+    <!--<link rel="stylesheet" href="css/main.min.css"/>-->
+
+    <!--<link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">-->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- SCRIPTS -->
+    <!--<script src="js/main.min.js"></script>-->
+    <!--<script type="text/javascript" src="components/angular/angular.min.js"></script>-->
+    <script src="http://cdn.bootcss.com/angular.js/1.5.9/angular.min.js"></script>
+    <!--<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>-->
+    <script src="http://cdn.bootcss.com/angular-ui-bootstrap/1.0.3/ui-bootstrap-tpls.min.js"></script>
+    <!--<script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>-->
+    <script src="http://cdn.bootcss.com/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="/static/components/rdash-ui/dist/css/rdash.min.css">
+    <script type="text/javascript" src="/static/components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="/static/js/dashboard.js"></script>
 </head>
-<body>
-<!--[if lt IE 10]>
-<p>You are using an <strong>outdated</strong> browser. Please
-    <a href="http://browsehappy.com/">upgrade your browser</a>
-    to improve your experience.</p>
-<![endif]-->
-<div ui-view="" layout="row" layout-fill=""></div>
-<script src="__PUBLIC__isea/index.js"></script>
-<script>
-    var psrg_vars = isea.util.toObj('{$psrg_vars}');
-    isea.loader.load([
-        'static/styles/vendor.css',
-        'static/styles/app.css',
-        'static/scripts/vendor.js',
-        'static/scripts/app.js'
-    ]);
-</script>
+<body ng-controller="MasterCtrl">
+<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar">
+            <li class="sidebar-main">
+                <a ng-click="toggleSidebar()">
+                    Dashboard
+                    <span class="menu-icon glyphicon glyphicon-transfer"></span>
+                </a>
+            </li>
+            <li class="sidebar-title"><span>NAVIGATION</span></li>
+            <li class="sidebar-list">
+                <a href="#">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+            </li>
+            <li class="sidebar-list">
+                <a href="#/tables">Tables <span class="menu-icon fa fa-table"></span></a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="col-xs-4">
+                <a href="https://github.com/rdash/rdash-angular" target="_blank">
+                    Github
+                </a>
+            </div>
+            <div class="col-xs-4">
+                <a href="https://github.com/rdash/rdash-angular/blob/master/README.md" target="_blank">
+                    About
+                </a>
+            </div>
+            <div class="col-xs-4">
+                <a href="#">
+                    Support
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+        <div class="page-content">
+
+            <!-- Header Bar -->
+            <div class="row header">
+                <div class="col-xs-12">
+                    <div class="user pull-right">
+                        <div class="item dropdown" uib-dropdown>
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADhElEQVRoQ+2YgZFPQQzGv6sAFaACVIAKUAEqQAWoABWgAlSAClABKkAFzO8mmcns7Xub7P+942Zk5ua4l93Nl3zJJnukMy5HZ9x+/QcQInhe0i1JN+znUhPdb5I+SHor6d1Wkd8iAhj+QNJDSfw7Iz8lPZf0NKO8pnMogNuSXnYM/yIJj3+2w69KIiJXOlG5E/TKeA4BgNfxost3SU+MIni4J4C4Z9E6FxTuS3pVtl6aTmIMfRwOhAqAWTK8tQ2qsQdOcJkCMRMBaPPGTv1lHiUxZ4RoQEGXa1U6VQHgua+B8zetsswY72siCCJ4uRDJMoXg6V07+VGTA4eAiJSEjvw/JZUIkIB4H6HKUFm2FKrWRfN+OgoVANT5Z2bxFtRpwUcqpRO6AuCTeZ3EzV5YlQix5w9bwE1NsRhKBcBv2+21VZ7h5hMKVDPaESRlW0rJepv3tnEpyYogYjKnbEspNQD24L/jjABS5/xrAOIluRuAdIUo0gf1GAFKKaV1VbIRiBVizxygn/L+KGVbSslc4FUoXeJG3ut891JNZ9sORN3tKgBiG3Gh0q8kgcSb/oW13MOlFQAxwfagUaRPuiutAMAbdIsMIuWuceDK6P00fdK3XTg89ivcmoyDW4hzn71S5dMPrUaAdbwsXLcNyAvK6iHCQINjkHKBmAFAuBnWfaadBUFpxnhv2mjReZLJjqXHiGcAsI5ZgEg4CAAx4PC3jGA0rbmXyinjDwHAWrzlDZ4bDRAiAhXaWxRj6TShSxyG8DhVZ3jr9jwzGwHGSsreaC5wOoz0MJ4Ilh8HqgBa3uIUBhy8zjefl9dohD6GYjRTXnwfKudTBQAGQhkPP4bQfHFo9DTUQoffLnyHXvxEL7MnIOIbEzqU0lQyZwG0xpN0JOIUbzvhATCO8KfHNIgMgNZ4EpRETHkoU5JMh3OoYhEEyb0qGQC8wnmt3nMextAWxLCpGwGIrcN0rR55sfneglhtLdYAxGdEEhaebsX5ESbOoj9COJPprCtrAOJ4t+Uz4sh4/x7b68Xz1wDwyEQUSu1t1rqEHmfjfe6JxSgsAYjc/xved3zDZ5YlAPGFbI/xMRGAY5XhmLkEwOnzsblRswdvqeev1l0a9QDECrDH7FsFF5P5BBt6AGKbXBrvqpYl9Vef9XsAYuKkXweSxsyoRYeeeBUc3cQzB57qmv8ATtXdncP+AF2mwjF7erenAAAAAElFTkSuQmCC">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-header">
+                                    Joe Bloggs
+                                </li>
+                                <li class="divider"></li>
+                                <li class="link">
+                                    <a href="#">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li class="link">
+                                    <a href="#">
+                                        Menu Item
+                                    </a>
+                                </li>
+                                <li class="link">
+                                    <a href="#">
+                                        Menu Item
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="link">
+                                    <a href="#">
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item dropdown" uib-dropdown>
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                <i class="fa fa-bell-o"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-header">
+                                    Notifications
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">Server Down!</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="meta">
+                        <div class="page">
+                            Dashboard
+                        </div>
+                        <div class="breadcrumb-links">
+                            Home / Dashboard
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Header Bar -->
+
+            <!-- Main Content -->
+            <div ui-view></div>
+
+        </div><!-- End Page Content -->
+    </div><!-- End Content Wrapper -->
+</div><!-- End Page Wrapper -->
 </body>
 </html>
