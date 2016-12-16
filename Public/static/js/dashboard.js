@@ -12,19 +12,6 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             var sidebar = $("ul.sidebar");
             sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
 
-
-            stateProvider.state("index", {
-                url: "/",
-                templateUrl: function (a) {
-                    console.log(this);
-                    return "/Admin/Index/dashboard";
-                }
-            }).state("tables", {
-                url: "/tables",
-                templateUrl: "/Admin/Index/tables"
-            });
-
-
             for (var y in item.children) {
                 var subitem = item.children[y];
                 sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
@@ -32,13 +19,12 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     ("icon" in subitem ? "fa fa-" + subitem.icon : "")
                     + '"></span></a></li>');
 
-                console.log();
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
+                        console.log(subitem, href, url);
                         eval("var href = '" + subitem.href + "'");
                         eval("var url = '" + subitem.url + "'");
-                        console.log(href, url);
                         dashboard.reactive(href);
                         return url;
                     }
