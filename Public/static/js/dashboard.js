@@ -44,7 +44,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         //change the hash
         dashboard.reactive(location.hash = "#/tachometer");
         $("li.sidebar-list>a").click(function () {
-            dashboard.reactive(location.hash);
+            dashboard.reactive($(this).attr("href"));
         });
     });
 }]);
