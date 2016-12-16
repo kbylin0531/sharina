@@ -19,7 +19,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 stateProvider.state(subitem.href, {
                     url: subitem.href,
                     templateUrl: function () {
-                        console.log(subitem)
+                        console.log(this)
                         dashboard.reactive(subitem.href);
                         return subitem.url;
                     }
