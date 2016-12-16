@@ -24,7 +24,25 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             }
 
         }
-        location.hash = "#/tachometer"
+
+        window.dashboard = {
+            reactive: function (list) {
+                list = list || location.hash;
+                if (list.indexOf("#") != 0) {
+                    list = "#" + list;
+                }
+                $("li.sidebar-list>a").each(function () {
+                    var a = $(this);
+                    if (a.attr("href") == list) {
+                        a.addClass("active");
+                    } else {
+                        a.removeClass("active")
+                    }
+                });
+            }
+        };
+        //change the hash
+        dashboard.reactive(location.hash = "#/tachometer");
     });
 }]);
 
@@ -111,22 +129,3 @@ rdash.directive("rdLoading", function () {
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
-
-
-window.dashboard = {
-    reactive: function (list) {
-        list = list || location.hash;
-        if (list.indexOf("#") != 0) {
-            list = "#" + list;
-        }
-        $("li.sidebar-list>a").each(function () {
-            var a = $(this);
-            if (a.attr("href") == list) {
-                a.addClass("active");
-            } else {
-                a.removeClass("active")
-            }
-        });
-    }
-};
-location.hash = "#/"
