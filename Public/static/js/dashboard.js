@@ -20,7 +20,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
                 stateProvider.state(name, {
                     url: name,
-                    templateUrl: subitem.path
+                    templateUrl: function () {
+                        eval("var url = '" + subitem.path + "'");
+                        return url;
+                    }
                 });
             }
         }
