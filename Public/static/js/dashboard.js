@@ -3,6 +3,21 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
+
+    $.get('/Admin/API/getSideMenu', function (data) {
+        for (var x in data) {
+            if (!data.hasOwnProperty(x)) continue;
+            stateProvider.state(x, {
+                url: x,
+                templateUrl: function () {
+                    dashboard.reactive(x);
+                    return data[x];
+                }
+            })
+        }
+    });
+
+
     stateProvider.state("/index", {
         url: "/",
         templateUrl: function () {
