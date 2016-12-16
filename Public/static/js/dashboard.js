@@ -3,32 +3,35 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
+    this.stateProvider = stateProvider;
 
-    $.get('/Admin/API/getSideMenu', function (data) {
-        data = data.data;
-        for (var x in data) {
-            var item = data[x];
-            var sidebar = $("ul.sidebar");
-            sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
-            for (var y in item.children) {
-                var subitem = item.children[y];
-                sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
-                    subitem.title + ' <span class="menu-icon ' +
-                    ("icon" in subitem ? "fa fa-" + subitem.icon : "")
-                    + '"></span></a></li>');
-                stateProvider.state(subitem.href, {
-                    url: subitem.href,
-                    templateUrl: function () {
-                        console.log(this);
-                        eval("var href = '" + subitem.href + "'");
-                        eval("var url = '" + subitem.url + "'");
-                        dashboard.reactive(href);
-                        return url;
-                    }
-                });
+    (function (env) {
+        $.get('/Admin/API/getSideMenu', function (data) {
+            data = data.data;
+            for (var x in data) {
+                var item = data[x];
+                var sidebar = $("ul.sidebar");
+                sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
+                for (var y in item.children) {
+                    var subitem = item.children[y];
+                    sidebar.append('<li class="sidebar-list"><a href="#' + subitem.href + '">' +
+                        subitem.title + ' <span class="menu-icon ' +
+                        ("icon" in subitem ? "fa fa-" + subitem.icon : "")
+                        + '"></span></a></li>');
+                    env.stateProvider.state(subitem.href, {
+                        url: subitem.href,
+                        templateUrl: function () {
+                            console.log(this);
+                            eval("var href = '" + subitem.href + "'");
+                            eval("var url = '" + subitem.url + "'");
+                            dashboard.reactive(href);
+                            return url;
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
+    })(this);
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
