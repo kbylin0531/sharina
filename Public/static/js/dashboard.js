@@ -3,13 +3,13 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
-    stateProvider.state("index", {
+    stateProvider.state("/index", {
         url: "/",
         templateUrl: function () {
             dashboard.reactive("/");
             return "/Admin/Index/dashboard";
         }
-    }).state("tables", {
+    }).state("/tables", {
         url: "/tables",
         templateUrl: function () {
             dashboard.reactive("/tables");
