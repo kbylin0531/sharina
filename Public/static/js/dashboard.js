@@ -14,19 +14,17 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             for (var y in item.children) {
                 var subitem = item.children[y];
                 var icon = "icon" in subitem ? "fa fa-" + subitem.name : "";
-                var name = "/" + subitem.name;
-                sidebar.append('<li class="sidebar-list"><a href="#' + name + '">' +
+                var url = "/" + subitem.name;
+                sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
                     subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
-
-                stateProvider.state(name, {
-                    url: name,
-                    templateUrl: function () {
-                        eval("var url = '" + subitem.path + "'");
-                        return url;
-                    }
+                stateProvider.state(url, {
+                    url: url,
+                    templateUrl: subitem.path
                 });
             }
+
         }
+        location.hash = "#/tachometer"
     });
 }]);
 
