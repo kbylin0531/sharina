@@ -97,7 +97,7 @@ rdash.directive("rdLoading", function () {
 });
 
 $(function () {
-    var list = ($("li.sidebar-list>a");
+    var list = $("li.sidebar-list>a");
     var reactive = function (list) {
         console.log(location.hash);
         list.each(function () {
