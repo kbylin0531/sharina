@@ -4,6 +4,15 @@ var apiurl = {
     menu: '/Admin/API/getSideMenu'
 
 };
+
+var app = angular.module('Editor', []);
+app.controller('EditorCtrl', function ($scope) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+    $scope.fullName = function () {
+        return $scope.firstName + " " + $scope.lastName;
+    }
+});
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
