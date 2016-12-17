@@ -1,45 +1,72 @@
 <!-- Include Editor style. -->
 <link href='http://cdn.bootcss.com/froala-editor/2.4.0/css/froala_editor.min.css' rel='stylesheet' type='text/css'/>
 <link href='http://cdn.bootcss.com/froala-editor/2.4.0/css/froala_style.min.css' rel='stylesheet' type='text/css'/>
-<!-- Include JS file. -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<!-- Include Code Mirror style -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<!-- Include Editor Plugins style. -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/char_counter.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/code_view.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/colors.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/emoticons.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/file.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/fullscreen.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/image.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/image_manager.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/line_breaker.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/quick_insert.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/table.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/froala-editor/2.4.0/css/plugins/video.css">
+</head>
+
+<body>
+<!-- Create a tag that we will use as the editable area.
+     You can use a div tag as well. -->
+<form>
+    <textarea id="edit" name="content"></textarea>
+</form>
+
+<!-- Include JS file. -->
+<script src='http://cdn.bootcss.com/froala-editor/2.4.0/js/froala_editor.min.js'></script>
+
+<!-- Include Code Mirror. -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/mode/xml/xml.min.js"></script>
-<script src='http://cdn.bootcss.com/froala-editor/2.4.0/js/froala_editor.min.js'></script>
-<style>
-    body {
-        text-align: center;
-    }
 
-    div#editor {
-        width: 81%;
-        margin: auto;
-        text-align: left;
-    }
+<!-- Include Plugins. -->
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/align.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/char_counter.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/code_beautifier.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/code_view.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/colors.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/emoticons.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/entities.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/file.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/font_family.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/font_size.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/fullscreen.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/image.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/image_manager.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/inline_style.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/line_breaker.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/link.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/lists.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/paragraph_format.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/paragraph_style.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/quick_insert.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/quote.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/table.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/save.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/url.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/froala-editor/2.4.0/js/plugins/video.min.js"></script>
 
-    .class1 {
-        border-radius: 10%;
-        border: 2px solid #efefef;
-    }
+<!-- Include Language file if we want to use it. -->
+<script src="http://cdn.bootcss.com/froala-editor/2.4.0/js/languages/zh_cn.js"></script>
 
-    .class2 {
-        opacity: 0.5;
-    }
-</style>
-
-<div id="editor">
-    <div id='edit' style="margin-top: 30px;">
-        <h1>Insert as Base64</h1>
-
-        <p>Using the <code>image.beforeUpload</code> event, the images can be inserted as base64 instead of being
-            uploaded to the server.</p>
-    </div>
-</div>
 <script>
-    $(function () {
+    $(function(){
         $('#edit').froalaEditor()
                 .on('froalaEditor.image.beforeUpload', function (e, editor, files) {
                     if (files.length) {
