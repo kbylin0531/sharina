@@ -1,15 +1,6 @@
-<script>
-    var app = angular.module('myApp', []);
-    app.controller('personCtrl', function ($scope) {
-        $scope.firstName = "John";
-        $scope.lastName = "Doe";
-        $scope.fullName = function () {
-            return $scope.firstName + " " + $scope.lastName;
-        }
-    });
-</script>
 
-<div ng-app="myApp" ng-controller="personCtrl">
+
+<div ng-app="Editor" ng-controller="EditorCtrl">
 
     名: <input type="text" ng-model="firstName"><br>
     姓: <input type="text" ng-model="lastName"><br>
@@ -18,3 +9,13 @@
 
 </div>
 
+<script>
+    var app = angular.module('Editor', []);
+    app.controller('EditorCtrl', function ($scope) {
+        $scope.firstName = "John";
+        $scope.lastName = "Doe";
+        $scope.fullName = function () {
+            return $scope.firstName + " " + $scope.lastName;
+        }
+    });
+</script>
