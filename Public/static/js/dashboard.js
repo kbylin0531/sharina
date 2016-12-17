@@ -5,14 +5,6 @@ var apiurl = {
 
 };
 
-var app = angular.module('Editor', []);
-app.controller('EditorCtrl', function ($scope) {
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
-    $scope.fullName = function () {
-        return $scope.firstName + " " + $scope.lastName;
-    }
-});
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
@@ -126,4 +118,8 @@ rdash.directive("rdLoading", function () {
     };
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
+}).directive("sha", function () {
+    return {transclude: !0,link : function(scope,element,attris){
+        console.log(scope,element,attris)
+    }, restrict: "EA"};
 });
