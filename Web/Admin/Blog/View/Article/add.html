@@ -1,21 +1,21 @@
 <!-- include libraries(jQuery, bootstrap) -->
 <!--<link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">-->
 <!--<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>-->
-<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 
 <!-- include summernote css/js-->
 <link href="http://cdn.bootcss.com/summernote/0.8.2/summernote.css" rel="stylesheet">
-<script src="http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
 
 
 <div class="summernote">summernote 2</div>
 
 <script>
-    $('.summernote').summernote({
-        height: 300,   //set editable area's height
-        codemirror: { // codemirror options
-            theme: 'monokai'
-        }
+    isea.loader.load("http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js").load("http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js",function () {
+        $('.summernote').summernote({
+            height: 300,   //set editable area's height
+            codemirror: { // codemirror options
+                theme: 'monokai'
+            }
+        });
     });
 </script>
