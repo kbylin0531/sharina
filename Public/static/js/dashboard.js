@@ -119,7 +119,20 @@ rdash.directive("rdLoading", function () {
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 }).directive("sha", function () {
-    return {transclude: !0,link : function(scope,element,attris){
-        console.log(scope,element,attris)
+    return {transclude: !0,link : function(scope,element,attrs){
+        console.log(arguments)
+
+        isea.loader.load([
+            "http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js",
+            "http://cdn.bootcss.com/summernote/0.8.2/summernote.css",
+            "http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"
+        ], function () {
+            $('.summernote').summernote({
+                height: 300,   //set editable area's height
+                codemirror: { // codemirror options
+                    theme: 'monokai'
+                }
+            });
+        });
     }, restrict: "EA"};
 });
