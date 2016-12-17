@@ -1,3 +1,5 @@
+<script src="https://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
 <div ng-app="myApp" ng-controller="personCtrl">
 
     名: <input type="text" ng-model="firstName"><br>
@@ -6,13 +8,15 @@
     姓名: {{fullName()}}
 
 </div>
+
 <script>
     var app = angular.module('myApp', []);
-    app.controller('personCtrl', function($scope) {
+    app.controller('personCtrl', function ($scope) {
         $scope.firstName = "John";
         $scope.lastName = "Doe";
-        $scope.fullName = function() {
+        $scope.fullName = function () {
             return $scope.firstName + " " + $scope.lastName;
         }
     });
 </script>
+
