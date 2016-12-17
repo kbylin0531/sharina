@@ -53,25 +53,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
-rdash.controller("AlertsCtrl", ["$scope", function ($scope) {
-    $scope.alerts = [{
-        type: 'success',
-        msg: 'Thanks for visiting! Feel free to create pull requests to improve the dashboard!'
-    }, {
-        type: 'danger',
-        msg: 'Found a bug? Create an issue with as many details as you can.'
-    }];
-
-    $scope.addAlert = function () {
-        $scope.alerts.push({
-            msg: 'Another alert!'
-        });
-    };
-
-    $scope.closeAlert = function (index) {
-        $scope.alerts.splice(index, 1);
-    };
-}]).controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
+rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -84,7 +66,7 @@ rdash.controller("AlertsCtrl", ["$scope", function ($scope) {
     $scope.$watch($scope.getWidth, function (newValue, oldValue) {
         if (newValue >= mobileView) {
             if (angular.isDefined($cookieStore.get('toggle'))) {
-                $scope.toggle = $cookieStore.get('toggle') ? true : false;
+                $scope.toggle = !!$cookieStore.get('toggle');
             } else {
                 $scope.toggle = true;
             }
