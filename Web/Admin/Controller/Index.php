@@ -15,7 +15,6 @@ use Web\System\Sign\SignModel;
 class Index
 {
 
-
     /**
      * @TODO:Think模板引擎会解析{'标签
      */
@@ -33,7 +32,6 @@ class Index
             $this->redirect('Admin/Publics/login');
         }
     }
-
 
     public function index()
     {

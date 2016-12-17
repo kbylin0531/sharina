@@ -34,6 +34,12 @@ class API
                             'icon' => 'table',
                             'path' => '/Admin/Index/tables',
                         ],
+                        [
+                            'title' => 'BlogAdd',
+                            'name' => 'BlogAdd',
+                            'icon' => 'file-word-o',
+                            'path' => '/Admin/Blog/Article/add',
+                        ],
                     ]
                 ],
             ],
