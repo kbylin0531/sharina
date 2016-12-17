@@ -1,1 +1,34 @@
-aaaa
+<!-- Include Editor style. -->
+<link href='http://cdn.bootcss.com/froala-editor/2.4.0/css/froala_editor.min.css' rel='stylesheet' type='text/css'/>
+<link href='http://cdn.bootcss.com/froala-editor/2.4.0/css/froala_style.min.css' rel='stylesheet' type='text/css'/>
+<!-- Include JS file. -->
+<script src='http://cdn.bootcss.com/froala-editor/2.4.0/js/froala_editor.min.js'></script>
+I
+
+<div id="editor">
+    <div id='edit' style="margin-top: 30px;">
+        <h1>Insert as Base64</h1>
+
+        <p>Using the <code>image.beforeUpload</code> event, the images can be inserted as base64 instead of being
+            uploaded to the server.</p>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#edit').froalaEditor()
+                .on('froalaEditor.image.beforeUpload', function (e, editor, files) {
+                    if (files.length) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var result = e.target.result;
+
+                            editor.image.insert(result, null, null, editor.image.get());
+                        };
+
+                        reader.readAsDataURL(files[0]);
+                    }
+
+                    return false;
+                })
+    });
+</script>
