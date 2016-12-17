@@ -1,21 +1,40 @@
-<div ng-app="myApp" ng-controller="editor">
+<!--<div ng-app="myApp" ng-controller="editor">-->
 
-    <div class="summernote">summernote 2</div>
+    <!--<div class="summernote">summernote 2</div>-->
+
+<!--</div>-->
+<!--<script>-->
+    <!--angular.module('myApp', []).controller('editor', function () {-->
+        <!--isea.loader.load([-->
+            <!--"http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js",-->
+            <!--"http://cdn.bootcss.com/summernote/0.8.2/summernote.css",-->
+            <!--"http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"-->
+        <!--], function () {-->
+            <!--$('.summernote').summernote({-->
+                <!--height: 300,   //set editable area's height-->
+                <!--codemirror: { // codemirror options-->
+                    <!--theme: 'monokai'-->
+                <!--}-->
+            <!--});-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<div ng-app="myApp" ng-controller="personCtrl">
+
+    名: <input type="text" ng-model="firstName"><br>
+    姓: <input type="text" ng-model="lastName"><br>
+    <br>
+    姓名: {{fullName()}}
 
 </div>
+
 <script>
-    angular.module('myApp', []).controller('editor', function () {
-        isea.loader.load([
-            "http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js",
-            "http://cdn.bootcss.com/summernote/0.8.2/summernote.css",
-            "http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"
-        ], function () {
-            $('.summernote').summernote({
-                height: 300,   //set editable area's height
-                codemirror: { // codemirror options
-                    theme: 'monokai'
-                }
-            });
-        });
+    var app = angular.module('myApp', []);
+    app.controller('personCtrl', function($scope) {
+        $scope.firstName = "John";
+        $scope.lastName = "Doe";
+        $scope.fullName = function() {
+            return $scope.firstName + " " + $scope.lastName;
+        }
     });
 </script>
