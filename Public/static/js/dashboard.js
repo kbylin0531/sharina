@@ -119,9 +119,10 @@ rdash.directive("rdLoading", function () {
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 }).directive("controller", function () {
+    // HTML中使用"<controller name="editor" ></controller>" 调用指定将把文件"/app/controller/editor.js"引入控制器
     return {
         transclude: !0, link: function (scope, element, attrs) {
             isea.loader.load("/app/controller/" + attrs["name"] + ".js");
-        }, restrict: "EA"
+        }, restrict: "E"
     };
 });
