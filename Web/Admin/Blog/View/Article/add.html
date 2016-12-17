@@ -24,9 +24,17 @@
 <body>
 <!-- Create a tag that we will use as the editable area.
      You can use a div tag as well. -->
-<form>
-    <textarea id="edit" name="content"></textarea>
-</form>
+<!--<form>-->
+    <!--<textarea id="edit" name="content"></textarea>-->
+<!--</form>-->
+
+<div id="editor">
+    <div id='edit' style="margin-top: 30px;">
+        <h1>Insert as Base64</h1>
+
+        <p>Using the <code>image.beforeUpload</code> event, the images can be inserted as base64 instead of being uploaded to the server.</p>
+    </div>
+</div>
 
 <!-- Include JS file. -->
 <script src='http://cdn.bootcss.com/froala-editor/2.4.0/js/froala_editor.min.js'></script>
