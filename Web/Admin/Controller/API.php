@@ -68,7 +68,7 @@ class API
                     [
                         [
                             'title' => 'Sign out',
-                            'url' => '#',
+                            'url' => '/Admin/Publics/logout',
                         ],
                     ]
                 ],
