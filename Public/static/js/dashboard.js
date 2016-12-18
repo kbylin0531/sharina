@@ -123,11 +123,14 @@ rdash.directive("rdLoading", function () {
     return {
         transclude: !0, link: function (scope, element, attrs) {
             isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
-                rdash.controller("ArticleAddCtrler", "run_"+attrs["name"]);
+                rdash.controller("ArticleAddCtrler", function () {
+                    ("run_" + attrs["name"])();
+                });
             });
         }, restrict: "E"
     };
 });
 
-rdash.controller("ArticleAddCtrler", function () {});
+rdash.controller("ArticleAddCtrler", function () {
+});
 
