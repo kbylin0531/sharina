@@ -122,7 +122,15 @@ rdash.directive("rdLoading", function () {
     // HTML中使用"<controller name="editor" ></controller>" 调用指定将把文件"/app/controller/editor.js"引入控制器
     return {
         transclude: !0, link: function (scope, element, attrs) {
-            isea.loader.load("/app/controller/" + attrs["name"] + ".js");
+            isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
+                rdash.controller(attrs["name"], function () {
+                    //按需加载
+                    if (attrs["name"] in rdash) {
+                        console.log(rdash[attrs["name"]]);
+                        rdash[attrs["name"]].run();
+                    }
+                });
+            });
         }, restrict: "E"
     };
 });
@@ -139,9 +147,4 @@ rdash.directive("rdLoading", function () {
 // }
 
 rdash.controller("ArticleAddCtrler", function () {
-    //按需加载
-    if ("ArticleAddCtrler" in rdash) {
-        console.log(rdash.ArticleAddCtrler);
-        rdash.ArticleAddCtrler.run();
-    }
 });
