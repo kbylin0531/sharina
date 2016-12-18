@@ -150,6 +150,10 @@ var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
     console.log(" function ($scope){ if('" + ctrlername + "' in rdash) rdash['" + ctrlername + "'].run($scope);} ")
-    var cntrler = eval(" function ($scope){ if('" + ctrlername + "' in rdash) rdash['" + ctrlername + "'].run($scope);} ");
+    var cntrler = eval(" function ($scope){ if('" +
+        ctrlername +
+        "' in rdash) rdash['" +
+        ctrlername +
+        "'].run($scope); }; ");
     rdash.controller(ctrlername, cntrler);
 }
