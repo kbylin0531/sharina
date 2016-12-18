@@ -148,8 +148,8 @@ rdash.directive("rdLoading", function () {
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
     var func = function ($scope) {
-        console.log(this.prototype, arguments);
+        console.log(this, arguments);
     };
-    func.prototype.controller = ctrlers[x];
+    func.fn.controller = ctrlers[x];
     rdash.controller(ctrlers[x], func);
 }
