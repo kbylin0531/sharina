@@ -13,6 +13,7 @@ angular.module("Blog", []).controller("ArticleAddCtrler", function ($scope) {
         });
     }
 
+    alert("aaa")
     var flag = false;
 
     if (flag) {
