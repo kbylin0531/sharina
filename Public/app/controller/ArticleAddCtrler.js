@@ -5,7 +5,8 @@
 // });
 
 rdash.ArticleAddCtrler = {
-    run: function () {
+    run: function ($scope) {
+        console.log($scope);
         isea.loader.load([
             "http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js",
             "http://cdn.bootcss.com/summernote/0.8.2/summernote.css",

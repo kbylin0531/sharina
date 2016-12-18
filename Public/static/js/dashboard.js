@@ -103,6 +103,7 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
     };
 }]);
 //-------------------------------------- DIRECTIVE ------------------------------------------------------------------------------
+var controllerSwitcher = [];
 rdash.directive("rdLoading", function () {
     return {
         restrict: "AE",
@@ -137,18 +138,15 @@ rdash.directive("rdLoading", function () {
     // HTML中使用"<controller name="editor" ></controller>" 调用指定将把文件"/app/controller/editor.js"引入控制器
     return {
         transclude: !0, link: function (scope, element, attrs) {
-            isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
-                console.log(attrs["name"]);
-                // rdash[attrs["name"]].run();
-            });
         }, restrict: "E"
     };
 });
-
+var controllerList = {};
 //空的控制器占位
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    var cntrler = new Function("$scope", " if('" + ctrlername + "' in rdash) rdash['" + ctrlername + "'].run($scope); ");
-    rdash.controller(ctrlername, cntrler);
+    controllerList[ctrlername] = new Function("$scope",
+        "isea.loader.load('/app/controller/" + ctrlername + ".js', function () { rdash['" + ctrlername + "'].run($scope);});");
+    rdash.controller(ctrlername, controllerList[ctrlername]);
 }
