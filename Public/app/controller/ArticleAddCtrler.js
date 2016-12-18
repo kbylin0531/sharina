@@ -4,8 +4,7 @@
 // angular.module('myApp', []).controller('editor', function () {
 // });
 
-function run_editor() {
-
+rdash.ArticleAddCtrler.run = function () {
     function run() {
         $('.summernote').summernote({
             height: 300,   //set editable area's height
@@ -29,4 +28,4 @@ function run_editor() {
             run();
         });
     }
-}
+};

@@ -127,7 +127,18 @@ rdash.directive("rdLoading", function () {
     };
 });
 
-rdash.controller("ArticleAddCtrler", function () {
-    run_editor();
-});
+var ctrlers = ["ArticleAddCtrler"];
+for (var x in ctrlers) {
+    var ctrler = ctrlers[x];
+    rdash.controller(ctrler, function () {
+        //按需加载
+        var ctl = "";
+        eval(" ctl = \'" + ctrler + "\'");
+        if (ctl in rdash) rdash[ctl].run();
+    });
+}
 
+// rdash.controller("ArticleAddCtrler", function () {
+//     //按需加载
+//     if ("ArticleAddCtrler" in rdash) rdash.ArticleAddCtrler.run();
+// });
