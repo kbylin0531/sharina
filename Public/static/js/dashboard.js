@@ -2,11 +2,11 @@
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 var apiurl = {
     sidemenu: "/Admin/API/getSideMenu",
-    membermenu: "/Admin/API/getMemberMenu"
+    membermenu: "/Admin/API/getMemberInfo"
 };
 
-$.get(apiurl.sidemenu, function (data) {
-    var data = data.data;
+$.get(apiurl.membermenu, function (data) {
+    data = data.data;
     $("#member-avatar").attr("src", data["avatar"]);
     $("#member-name").text(data["name"]);
     var dropdown = $("#dropdown-menu");
