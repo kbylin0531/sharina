@@ -127,7 +127,7 @@ rdash.directive("rdLoading", function () {
     };
 });
 
-angular.module("Blog", []).controller("ArticleAddCtrler", function ($scope) {
+rdash.controller("ArticleAddCtrler", function ($scope) {
     function run() {
         $('.summernote').summernote({
             height: 300,   //set editable area's height
