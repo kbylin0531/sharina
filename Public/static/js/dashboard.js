@@ -149,6 +149,6 @@ rdash.directive("rdLoading", function () {
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    var cntrler = eval(" function ($scope){ if('" + ctrlername + "' in rdash) rdash[\'" + ctrlername + "\'].run($scope);} ");
+    var cntrler = eval(" function ($scope){ if('" + ctrlername + "' in rdash) rdash['" + ctrlername + "'].run($scope);} ");
     rdash.controller(ctrlername, cntrler);
 }
