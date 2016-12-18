@@ -139,7 +139,7 @@
 
 .row.header .user > .item ul.dropdown-menu li.link a {
     padding-left: 7px;
-    padding-right: 7px;
+    /*padding-right: 7px;*/
 }
 
 .row.header .user > .item ul.dropdown-menu:before {

@@ -5,6 +5,21 @@ var apiurl = {
     membermenu: "/Admin/API/getMemberMenu"
 };
 
+$.get(apiurl.sidemenu, function (data) {
+    var data = data.data;
+    $("#member-avatar").attr("src", data["avatar"]);
+    $("#member-name").text(data["name"]);
+    var dropdown = $("#dropdown-menu");
+    var divider = isea.dom.create("li.divider");
+    isea.each(data["menu"], function (mgroup) {
+        dropdown.append(divider);
+        isea.each(mgroup, function (menu) {
+            dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
+        })
+    });
+});
+
+
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
