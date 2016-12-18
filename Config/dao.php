@@ -24,7 +24,7 @@ return [
         [
             DAO_DBNAME => 'sharin',//选择的数据库
             DAO_USERNAME => 'lin',
-            DAO_PASSWORD => '123456',
+            DAO_PASSWORD => 'asusen',
             DAO_HOST => '127.0.0.1',
             DAO_PORT => '3306',
             DAO_CHARSET => 'UTF8',
