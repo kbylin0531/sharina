@@ -122,12 +122,12 @@ rdash.directive("rdLoading", function () {
     // HTML中使用"<controller name="editor" ></controller>" 调用指定将把文件"/app/controller/editor.js"引入控制器
     return {
         transclude: !0, link: function (scope, element, attrs) {
-            isea.loader.load("/app/controller/" + attrs["name"] + ".js");
+            isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
+                rdash.controller("ArticleAddCtrler", "run_"+attrs["name"]);
+            });
         }, restrict: "E"
     };
 });
 
-rdash.controller("ArticleAddCtrler", function () {
-    isea.loader.load("/app/controller/" + attrs["name"] + ".js");
-});
+rdash.controller("ArticleAddCtrler", function () {});
 
