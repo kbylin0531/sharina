@@ -1,15 +1,15 @@
 "use strict";
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 var apiurl = {
-    menu: '/Admin/API/getSideMenu'
-
+    sidemenu: "/Admin/API/getSideMenu",
+    membermenu: "/Admin/API/getMemberMenu"
 };
 
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
 
-    $.get(apiurl.menu, function (data) {
+    $.get(apiurl.sidemenu, function (data) {
         data = data.data;
         var first = '';
         for (var x in data) {
