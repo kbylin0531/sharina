@@ -67,17 +67,17 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
 
     $.get(apiurl.membermenu, function (data) {
         data = data.data;
-        $scope.avatar = data["avatar"];
-        $scope.username = data["username"];
-
-        var dropdown = $("#dropdown-menu");
-        var divider = isea.dom.create("li.divider");
-        isea.each(data["menu"], function (mgroup) {
-            dropdown.append(divider);
-            isea.each(mgroup, function (menu) {
-                dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
-            })
-        });
+        $scope.avatar = data.avatar;
+        $scope.username = data.username;
+        $scope.menu = data.menu;
+        // var dropdown = $("#dropdown-menu");
+        // var divider = isea.dom.create("li.divider");
+        // isea.each(data["menu"], function (mgroup) {
+        //     dropdown.append(divider);
+        //     isea.each(mgroup, function (menu) {
+        //         dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
+        //     })
+        // });
     });
 
 
