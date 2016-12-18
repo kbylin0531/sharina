@@ -4,21 +4,13 @@ var apiurl = {
     sidemenu: "/Admin/API/getSideMenu",
     membermenu: "/Admin/API/getMemberInfo"
 };
-
-$.get(apiurl.membermenu, function (data) {
-    data = data.data;
-    $("#member-avatar").attr("src", data["avatar"]);
-    $("#member-name").text(data["name"]);
-    var dropdown = $("#dropdown-menu");
-    var divider = isea.dom.create("li.divider");
-    isea.each(data["menu"], function (mgroup) {
-        dropdown.append(divider);
-        isea.each(mgroup, function (menu) {
-            dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
-        })
-    });
-});
-
+//控制器列表
+var ctrlers = ["ArticleAddCtrler"];
+/**
+ * Sidebar Toggle & Cookie Control
+ * 小于这个值将视为移动设备而收起侧边栏
+ */
+var mobileView = 768;
 
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
@@ -46,13 +38,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 });
             }
         }
+        var lias = $("li.sidebar-list>a");
 
         var reactive = function (list) {
             list = list || location.hash;
             if (list.indexOf("#") != 0) {
                 list = "#" + list;
             }
-            $("li.sidebar-list>a").each(function () {
+            lias.each(function () {
                 var a = $(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
@@ -63,7 +56,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         };
         //change the hash
         reactive(location.hash = first);
-        $("li.sidebar-list>a").click(function () {
+        lias.click(function () {
             reactive($(this).attr("href"));
         });
     });
@@ -71,10 +64,22 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
-    /**
-     * Sidebar Toggle & Cookie Control
-     */
-    var mobileView = 992;
+
+    $.get(apiurl.membermenu, function (data) {
+        data = data.data;
+        $scope.avatar = data["avatar"];
+        $scope.username = data["username"];
+
+        var dropdown = $("#dropdown-menu");
+        var divider = isea.dom.create("li.divider");
+        isea.each(data["menu"], function (mgroup) {
+            dropdown.append(divider);
+            isea.each(mgroup, function (menu) {
+                dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
+            })
+        });
+    });
+
 
     $scope.getWidth = function () {
         return window.innerWidth;
@@ -134,19 +139,11 @@ rdash.directive("rdLoading", function () {
     };
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
-}).directive("controller", function () {
-    // HTML中使用"<controller name="editor" ></controller>" 调用指定将把文件"/app/controller/editor.js"引入控制器
-    return {
-        transclude: !0, link: function (scope, element, attrs) {
-        }, restrict: "E"
-    };
 });
-var controllerList = {};
-//空的控制器占位
-var ctrlers = ["ArticleAddCtrler"];
+
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    controllerList[ctrlername] = new Function("$scope",
-        "isea.loader.load('/app/controller/" + ctrlername + ".js', function () { rdash['" + ctrlername + "'].run($scope);});");
-    rdash.controller(ctrlername, controllerList[ctrlername]);
+    rdash.controller(ctrlername, new Function("$scope",
+        "isea.loader.load('/app/controller/" + ctrlername + ".js', " +
+        "function () { rdash['" + ctrlername + "'].run($scope);});"));
 }

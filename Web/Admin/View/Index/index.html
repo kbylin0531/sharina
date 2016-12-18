@@ -61,10 +61,11 @@
                     <div class="user pull-right">
                         <div class="item dropdown" uib-dropdown>
                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                                <img id="member-avatar" src="">
+                                <img src="{{avatar}}">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" id="dropdown-menu">
-                                <li class="dropdown-header" id="member-name"></li>
+                                <li class="dropdown-header">{{username}}</li>
+                                <li ng-repeat="x in menu" class="link"><a href="{{x.url}}">{{x.title}}</a></li>
                             </ul>
                         </div>
                         <div class="item dropdown" uib-dropdown>
