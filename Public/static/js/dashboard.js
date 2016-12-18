@@ -68,7 +68,7 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
         data = data.data;
-        $scope.avatar = data.avatar;
+        $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
         $scope.username = data.username;
         $scope.menu = data.menu;
     });
