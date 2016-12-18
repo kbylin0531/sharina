@@ -146,4 +146,5 @@ rdash.directive("rdLoading", function () {
 // }
 
 rdash.controller("ArticleAddCtrler", function () {
+    console.log('aaa');
 });
