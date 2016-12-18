@@ -138,7 +138,6 @@ rdash.directive("rdLoading", function () {
     return {
         transclude: !0, link: function (scope, element, attrs) {
             isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
-                console.log(attrs["name"], rdash[attrs["name"]]);
                 rdash[attrs["name"]].run();
             });
         }, restrict: "E"
@@ -149,8 +148,8 @@ rdash.directive("rdLoading", function () {
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
     var func = function ($scope) {
-        console.log(this.controller, arguments);
+        console.log(this.prototype, arguments);
     };
-    func.controller = ctrlers[x];
+    func.prototype.controller = ctrlers[x];
     rdash.controller(ctrlers[x], func);
 }
