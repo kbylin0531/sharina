@@ -11,12 +11,15 @@ rdash.ArticleAddCtrler = {
             "http://cdn.bootcss.com/summernote/0.8.2/summernote.css",
             "http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"
         ], function (islast) {
-            islast && $('.summernote').summernote({
-                height: 300,   //set editable area's height
-                codemirror: { // codemirror options
-                    theme: 'monokai'
-                }
-            });
+            console.log(islast, $('.summernote'));
+            if (islast) {
+                $('.summernote').summernote({
+                    height: 300,   //set editable area's height
+                    codemirror: { // codemirror options
+                        theme: 'monokai'
+                    }
+                });
+            }
         });
     }
 };
