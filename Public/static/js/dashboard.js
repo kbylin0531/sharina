@@ -64,22 +64,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
-
+    $scope.avatar = '';
+    //user info and menu
     $.get(apiurl.membermenu, function (data) {
         data = data.data;
         $scope.avatar = data.avatar;
         $scope.username = data.username;
         $scope.menu = data.menu;
-        // var dropdown = $("#dropdown-menu");
-        // var divider = isea.dom.create("li.divider");
-        // isea.each(data["menu"], function (mgroup) {
-        //     dropdown.append(divider);
-        //     isea.each(mgroup, function (menu) {
-        //         dropdown.append($('<li class="link"><a href="' + menu.url + '">' + menu.title + '</a></li>'));
-        //     })
-        // });
     });
-
 
     $scope.getWidth = function () {
         return window.innerWidth;
