@@ -138,7 +138,8 @@ rdash.directive("rdLoading", function () {
     return {
         transclude: !0, link: function (scope, element, attrs) {
             isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
-                rdash[attrs["name"]].run();
+                console.log(attrs["name"]);
+                // rdash[attrs["name"]].run();
             });
         }, restrict: "E"
     };
@@ -147,7 +148,7 @@ rdash.directive("rdLoading", function () {
 //空的控制器占位
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
-    rdash.controller(ctrlers[x], function ($scope) {
-        console.log($scope);
-    });
+    var ctrlername = ctrlers[x];
+    var cntrler = eval(" function ($scope){ if('" + ctrlername + "' in rdash) rdash[\'" + ctrlername + "\'].run($scope);} ");
+    rdash.controller(ctrlername, cntrler);
 }
