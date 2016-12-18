@@ -3,6 +3,7 @@
  */
 // angular.module('myApp', []).controller('editor', function () {
 // });
+alert("aaa")
 angular.module("Blog", []).controller("ArticleAddCtrler", function ($scope) {
     function run() {
         $('.summernote').summernote({
@@ -13,7 +14,6 @@ angular.module("Blog", []).controller("ArticleAddCtrler", function ($scope) {
         });
     }
 
-    alert("aaa")
     var flag = false;
 
     if (flag) {
