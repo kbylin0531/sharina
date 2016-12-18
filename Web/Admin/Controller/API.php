@@ -64,6 +64,10 @@ class API
                             'title' => 'Setting',
                             'url' => '#',
                         ],
+                        [
+                            'title' => 'Change password',
+                            'url' => '#',
+                        ],
                     ],
                     [
                         [
