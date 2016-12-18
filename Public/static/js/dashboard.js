@@ -140,5 +140,8 @@ rdash.directive("rdLoading", function () {
 
 rdash.controller("ArticleAddCtrler", function () {
     //按需加载
-    if ("ArticleAddCtrler" in rdash) rdash.ArticleAddCtrler.run();
+    if ("ArticleAddCtrler" in rdash) {
+        console.log(rdash.ArticleAddCtrler);
+        rdash.ArticleAddCtrler.run();
+    }
 });
