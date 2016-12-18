@@ -147,7 +147,7 @@ rdash.directive("rdLoading", function () {
 //空的控制器占位
 var ctrlers = ["ArticleAddCtrler"];
 for (var x in ctrlers) {
-    rdash.controller(ctrlers[x], ["$scope", ctrlers[x], function ($scope, $name) {
+    rdash.controller(ctrlers[x], function ($scope, $name) {
         console.log($scope, $name);
-    }]);
+    });
 }
