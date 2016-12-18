@@ -123,24 +123,16 @@ rdash.directive("rdLoading", function () {
     return {
         transclude: !0, link: function (scope, element, attrs) {
             isea.loader.load("/app/controller/" + attrs["name"] + ".js", function () {
-                console.log(attrs["name"],rdash[attrs["name"]]);
+                console.log(attrs["name"], rdash[attrs["name"]]);
                 rdash[attrs["name"]].run();
             });
         }, restrict: "E"
     };
 });
 
-// var ctrlers = ["ArticleAddCtrler"];
-// for (var x in ctrlers) {
-//     var ctrler = ctrlers[x];
-//     rdash.controller(ctrler, function () {
-//         //按需加载
-//         var ctl = "";
-//         eval(" ctl = \'" + ctrler + "\'");
-//         if (ctl in rdash) rdash[ctl].run();
-//     });
-// }
-
-rdash.controller("ArticleAddCtrler", function () {
-    console.log('aaa');
-});
+//空的控制器占位
+var ctrlers = ["ArticleAddCtrler"];
+for (var x in ctrlers) {
+    rdash.controller(ctrlers[x], function () {
+    });
+}
