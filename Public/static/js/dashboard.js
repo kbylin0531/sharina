@@ -2,7 +2,7 @@
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 var apiurl = {
     sidemenu: "/Admin/API/getSideMenu",
-    membermenu: "/Admin/API/getMemberInfo"
+    membermenu: "/Admin/API/getSiteinfo"
 };
 var controllerPath = "/app/controller/";
 //控制器列表
@@ -31,7 +31,6 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
                 var url = "/" + subitem.name;
                 if (!first) first = url;
-                console.log(subitem);
                 sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
                     subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
                 stateProvider.state(url, {
@@ -66,7 +65,6 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
-    $scope.avatar = '';
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
         isea.each(data.data, function (val, key) {
