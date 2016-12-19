@@ -86,7 +86,7 @@ var apiurl = {
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler", "MemberController"];
+var ctrlers = ["ArticleAddCtrler"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏
@@ -221,3 +221,15 @@ rdash.directive("rdLoading", function () {
 isea.each(ctrlers, function (ctrlername) {
     rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 });
+
+rdash.controller("MemberController", ["$scope", function ($scope) {
+    $scope.saveChange = function () {
+        if ($scope.newpwd != $scope.rpnewpwd) {
+            alert("密码不一致");
+        } else {
+            $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
+                alert(data.message);
+            });
+        }
+    }
+}]);

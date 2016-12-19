@@ -18,6 +18,12 @@ class Member extends Admin
 
     public function changePasswd()
     {
+        if(SR_IS_POST){
+
+
+        }
         $this->display();
     }
+
+
 }
