@@ -13,7 +13,7 @@ use Sharin\Core\Session;
 use Sharin\Developer;
 use Sharin\Library\Base64;
 use Sharin\Traits\Singleton;
-use Web\System\Exceptions\PasswordNotSetException;
+use Web\System\Exceptions\PasswordGetFailedException;
 
 /**
  * Class SignAddon sign in/out addon
@@ -122,14 +122,16 @@ class Sign extends Component
     /**
      * 获取登录后的加密密码
      * @return string
-     * @throws PasswordNotSetException
+     * @return string
+     * @throws PasswordGetFailedException
      */
     public function getPassword()
     {
-        if (empty($this->password)) {
-            throw new PasswordNotSetException($this->info);
+        if ($info = $this->interface->getInfo($this->info['username'])) {
+            return $info['password'];
+        } else {
+            throw new PasswordGetFailedException($this->info);
         }
-        return $this->password;
     }
 
     /**

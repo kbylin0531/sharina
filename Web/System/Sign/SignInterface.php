@@ -34,6 +34,13 @@ interface SignInterface
     public function signIn($username, $password);
 
     /**
+     * 获取登录信息
+     * @param string $username
+     * @return mixed
+     */
+    public function getInfo(string $username);
+
+    /**
      * sign in with email and password
      * @param string $email
      * @param string $password

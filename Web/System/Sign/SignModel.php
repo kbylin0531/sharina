@@ -45,6 +45,11 @@ class SignModel extends Model implements SignInterface
 
     protected $tablename = 'srg_member';
 
+    public function getInfo(string $username)
+    {
+        return $this->where(['username' => $username])->find();
+    }
+
     public function signIn($username, $password)
     {
         $info = $this->where(['username' => $username])->find();

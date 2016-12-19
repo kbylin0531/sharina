@@ -12,7 +12,7 @@ namespace Web\System\Exceptions;
 
 use Sharin\Exception;
 
-class PasswordNotSetException extends Exception
+class PasswordGetFailedException extends Exception
 {
 
 }

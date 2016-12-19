@@ -13,7 +13,7 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
-use Web\System\Exceptions\PasswordNotSetException;
+use Web\System\Exceptions\PasswordGetFailedException;
 
 class Member extends Admin
 {
@@ -36,7 +36,7 @@ class Member extends Admin
                     'status' => 0,
                     'message' => '_OLD_PASSWD_ERROR_',
                 ]);
-            } catch (PasswordNotSetException $exception) {
+            } catch (PasswordGetFailedException $exception) {
                 Logger::error([
                     'PasswordNotSetException'
                 ]);
