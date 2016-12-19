@@ -55,7 +55,7 @@ class Publics
         if (SR_IS_POST) {
             $result = $this->sign->signIn($username, $password);
             if (!$result) {
-                $this->ajaxFailure($this->sign->error());
+                $this->error('_ACCOUNT_OR_PASSWORD_FAILED_');
             } else {
                 $this->redirect('Admin/Index/index');
             }
