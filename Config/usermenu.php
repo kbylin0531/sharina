@@ -6,26 +6,3 @@
  * Date: 2016/12/19
  * Time: 22:03
  */
-return [
-    'personal' => [
-        //menu groups
-        [
-            'title' => 'Profile',
-            'url' => '#',
-        ],
-        [
-            'title' => 'Setting',
-            'url' => '#',
-        ],
-        [
-            'title' => 'Reset password',
-            'url' => '#/changePasswd',
-        ],
-    ],
-    'common' => [
-        [
-            'title' => 'Sign out',
-            'url' => '/Admin/Publics/logout',
-        ],
-    ],
-];

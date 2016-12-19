@@ -9,20 +9,60 @@
 
 namespace Web\Admin\Controller;
 
-
-use Sharin\Configger;
 use Sharin\Core\Response;
 
 class API extends Admin
 {
-
     public function getSideMenu()
     {
         Response::ajaxBack([
             'status' => 1,
             'data' => [
-                'sidemenu' => Configger::load('sidemenu'),
-                'footmenu' => Configger::load('footmenu'),
+                'sidemenu' => [
+                    [
+                        'title' => 'NAVIGATION',
+                        'children' => [
+                            [
+                                'title' => 'Dashboard',
+                                'name' => 'tachometer',
+                                'icon' => 'tachometer',
+                                'path' => '/Admin/Index/dashboard',
+                            ],
+                            [
+                                'title' => 'Tables',
+                                'name' => 'table',
+                                'icon' => 'table',
+                                'path' => '/Admin/Index/tables',
+                            ],
+                            [
+                                'title' => 'BlogAdd',
+                                'name' => 'BlogAdd',
+                                'icon' => 'file-word-o',
+                                'path' => '/Admin/Blog/Article/add',
+                            ],
+                            [
+                                'title' => 'changePasswd',
+                                'name' => 'changePasswd',
+                                'icon' => 'user-o',
+                                'path' => '/Admin/Member/changePasswd',
+                            ],
+                        ]
+                    ]
+                ],
+                'footmenu' => [
+                    [
+                        'title' => 'Github',
+                        'url' => '#',
+                        'target' => '_blank',
+                    ], [
+                        'title' => 'About',
+                        'url' => '#',
+                    ], [
+                        'title' => 'Support',
+                        'url' => '#',
+                        'target' => '_blank',
+                    ],
+                ],
             ],
         ]);
     }
@@ -33,7 +73,29 @@ class API extends Admin
             'status' => 1,
             'data' => [
                 'userinfo' => $this->sign->getInfo(),
-                'usermenu' => Configger::load('usermenu'),
+                'usermenu' => [
+                    'personal' => [
+                        //menu groups
+                        [
+                            'title' => 'Profile',
+                            'url' => '#',
+                        ],
+                        [
+                            'title' => 'Setting',
+                            'url' => '#',
+                        ],
+                        [
+                            'title' => 'Reset password',
+                            'url' => '#/changePasswd',
+                        ],
+                    ],
+                    'common' => [
+                        [
+                            'title' => 'Sign out',
+                            'url' => '/Admin/Publics/logout',
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
