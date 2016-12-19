@@ -67,8 +67,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
-        isea.each(data.data, function ($v, $k) {
-            $scope[$k] = $v;//
+        isea.each(data.data, function (value, key) {
+            $scope[key] = value;//
         });
         // $scope.avatar = data.avatar;//
         // $scope.username = data.username;
