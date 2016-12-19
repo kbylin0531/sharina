@@ -13,7 +13,6 @@ var ctrlers = ["ArticleAddCtrler"];
  */
 var mobileView = 768;
 var $j = jQuery.noConflict();
-throw "aaa";
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
@@ -67,9 +66,13 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
-        isea.each(data.data, function (val, key) {
-            $scope[key] = val;//图片需要使用ng-src代替src属性
-        });
+        //图片需要使用ng-src代替src属性
+        data = data.data;
+        $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
+        $scope.username = data.username;
+        $scope.generalmenu = data.generalmenu;
+        $scope.usermenu = data.usermenu;
+        $scope.site = data.site;
     });
 
     $scope.getWidth = function () {
