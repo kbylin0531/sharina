@@ -13,7 +13,7 @@ var ctrlers = ["ArticleAddCtrler"];
  */
 var mobileView = 768;
 var $j = jQuery.noConflict();
-
+throw "aaa";
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
