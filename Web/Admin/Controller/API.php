@@ -13,8 +13,9 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Response;
 use Web\System\Sign\Sign;
 
-class API
+class API extends Admin
 {
+
     public function getSideMenu()
     {
         Response::ajaxBack([
@@ -49,41 +50,33 @@ class API
 
     public function getSiteinfo()
     {
-        $userinfo = Sign::getInstance()->getInfo();
-        if (null === $userinfo) {
-            Response::ajaxBack([
-                'status' => 0,
-                'message' => '_NO_LOGIN_',
-            ]);
-        } else {
-            Response::ajaxBack([
-                'status' => 1,
-                'data' => [
-                    'userinfo' => $userinfo,
-                    'usermenu' => [
-                        //menu groups
-                        [
-                            'title' => 'Profile',
-                            'url' => '#',
-                        ],
-                        [
-                            'title' => 'Setting',
-                            'url' => '#',
-                        ],
-                        [
-                            'title' => 'Change password',
-                            'url' => '#',
-                        ],
+        Response::ajaxBack([
+            'status' => 1,
+            'data' => [
+                'userinfo' => $this->sign->getInfo(),
+                'usermenu' => [
+                    //menu groups
+                    [
+                        'title' => 'Profile',
+                        'url' => '#',
                     ],
-                    'generalmenu' => [
-                        [
-                            'title' => 'Sign out',
-                            'url' => '/Admin/Publics/logout',
-                        ],
+                    [
+                        'title' => 'Setting',
+                        'url' => '#',
+                    ],
+                    [
+                        'title' => 'Change password',
+                        'url' => '#',
                     ],
                 ],
-            ]);
-        }
+                'generalmenu' => [
+                    [
+                        'title' => 'Sign out',
+                        'url' => '/Admin/Publics/logout',
+                    ],
+                ],
+            ],
+        ]);
     }
 
 }

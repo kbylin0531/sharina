@@ -22,7 +22,7 @@ use Sharin\Traits\Singleton;
  *  2. signIn() do the login action and remember user info into memory which cookie is for a long memory and session is for short
  *  3. signOut() clean the memory of user info and this login
  *
- * @method Sign getInstance() static
+ * @method Sign getInstance(SignInterface $interface = null) static
  *
  * @package Web\System\Sign
  */
@@ -38,7 +38,7 @@ class Sign extends Component
      */
     private $info = null;
 
-    public function __construct(SignInterface $interface=null)
+    public function __construct(SignInterface $interface = null)
     {
         $this->interface = $interface;
     }
