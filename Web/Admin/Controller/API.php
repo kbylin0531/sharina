@@ -54,7 +54,6 @@ class API extends Admin
                     ], [
                         'title' => 'About',
                         'url' => '#',
-                        'target' => '_blank',
                     ], [
                         'title' => 'Support',
                         'url' => '#',
