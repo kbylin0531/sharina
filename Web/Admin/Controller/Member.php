@@ -9,7 +9,6 @@
 
 namespace Web\Admin\Controller;
 
-
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
