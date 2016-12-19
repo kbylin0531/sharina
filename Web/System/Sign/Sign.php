@@ -127,7 +127,7 @@ class Sign extends Component
     public function getPassword()
     {
         if (empty($this->password)) {
-            throw new PasswordNotSetException();
+            throw new PasswordNotSetException($this->info);
         }
         return $this->password;
     }
