@@ -62,8 +62,6 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     });
 }]);
 
-throw "bbb";
-
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
@@ -140,6 +138,5 @@ rdash.directive("rdLoading", function () {
 
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    rdash.controller(ctrlername, new Function("$scope",
-        "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
+    rdash.controller(ctrlername, new Function("$scope","isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 }
