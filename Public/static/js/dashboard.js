@@ -12,17 +12,17 @@ var ctrlers = ["ArticleAddCtrler"];
  * 小于这个值将视为移动设备而收起侧边栏
  */
 var mobileView = 768;
-var $j = jQuery.noConflict();
+
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
-    throw "aaa";
+
     $.get(apiurl.sidemenu, function (data) {
         data = data.data;
         var first = '';
         for (var x in data) {
             var item = data[x];
-            var sidebar = $j("ul.sidebar");
+            var sidebar = $("ul.sidebar");
             sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
 
             for (var y in item.children) {
@@ -38,8 +38,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 });
             }
         }
-        throw "aaa";
-        var lias = $j("li.sidebar-list>a");
+        var lias = $("li.sidebar-list>a");
 
         var reactive = function (list) {
             list = list || location.hash;
@@ -47,7 +46,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 list = "#" + list;
             }
             lias.each(function () {
-                var a = $j(this);
+                var a = $(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
                 } else {
@@ -60,7 +59,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         //change the hash
         reactive(location.hash = first);
         lias.click(function () {
-            reactive($j(this).attr("href"));
+            reactive($(this).attr("href"));
         });
     });
 }]);
@@ -68,10 +67,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
-    throw "bbb";
-
     $.get(apiurl.membermenu, function (data) {
-        //图片需要使用ng-src代替src属性
         data = data.data;
         $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
         $scope.username = data.username;
@@ -84,7 +80,7 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         return window.innerWidth;
     };
 
-    $scope.$watch($scope.getWidth, function (newValue) {
+    $scope.$watch($scope.getWidth, function (newValue, oldValue) {
         if (newValue >= mobileView) {
             if (angular.isDefined($cookieStore.get('toggle'))) {
                 $scope.toggle = !!$cookieStore.get('toggle');
