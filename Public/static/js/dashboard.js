@@ -218,7 +218,6 @@ rdash.directive("rdLoading", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
 
-for (var x in ctrlers) {
-    var ctrlername = ctrlers[x];
+isea.each(ctrlers, function (ctrlername) {
     rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
-}
+});

@@ -3,9 +3,8 @@
  */
 rdash.MemberController = {
     run: function ($scope) {
-        $scope.submit = function () {
+        $scope.changePwd = function () {
             console.log($scope.firstName, $scope.lastName, $scope.repeatpwd);
-
         };
     }
 };
