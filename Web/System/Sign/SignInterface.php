@@ -23,7 +23,7 @@ interface SignInterface
      * get error while login or other action
      * @return string
      */
-    public function error();
+    public function getError();
 
     /**
      * sign in with username and password
