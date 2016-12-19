@@ -59,6 +59,7 @@ class Publics
             } else {
                 $this->redirect('Admin/Index/index');
             }
+            die;
         }
         $this->display('login');
     }
