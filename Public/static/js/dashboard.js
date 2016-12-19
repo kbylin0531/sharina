@@ -136,9 +136,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             });
         });
         isea.each(data.footmenu, function (item) {
-            item.url || (item.url = "#");
-            item.target || (item.target = "_blank");
-            sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + item.url + '" target="' + item.target + '">' + item.title + '</a></div>');
+            sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + (item.url || "#") + '" target="' + (item.target || "_self") + '">' + item.title + '</a></div>');
         });
 
         //change the hash
