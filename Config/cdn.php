@@ -10,7 +10,7 @@ return [
     'styles' => [
         'http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css',
         'http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css',
-        '/static/components/rdash-ui/dist/css/rdash.css',
+        '/app/rdash.css',
     ],
     'scripts' => [
         //angular material
@@ -19,6 +19,6 @@ return [
         'http://cdn.bootcss.com/angular-ui-router/0.3.2/angular-ui-router.min.js',
         'http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js',
         '/isea/index.js',
-        '/static/js/dashboard.js',
+        '/app/dashboard.js',
     ],
 ];

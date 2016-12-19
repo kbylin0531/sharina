@@ -229,6 +229,9 @@ rdash.controller("MemberController", ["$scope", function ($scope) {
         } else {
             $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
                 alert(data.message);
+                if (data.status) {
+                    location.href = "/Admin/Publics/logout";
+                }
             });
         }
     }
