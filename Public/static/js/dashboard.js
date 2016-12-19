@@ -12,7 +12,6 @@ var ctrlers = ["ArticleAddCtrler"];
  * 小于这个值将视为移动设备而收起侧边栏
  */
 var mobileView = 768;
-var $j = jQuery.noConflict();
 
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
@@ -39,7 +38,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 });
             }
         }
-        var lias = $j("li.sidebar-list>a");
+        var lias = $("li.sidebar-list>a");
 
         var reactive = function (list) {
             list = list || location.hash;
@@ -47,7 +46,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 list = "#" + list;
             }
             lias.each(function () {
-                var a = $j(this);
+                var a = $(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
                 } else {
@@ -59,14 +58,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         //change the hash
         reactive(location.hash = first);
         lias.click(function () {
-            reactive($j(this).attr("href"));
+            reactive($(this).attr("href"));
         });
     });
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
-    //user info and menu
+        //user info and menu
     $.get(apiurl.membermenu, function (data) {
         data = data.data;
         // isea.each(data.data,function ($v, $k) {
@@ -74,8 +73,8 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         // });
         $scope.avatar = data.avatar;//
         $scope.username = data.username;
-        $scope.generalmenu = data.generalmenu;
-        $scope.usermenu = data.usermenu;
+        // $scope.generalmenu = data.generalmenu;
+        // $scope.usermenu = data.usermenu;
     });
 
     $scope.getWidth = function () {
