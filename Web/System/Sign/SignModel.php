@@ -8,6 +8,7 @@
 
 namespace Web\System\Sign;
 
+use Sharin\Core\Logger;
 use Sharin\Database\Model;
 
 /**
