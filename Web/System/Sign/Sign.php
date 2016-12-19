@@ -148,7 +148,7 @@ class Sign extends Component
                 $this->remember($this->info = $info, $expire);
                 return true;
             } else {
-                $this->error = $this->interface->getError();
+                $this->error = $this->interface->error();
                 return false;
             }
         } else {
@@ -168,7 +168,7 @@ class Sign extends Component
             if ($this->interface->changePassword($id, self::encryptPassword($password))) {
                 return true;
             } else {
-                $this->error = $this->interface->getError();
+                $this->error = $this->interface->error();
             }
         } else {
             $this->error = '无法获取登录信息';
