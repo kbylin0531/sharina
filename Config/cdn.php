@@ -9,7 +9,7 @@
 return [
     'styles' => [
         'http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css',
-        'http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css',
+        'http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css',
         'http://cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css',
         '/static/components/rdash-ui/dist/css/rdash.css',
     ],
