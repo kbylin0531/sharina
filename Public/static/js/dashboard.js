@@ -4,6 +4,7 @@ var apiurl = {
     sidemenu: "/Admin/API/getSideMenu",
     membermenu: "/Admin/API/getMemberInfo"
 };
+var controllerPath = "/app/controller/";
 //控制器列表
 var ctrlers = ["ArticleAddCtrler"];
 /**
@@ -11,6 +12,7 @@ var ctrlers = ["ArticleAddCtrler"];
  * 小于这个值将视为移动设备而收起侧边栏
  */
 var mobileView = 768;
+var $j = jQuery.noConflict();
 
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
@@ -21,14 +23,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         var first = '';
         for (var x in data) {
             var item = data[x];
-            var sidebar = $("ul.sidebar");
+            var sidebar = $j("ul.sidebar");
             sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
 
             for (var y in item.children) {
                 var subitem = item.children[y];
                 var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
                 var url = "/" + subitem.name;
-                if (!first)first = url;
+                if (!first) first = url;
                 console.log(subitem);
                 sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
                     subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
@@ -38,7 +40,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 });
             }
         }
-        var lias = $("li.sidebar-list>a");
+        var lias = $j("li.sidebar-list>a");
 
         var reactive = function (list) {
             list = list || location.hash;
@@ -46,7 +48,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 list = "#" + list;
             }
             lias.each(function () {
-                var a = $(this);
+                var a = $j(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
                 } else {
@@ -57,7 +59,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         //change the hash
         reactive(location.hash = first);
         lias.click(function () {
-            reactive($(this).attr("href"));
+            reactive($j(this).attr("href"));
         });
     });
 }]);
@@ -70,14 +72,15 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         data = data.data;
         $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
         $scope.username = data.username;
-        $scope.menu = data.menu;
+        $scope.userMenu = data.userMenu;
+        $scope.generalMenu = data.generalMenu;
     });
 
     $scope.getWidth = function () {
         return window.innerWidth;
     };
 
-    $scope.$watch($scope.getWidth, function (newValue, oldValue) {
+    $scope.$watch($scope.getWidth, function (newValue) {
         if (newValue >= mobileView) {
             if (angular.isDefined($cookieStore.get('toggle'))) {
                 $scope.toggle = !!$cookieStore.get('toggle');
@@ -87,7 +90,6 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         } else {
             $scope.toggle = false;
         }
-
     });
 
     $scope.toggleSidebar = function () {
@@ -100,7 +102,6 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
     };
 }]);
 //-------------------------------------- DIRECTIVE ------------------------------------------------------------------------------
-var controllerSwitcher = [];
 rdash.directive("rdLoading", function () {
     return {
         restrict: "AE",
@@ -136,6 +137,5 @@ rdash.directive("rdLoading", function () {
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
     rdash.controller(ctrlername, new Function("$scope",
-        "isea.loader.load('/app/controller/" + ctrlername + ".js', " +
-        "function () { rdash['" + ctrlername + "'].run($scope);});"));
+        "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 }

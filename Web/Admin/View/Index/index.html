@@ -65,7 +65,9 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" id="dropdown-menu">
                                 <li class="dropdown-header">{{username}}</li>
-                                <li ng-repeat="x in menu" class="link"><a href="{{x.url}}">{{x.title}}</a></li>
+                                <li ng-repeat="x in userMenu" class="link"><a href="{{x.url}}">{{x.title}}</a></li>
+                                <li class="divider"></li>
+                                <li ng-repeat="x in generalMenu" class="link"><a href="{{x.url}}">{{x.title}}</a></li>
                             </ul>
                         </div>
                         <div class="item dropdown" uib-dropdown>
