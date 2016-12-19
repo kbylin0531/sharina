@@ -62,10 +62,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     });
 }]);
 
+throw "bbb";
+
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
     console.log('aaa');
+    throw "bbb";
+
     $.get(apiurl.membermenu, function (data) {
         //图片需要使用ng-src代替src属性
         data = data.data;
@@ -75,8 +79,6 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         $scope.usermenu = data.usermenu;
         $scope.site = data.site;
     });
-
-    throw "bbb";
 
     $scope.getWidth = function () {
         return window.innerWidth;
