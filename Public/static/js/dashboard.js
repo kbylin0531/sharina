@@ -68,10 +68,14 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
-        // data = data.data;
-        isea.each(data.data,function ($v, $k) {
-            $scope[$k] = $v;//图片需要使用ng-src代替src属性
-        });
+        data = data.data;
+        // isea.each(data.data,function ($v, $k) {
+        //     $scope[$k] = $v;//
+        // });
+        $scope.avatar = data.avatar;//
+        $scope.username = data.username;
+        $scope.generalmenu = data.generalmenu;
+        $scope.usermenu = data.usermenu;
     });
 
     $scope.getWidth = function () {
