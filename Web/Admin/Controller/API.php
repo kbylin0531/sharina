@@ -44,8 +44,8 @@ class API extends Admin
                                 'path' => '/Admin/Blog/Article/add',
                             ],
                             [
-                                'title' => 'Profile',
-                                'name' => 'Profile',
+                                'title' => 'changePasswd',
+                                'name' => 'changePasswd',
                                 'icon' => 'user-o',
                                 'path' => '/Admin/Member/changePasswd',
                             ],
@@ -88,7 +88,7 @@ class API extends Admin
                     ],
                     [
                         'title' => 'Reset password',
-                        'url' => '#/Admin/Member/changePasswd',
+                        'url' => '#/changePasswd',
                     ],
                 ],
                 'generalmenu' => [
