@@ -62,10 +62,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     });
 }]);
 
+console.log('aaa');
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
-    console.log('aaa');
     throw "bbb";
 
     $.get(apiurl.membermenu, function (data) {
@@ -104,6 +104,7 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
     };
 }]);
 //-------------------------------------- DIRECTIVE ------------------------------------------------------------------------------
+console.log('aaa');
 rdash.directive("rdLoading", function () {
     return {
         restrict: "AE",
@@ -136,6 +137,7 @@ rdash.directive("rdLoading", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
 
+console.log('aaa');
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
     rdash.controller(ctrlername, new Function("$scope","isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
