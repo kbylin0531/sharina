@@ -7,7 +7,6 @@
  */
 namespace Web\Admin\Controller;
 
-use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Controller\Render;
 
 class Index extends Admin
@@ -17,7 +16,6 @@ class Index extends Admin
      * @TODO:Think模板引擎会解析{'标签
      */
     use Render;
-    use Redirect;
 
     public function index()
     {

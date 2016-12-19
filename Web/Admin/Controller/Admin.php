@@ -9,6 +9,7 @@
 
 namespace Web\Admin\Controller;
 
+use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Response;
 use Web\System\Sign\Sign;
 use Web\System\Sign\SignModel;
@@ -16,6 +17,7 @@ use Web\System\Sign\SignModel;
 class Admin
 {
 
+    use Redirect;
     /**
      * @var Sign
      */
@@ -31,7 +33,7 @@ class Admin
                     'message' => '_NO_LOGIN_',
                 ]);
             } else {
-                Response::redirect(SR_PUBLIC_URL . '/Admin/Publics/login');
+                $this->redirect('Admin/Publics/login');
             }
         }
     }
