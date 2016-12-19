@@ -560,3 +560,8 @@ ul.sidebar .sidebar-list .menu-icon {
     font-size: 28px;
     display: block;
 }
+
+/* bootstrap 改 */
+.panel.panel-primary {
+    margin: 10px 15px 10px 10px
+}
