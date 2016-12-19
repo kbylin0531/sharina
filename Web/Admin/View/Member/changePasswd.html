@@ -1,0 +1,29 @@
+<div ng-controller="MemberController" layout="column" ng-cloak class="md-inline-form">
+
+    <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <div>
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="oldpwd">
+            </md-input-container>
+
+        </div>
+    </md-content>
+
+    <md-content layout-padding>
+        <div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>New Password</label>
+                    <input ng-model="newpwd">
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>New Password Repeat</label>
+                    <input ng-model="newpwdrepeat">
+                </md-input-container>
+            </div>
+        </div>
+    </md-content>
+
+</div>
