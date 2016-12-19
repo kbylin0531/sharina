@@ -60,15 +60,6 @@ class API extends Admin
                         'url' => '#',
                         'target' => '_blank',
                     ],
-                    [
-                        'title' => 'Github',
-                        'url' => '#',
-                        'target' => '_blank',
-                    ], [
-                        'title' => 'About',
-                        'url' => '#',
-                        'target' => '_blank',
-                    ],
                 ],
             ],
         ]);
