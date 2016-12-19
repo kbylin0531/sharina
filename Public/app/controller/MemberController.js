@@ -4,7 +4,5 @@
 rdash.MemberController = {
     run: function ($scope) {
 
-        angular.module('Member', ['ngMaterial']);
-
     }
 };
