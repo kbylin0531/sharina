@@ -103,27 +103,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
         var sidebar = $("ul.sidebar");
         var sidebarFooter = $("div#sidebar-footer");
         var lias = $("li.sidebar-list>a");
-        isea.each(data.sidemenu, function (item) {
-            sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
-            isea.each(item.children, function (subitem) {
-                var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
-                var url = "/" + subitem.name;
-                if (!first) first = url;
-                sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
-                    subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
-                stateProvider.state(url, {
-                    url: url,
-                    templateUrl: subitem.path
-                });
-            });
-        });
         var len = data.footmenu.length;
         var spacing = (12 / len).toFixed(0);
-        isea.each(data.footmenu, function (item) {
-            item.url || (item.url = "#");
-            item.target || (item.target = "_blank");
-            sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + item.url + '" target="' + item.target + '">' + item.title + '</a></div>');
-        });
 
         var reactive = function (list) {
             list = list || location.hash;
@@ -139,6 +120,26 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 }
             });
         };
+
+        isea.each(data.sidemenu, function (item) {
+            sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
+            isea.each(item.children, function (subitem) {
+                var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
+                var url = "/" + subitem.name;
+                if (!first) first = url;
+                sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
+                    subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
+                stateProvider.state(url, {
+                    url: url,
+                    templateUrl: subitem.path
+                });
+            });
+        });
+        isea.each(data.footmenu, function (item) {
+            item.url || (item.url = "#");
+            item.target || (item.target = "_blank");
+            sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + item.url + '" target="' + item.target + '">' + item.title + '</a></div>');
+        });
 
         //change the hash
         reactive(location.hash = first);
