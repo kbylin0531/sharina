@@ -68,8 +68,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
-        data = data.data;
-        isea.each(data.data, function ($v, $k) {
+        // data = data.data;
+        isea.each(data.data,function ($v, $k) {
             $scope[$k] = $v;//图片需要使用ng-src代替src属性
         });
     });
@@ -134,5 +134,5 @@ rdash.directive("rdLoading", function () {
 
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
+    rdash.controller(ctrlername, new Function("$scope","isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 }
