@@ -87,8 +87,8 @@ class API extends Admin
                         'url' => '#',
                     ],
                     [
-                        'title' => 'Change password',
-                        'url' => '#',
+                        'title' => 'Reset password',
+                        'url' => '/Admin/Member/changePasswd',
                     ],
                 ],
                 'generalmenu' => [
