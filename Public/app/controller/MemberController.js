@@ -4,5 +4,10 @@
 rdash.MemberController = {
     run: function ($scope) {
 
+        $scope.saveChange = function () {
+            if ($scope.change.newpwd != $scope.change.newpwdrp) {
+                alert("aa");
+            }
+        }
     }
 };
