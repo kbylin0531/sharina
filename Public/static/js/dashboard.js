@@ -16,7 +16,7 @@ var $j = jQuery.noConflict();
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
-
+throw "aaa";
     $.get(apiurl.sidemenu, function (data) {
         data = data.data;
         var first = '';
