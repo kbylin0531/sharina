@@ -43,6 +43,12 @@ class API extends Admin
                                 'icon' => 'file-word-o',
                                 'path' => '/Admin/Blog/Article/add',
                             ],
+                            [
+                                'title' => 'Profile',
+                                'name' => 'Profile',
+                                'icon' => 'user-o',
+                                'path' => '/Admin/Member/changePasswd',
+                            ],
                         ]
                     ]
                 ],
