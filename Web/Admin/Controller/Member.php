@@ -11,16 +11,19 @@ namespace Web\Admin\Controller;
 
 
 use Sharin\Core\Controller\Render;
+use Sharin\Core\Response;
 
 class Member extends Admin
 {
     use Render;
 
-    public function changePasswd()
+    public function changePasswd($old = null, $new = null)
     {
-        if(SR_IS_POST){
+        if (SR_IS_POST) {
 
 
+            Response::ajaxBack([$old, $new]);
+            die();
         }
         $this->display();
     }
