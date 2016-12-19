@@ -72,8 +72,8 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         data = data.data;
         $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
         $scope.username = data.username;
-        $scope.userMenu = data.userMenu;
-        $scope.generalMenu = data.generalMenu;
+        $scope.usermenu = data.usermenu;
+        $scope.generalmenu = data.generalmenu;
     });
 
     $scope.getWidth = function () {
