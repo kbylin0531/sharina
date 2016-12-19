@@ -1,28 +1,35 @@
 <div ng-controller="MemberController">
 
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">旧的密码</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" ng-model="oldpwd" placeholder="请输入旧的密码">
-            </div>
+    <div class="panel panel-primary " style="margin: 10px 15px 10px 10px;">
+        <div class="panel-heading">
+            不带 title 的面板标题
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">新的密码</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" ng-model="newpwd" placeholder="请输入新的密码">
-            </div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">旧的密码</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" ng-model="oldpwd" placeholder="请输入旧的密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">新的密码</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" ng-model="newpwd" placeholder="请输入新的密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">重复密码</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" ng-model="rpnewpwd" placeholder="请重复新的密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-4">
+                        <button type="button" ng-click="saveChange()" class="btn btn-default">登录</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">重复密码</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" ng-model="rpnewpwd" placeholder="请重复新的密码">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="button" ng-click="saveChange()" class="btn btn-default">登录</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
