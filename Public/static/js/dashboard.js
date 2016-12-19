@@ -12,6 +12,7 @@ var ctrlers = ["ArticleAddCtrler"];
  * 小于这个值将视为移动设备而收起侧边栏
  */
 var mobileView = 768;
+var $j = jQuery.noConflict();
 
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
@@ -38,7 +39,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 });
             }
         }
-        var lias = $("li.sidebar-list>a");
+        var lias = $j("li.sidebar-list>a");
 
         var reactive = function (list) {
             list = list || location.hash;
@@ -46,7 +47,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 list = "#" + list;
             }
             lias.each(function () {
-                var a = $(this);
+                var a = $j(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
                 } else {
@@ -55,11 +56,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             });
         };
 
-        throw "aaa";
         //change the hash
         reactive(location.hash = first);
         lias.click(function () {
-            reactive($(this).attr("href"));
+            reactive($j(this).attr("href"));
         });
     });
 }]);
@@ -69,11 +69,9 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
     //user info and menu
     $.get(apiurl.membermenu, function (data) {
         data = data.data;
-        $scope.avatar = data.avatar;//图片需要使用ng-src代替src属性
-        $scope.username = data.username;
-        $scope.generalmenu = data.generalmenu;
-        $scope.usermenu = data.usermenu;
-        $scope.site = data.site;
+        isea.each(data.data, function ($v, $k) {
+            $scope[$k] = $v;//图片需要使用ng-src代替src属性
+        });
     });
 
     $scope.getWidth = function () {
@@ -136,7 +134,5 @@ rdash.directive("rdLoading", function () {
 
 for (var x in ctrlers) {
     var ctrlername = ctrlers[x];
-    rdash.controller(ctrlername, new Function("$scope","isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
+    rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 }
-
-console.log('aaa');
