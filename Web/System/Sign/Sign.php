@@ -13,6 +13,7 @@ use Sharin\Core\Session;
 use Sharin\Developer;
 use Sharin\Library\Base64;
 use Sharin\Traits\Singleton;
+use Web\System\Exceptions\PasswordNotSetException;
 
 /**
  * Class SignAddon sign in/out addon
@@ -23,6 +24,7 @@ use Sharin\Traits\Singleton;
  *  3. signOut() clean the memory of user info and this login
  *
  * @method Sign getInstance(SignInterface $interface = null) static
+ *
  *
  * @package Web\System\Sign
  */
@@ -37,6 +39,22 @@ class Sign extends Component
      * @var array 用户的登录信息
      */
     private $info = null;
+    /**
+     * @var string 账户等里密码
+     */
+    private $password = null;
+    /**
+     * @var null|string
+     */
+    private $error = null;
+
+    /**
+     * @return string|null 获取错误信息
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
 
     public function __construct(SignInterface $interface = null)
     {
@@ -102,6 +120,19 @@ class Sign extends Component
     }
 
     /**
+     * 获取登录后的加密密码
+     * @return string
+     * @throws PasswordNotSetException
+     */
+    public function getPassword()
+    {
+        if (empty($this->password)) {
+            throw new PasswordNotSetException();
+        }
+        return $this->password;
+    }
+
+    /**
      * do login action
      * @param string $username
      * @param string $password
@@ -112,6 +143,8 @@ class Sign extends Component
     {
         if (!isset($this->info)) {
             if (false !== ($info = $this->interface->signIn($username, $password))) {
+                $this->password = $info['password'];
+                unset($info['password']);
                 $this->remember($this->info = $info, $expire);
                 return true;
             } else {
@@ -122,6 +155,25 @@ class Sign extends Component
             self::error('Last session has not sign out!');
             return false;
         }
+    }
+
+    /**
+     * 修改账户密码
+     * @param string $password
+     * @return bool
+     */
+    public function changePassword($password)
+    {
+        if ($id = $this->info['id']) {
+            if ($this->interface->changePassword($id, self::encryptPassword($password))) {
+                return true;
+            } else {
+                $this->error = $this->interface->error();
+            }
+        } else {
+            $this->error = '无法获取登录信息';
+        }
+        return false;
     }
 
     /**

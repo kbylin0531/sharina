@@ -11,7 +11,9 @@ namespace Web\Admin\Controller;
 
 
 use Sharin\Core\Controller\Render;
+use Sharin\Core\Logger;
 use Sharin\Core\Response;
+use Web\System\Exceptions\PasswordNotSetException;
 
 class Member extends Admin
 {
@@ -20,9 +22,29 @@ class Member extends Admin
     public function changePasswd($old = null, $new = null)
     {
         if (SR_IS_POST) {
+            try {
+                if (md5(sha1($old)) === $this->sign->getPassword() and
+                    $this->sign->changePassword($new)
+                ) {
+                    Response::ajaxBack([
+                        'status' => 1,
+                        'message' => '_CHANGE_PWD_SUCCESS_',
+                    ]);
+                }
 
-
-            Response::ajaxBack([$old, $new]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '_OLD_PASSWD_ERROR_',
+                ]);
+            } catch (PasswordNotSetException $exception) {
+                Logger::error([
+                    'PasswordNotSetException'
+                ]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '_LOGIN_INFO_NOT_FOUNT_',
+                ]);
+            }
             die();
         }
         $this->display();

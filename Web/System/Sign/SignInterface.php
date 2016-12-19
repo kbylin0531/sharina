@@ -10,6 +10,11 @@ namespace Web\System\Sign;
 
 /**
  * Interface SignInterface
+ * @method array query(string $sql, array $bind = null)
+ * @method int exec(string $sql, array $bind = null)
+ *
+ * @method bool changePassword($id, $newPassword)
+ *
  * @package Sharin\Addon\Sign
  */
 interface SignInterface
