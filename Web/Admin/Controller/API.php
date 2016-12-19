@@ -21,7 +21,7 @@ class API extends Admin
         Response::ajaxBack([
             'status' => 1,
             'data' => [
-                [
+                'sidemenu' => [
                     'title' => 'NAVIGATION',
                     'children' => [
                         [
@@ -42,6 +42,21 @@ class API extends Admin
                             'icon' => 'file-word-o',
                             'path' => '/Admin/Blog/Article/add',
                         ],
+                    ]
+                ],
+                'footmenu' => [
+                    [
+                        'title' => 'Github',
+                        'url' => '#',
+                        'target' => '_blank',
+                    ], [
+                        'title' => 'About',
+                        'url' => '#',
+                        'target' => '_blank',
+                    ], [
+                        'title' => 'Support',
+                        'url' => '#',
+                        'target' => '_blank',
                     ]
                 ],
             ],

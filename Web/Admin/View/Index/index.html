@@ -1,20 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="RDash">
 <head>
     <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>RDash</title>
-    <!-- STYLES -->
     <foreach name="cdn.styles" item="vo">
         <link href="{$vo}" rel="stylesheet">
     </foreach>
-
-    <!-- SCRIPTS -->
 </head>
 <body ng-controller="MasterCtrl">
-<div id="page-wrapper" ng-class="{ 'open': toggle}" ng-cloak>
-    <!-- Sidebar -->
+<div id="page-wrapper" ng-class="{ 'open': toggle }" ng-cloak>
     <div id="sidebar-wrapper">
         <ul class="sidebar">
             <li class="sidebar-main">
@@ -23,8 +18,9 @@
                     <span class="menu-icon glyphicon glyphicon-transfer"></span>
                 </a>
             </li>
+
         </ul>
-        <div class="sidebar-footer">
+        <div class="sidebar-footer" id="sidebar-footer">
             <div class="col-xs-4">
                 <a href="#" target="_blank">
                     Github
@@ -42,7 +38,6 @@
             </div>
         </div>
     </div>
-    <!-- End Sidebar -->
 
     <div id="content-wrapper">
         <div class="page-content">
@@ -92,8 +87,8 @@
             <div ui-view></div>
 
         </div><!-- End Page Content -->
-    </div><!-- End Content Wrapper -->
-</div><!-- End Page Wrapper -->
+    </div>
+</div>
 
 <foreach name="cdn.scripts" item="vo">
     <script src="{$vo}"></script>

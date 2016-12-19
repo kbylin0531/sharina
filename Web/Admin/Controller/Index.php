@@ -20,8 +20,7 @@ class Index extends Admin
 
     public function index()
     {
-        $cdn = Configger::load('cdn');
-        $this->assign('cdn', $cdn);
+        $this->assign('cdn', Configger::load('cdn'));
         $this->display();
     }
 

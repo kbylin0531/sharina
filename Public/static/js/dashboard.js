@@ -1,6 +1,82 @@
 "use strict";
 // ngCookie
-(function(window,angular){'use strict';angular.module('ngCookies',['ng']).provider('$cookies',[function $CookiesProvider(){var defaults=this.defaults={};function calcOptions(options){return options?angular.extend({},defaults,options):defaults}this.$get=['$$cookieReader','$$cookieWriter',function($$cookieReader,$$cookieWriter){return{get:function(key){return $$cookieReader()[key]},getObject:function(key){var value=this.get(key);return value?angular.fromJson(value):value},getAll:function(){return $$cookieReader()},put:function(key,value,options){$$cookieWriter(key,value,calcOptions(options))},putObject:function(key,value,options){this.put(key,angular.toJson(value),options)},remove:function(key,options){$$cookieWriter(key,undefined,calcOptions(options))}}}]}]);angular.module('ngCookies').factory('$cookieStore',['$cookies',function($cookies){return{get:function(key){return $cookies.getObject(key)},put:function(key,value){$cookies.putObject(key,value)},remove:function(key){$cookies.remove(key)}}}]);function $$CookieWriter($document,$log,$browser){var cookiePath=$browser.baseHref();var rawDocument=$document[0];function buildCookieString(name,value,options){var path,expires;options=options||{};expires=options.expires;path=angular.isDefined(options.path)?options.path:cookiePath;if(angular.isUndefined(value)){expires='Thu, 01 Jan 1970 00:00:00 GMT';value=''}if(angular.isString(expires)){expires=new Date(expires)}var str=encodeURIComponent(name)+'='+encodeURIComponent(value);str+=path?';path='+path:'';str+=options.domain?';domain='+options.domain:'';str+=expires?';expires='+expires.toUTCString():'';str+=options.secure?';secure':'';var cookieLength=str.length+1;if(cookieLength>4096){$log.warn('Cookie \''+name+'\' possibly not set or overflowed because it was too large ('+cookieLength+' > 4096 bytes)!')}return str}return function(name,value,options){rawDocument.cookie=buildCookieString(name,value,options)}}$$CookieWriter.$inject=['$document','$log','$browser'];angular.module('ngCookies').provider('$$cookieWriter',function $$CookieWriterProvider(){this.$get=$$CookieWriter})})(window,window.angular);
+(function (window, angular) {
+    'use strict';
+    angular.module('ngCookies', ['ng']).provider('$cookies', [function $CookiesProvider() {
+        var defaults = this.defaults = {};
+
+        function calcOptions(options) {
+            return options ? angular.extend({}, defaults, options) : defaults
+        }
+
+        this.$get = ['$$cookieReader', '$$cookieWriter', function ($$cookieReader, $$cookieWriter) {
+            return {
+                get: function (key) {
+                    return $$cookieReader()[key]
+                }, getObject: function (key) {
+                    var value = this.get(key);
+                    return value ? angular.fromJson(value) : value
+                }, getAll: function () {
+                    return $$cookieReader()
+                }, put: function (key, value, options) {
+                    $$cookieWriter(key, value, calcOptions(options))
+                }, putObject: function (key, value, options) {
+                    this.put(key, angular.toJson(value), options)
+                }, remove: function (key, options) {
+                    $$cookieWriter(key, undefined, calcOptions(options))
+                }
+            }
+        }]
+    }]);
+    angular.module('ngCookies').factory('$cookieStore', ['$cookies', function ($cookies) {
+        return {
+            get: function (key) {
+                return $cookies.getObject(key)
+            }, put: function (key, value) {
+                $cookies.putObject(key, value)
+            }, remove: function (key) {
+                $cookies.remove(key)
+            }
+        }
+    }]);
+    function $$CookieWriter($document, $log, $browser) {
+        var cookiePath = $browser.baseHref();
+        var rawDocument = $document[0];
+
+        function buildCookieString(name, value, options) {
+            var path, expires;
+            options = options || {};
+            expires = options.expires;
+            path = angular.isDefined(options.path) ? options.path : cookiePath;
+            if (angular.isUndefined(value)) {
+                expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
+                value = ''
+            }
+            if (angular.isString(expires)) {
+                expires = new Date(expires)
+            }
+            var str = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+            str += path ? ';path=' + path : '';
+            str += options.domain ? ';domain=' + options.domain : '';
+            str += expires ? ';expires=' + expires.toUTCString() : '';
+            str += options.secure ? ';secure' : '';
+            var cookieLength = str.length + 1;
+            if (cookieLength > 4096) {
+                $log.warn('Cookie \'' + name + '\' possibly not set or overflowed because it was too large (' + cookieLength + ' > 4096 bytes)!')
+            }
+            return str
+        }
+
+        return function (name, value, options) {
+            rawDocument.cookie = buildCookieString(name, value, options)
+        }
+    }
+
+    $$CookieWriter.$inject = ['$document', '$log', '$browser'];
+    angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterProvider() {
+        this.$get = $$CookieWriter
+    })
+})(window, window.angular);
 
 
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
@@ -24,13 +100,12 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
     $.get(apiurl.sidemenu, function (data) {
         data = data.data;
         var first = '';
-        for (var x in data) {
-            var item = data[x];
-            var sidebar = $("ul.sidebar");
+        var sidebar = $("ul.sidebar");
+        var sidebarFooter = $("div#sidebar-footer");
+        var lias = $("li.sidebar-list>a");
+        isea.each(data.sidemenu, function (item) {
             sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
-
-            for (var y in item.children) {
-                var subitem = item.children[y];
+            isea.each(item.children, function (subitem) {
                 var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
                 var url = "/" + subitem.name;
                 if (!first) first = url;
@@ -40,9 +115,15 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                     url: url,
                     templateUrl: subitem.path
                 });
-            }
-        }
-        var lias = $("li.sidebar-list>a");
+            });
+        });
+        var len = data.footmenu.length;
+        var spacing = (12 / len).toFixed(0);
+        isea.each(data.footmenu, function (item) {
+            item.url || (item.url = "#");
+            item.target || (item.target = "_blank");
+            sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + item.url + '" target="' + item.target + '">' + item.title + '</a></div>');
+        });
 
         var reactive = function (list) {
             list = list || location.hash;
