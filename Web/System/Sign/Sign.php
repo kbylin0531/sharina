@@ -51,7 +51,7 @@ class Sign extends Component
     /**
      * @return string|null 获取错误信息
      */
-    public function getError()
+    public function error()
     {
         return $this->error;
     }
@@ -148,11 +148,11 @@ class Sign extends Component
                 $this->remember($this->info = $info, $expire);
                 return true;
             } else {
-                self::error($this->interface->error());
+                $this->error = $this->interface->getError();
                 return false;
             }
         } else {
-            self::error('Last session has not sign out!');
+            $this->error = 'Last session has not sign out!';
             return false;
         }
     }
@@ -168,7 +168,7 @@ class Sign extends Component
             if ($this->interface->changePassword($id, self::encryptPassword($password))) {
                 return true;
             } else {
-                $this->error = $this->interface->error();
+                $this->error = $this->interface->getError();
             }
         } else {
             $this->error = '无法获取登录信息';
@@ -183,7 +183,7 @@ class Sign extends Component
     public function signOut()
     {
         $this->info = null;
-        self::error('');//清空错误信息
+        $this->error = '';//清空错误信息
         $this->forgot();
         return $this->interface->signOut();
     }
