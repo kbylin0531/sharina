@@ -86,7 +86,7 @@ var apiurl = {
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler"];
+var ctrlers = ["ArticleAddCtrler", "MemberController"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏

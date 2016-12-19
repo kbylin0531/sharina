@@ -1,28 +1,30 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s6">
-                <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                <label for="first_name" class="active">Old password</label>
+<div ng-controller="MemberController">
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="oldpwd" type="text" ng-model="oldpwd" class="validate">
+                    <label for="oldpwd" class="active">Old password</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input value="I am not editable" id="disabled" type="text" class="validate">
-                <label for="disabled" class="active">New passoword </label>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="newpwd" type="text" ng-model="newpwd" class="validate">
+                    <label for="newpwd">New passoword </label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input type="text" style="display:none">
-                <input id="password" type="password" class="validate" autocomplete="off">
-                <label for="password">Repeat new passoword</label>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" style="display:none">
+                    <input id="repeatnewpwd" type="password" ng-model="repeatpwd" class="validate">
+                    <label for="repeatnewpwd">Repeat new passoword</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <a class="waves-effect waves-light btn"><i class="fa fa-save"></i>Save</a>
+            <div class="row">
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-light btn" ng-click="submit()"><i class="fa fa-save"></i>Save</a>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
