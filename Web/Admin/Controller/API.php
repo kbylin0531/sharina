@@ -41,10 +41,10 @@ class API extends Admin
                                 'path' => '/Admin/Blog/Article/add',
                             ],
                             [
-                                'title' => 'changePasswd',
-                                'name' => 'changePasswd',
+                                'title' => 'Member',
+                                'name' => 'Member',
                                 'icon' => 'user-o',
-                                'path' => '/Admin/Member/changePasswd',
+                                'path' => '/Admin/Member/index',
                             ],
                         ]
                     ]

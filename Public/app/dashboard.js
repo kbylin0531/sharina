@@ -223,6 +223,13 @@ isea.each(ctrlers, function (ctrlername) {
 });
 
 rdash.controller("MemberController", ["$scope", function ($scope) {
+
+    if($("#dtable").length){
+        isea.loader.use('datatables',function () {
+
+        });
+    }
+
     $scope.saveChange = function () {
         if ($scope.newpwd != $scope.rpnewpwd) {
             alert("密码不一致");

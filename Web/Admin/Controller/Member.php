@@ -12,11 +12,24 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
+use Web\Admin\Model\MemberModel;
 use Web\System\Exceptions\PasswordGetFailedException;
 
 class Member extends Admin
 {
     use Render;
+
+    public function index()
+    {
+        if (SR_IS_AJAX) {
+            $list = MemberModel::getInstance()->getlist();
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $list,
+            ]);
+        }
+        $this->display();
+    }
 
     public function changePasswd($old = null, $new = null)
     {
