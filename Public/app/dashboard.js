@@ -2,7 +2,7 @@
 // ngCookie
 (function (window, angular) {
     'use strict';
-    angular.module('ngCookies', ['ng']).provider('$cookies', [function $CookiesProvider() {
+    angular.module('ngCookies', ['ng']).provider('$cookies', [function () {
         var defaults = this.defaults = {};
 
         function calcOptions(options) {
@@ -59,7 +59,7 @@
             str += path ? ';path=' + path : '';
             str += options.domain ? ';domain=' + options.domain : '';
             str += expires ? ';expires=' + expires.toUTCString() : '';
-            str += options.secure ? ';secure' : '';
+            str += options["secure"] ? ';secure' : '';
             var cookieLength = str.length + 1;
             if (cookieLength > 4096) {
                 $log.warn('Cookie \'' + name + '\' possibly not set or overflowed because it was too large (' + cookieLength + ' > 4096 bytes)!')
@@ -81,8 +81,8 @@
 
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 var apiurl = {
-    sidemenu: "/Admin/API/getSideMenu",
-    membermenu: "/Admin/API/getSiteinfo"
+    menu: "/Admin/API/getMenu",
+    info: "/Admin/API/getInfo"
 };
 var controllerPath = "/app/controller/";
 //控制器列表
@@ -97,13 +97,12 @@ var mobileView = 768;
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
 
-    $.get(apiurl.sidemenu, function (data) {
+    $.get(apiurl.menu, function (data) {
         data = data.data;
         var first = '';
         var sidebar = $("ul.sidebar");
         var sidebarFooter = $("div#sidebar-footer");
-        var lias = $("li.sidebar-list>a");
-        var len = data.footmenu.length;
+        var len = data["footmenu"].length;
         var spacing = (12 / len).toFixed(0);
 
         var reactive = function (list) {
@@ -111,7 +110,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             if (list.indexOf("#") != 0) {
                 list = "#" + list;
             }
-            lias.each(function () {
+            //ps:jquery选择器的数量不会随元素的加载而变化
+            $("li.sidebar-list>a").each(function () {
                 var a = $(this);
                 if (a.attr("href") == list) {
                     a.addClass("active");
@@ -120,28 +120,40 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 }
             });
         };
-
-        isea.each(data.sidemenu, function (item) {
-            sidebar.append('<li class="sidebar-title"><span>' + item.title + '</span></li>');
-            isea.each(item.children, function (subitem) {
-                var icon = "icon" in subitem ? "fa fa-" + subitem.icon : "";
-                var url = "/" + subitem.name;
-                if (!first) first = url;
-                sidebar.append('<li class="sidebar-list"><a href="#' + url + '">' +
-                    subitem.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
-                stateProvider.state(url, {
-                    url: url,
-                    templateUrl: subitem.path
-                });
+        if ("sidemenu" in data) isea.each(data["sidemenu"], function (item) {
+            var icon = "icon" in item ? "fa fa-" + item.icon : "";
+            if (!first) first = item.path;
+            sidebar.append('<li class="sidebar-list"><a href="#' + item.path + '">' +
+                item.title + ' <span class="menu-icon ' + icon + '"></span></a></li>');
+            stateProvider.state(item.path, {
+                url: item.path,
+                templateUrl: item.path
             });
         });
-        isea.each(data.footmenu, function (item) {
+        if ("footmenu" in data) isea.each(data["footmenu"], function (item) {
             sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + (item.url || "#") + '" target="' + (item.target || "_self") + '">' + item.title + '</a></div>');
         });
 
+        if ("usermenu" in data) {
+            var dropdownmenu = $("#dropdown-menu");
+            //路由菜单
+            if ("route" in data["usermenu"]) isea.each(data["usermenu"]["route"], function (item) {
+                dropdownmenu.append('<li class="link"><a href="#' + item.path + '">' + item.title + '</a></li>');
+                stateProvider.state(item.path, {
+                    url: item.path,
+                    templateUrl: item.path
+                });
+            });
+            dropdownmenu.append(isea.dom.create('li.divider'));
+            //链接菜单
+            if ("link" in data["usermenu"]) isea.each(data["usermenu"]["link"], function (item) {
+                dropdownmenu.append('<li class="link"><a href="' + item.url + '">' + item.title + '</a></li>');
+            });
+        }
+
         //change the hash
         reactive(location.hash = first);
-        lias.click(function () {
+        $("li.sidebar-list>a").click(function () {
             reactive($(this).attr("href"));
         });
     });
@@ -150,14 +162,9 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $cookieStore) {
     //user info and menu
-    $.get(apiurl.membermenu, function (data) {
-        isea.each(data.data, function (value, key) {
-            $scope[key] = value;//
-        });
-        // $scope.avatar = data.avatar;//
-        // $scope.username = data.username;
-        // $scope.generalmenu = data.generalmenu;
-        // $scope.usermenu = data.usermenu;
+    $.get(apiurl.info, function (data) {
+        $scope.profile = data.data.profile;
+        $scope.username = data.data.username;
     });
 
     $scope.getWidth = function () {
@@ -224,8 +231,8 @@ isea.each(ctrlers, function (ctrlername) {
 
 rdash.controller("MemberController", ["$scope", function ($scope) {
 
-    if($("#dtable").length){
-        isea.loader.use('datatables',function () {
+    if ($("#dtable").length) {
+        isea.loader.use('datatables', function () {
 
         });
     }

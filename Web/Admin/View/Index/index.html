@@ -33,15 +33,10 @@
                     <div class="user pull-right">
                         <div class="item dropdown" uib-dropdown>
                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                                <img ng-src="{{userinfo.profile}}">
+                                <img ng-src="{{profile}}">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" id="dropdown-menu">
-                                <li class="dropdown-header">{{userinfo.username}}</li>
-                                <li ng-repeat="x in usermenu.personal" class="link"><a href="{{x.url}}">{{x.title}}</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li ng-repeat="y in usermenu.common" class="link"><a href="{{y.url}}">{{y.title}}</a>
-                                </li>
+                                <li class="dropdown-header">{{username}}</li>
                             </ul>
                         </div>
                         <div class="item dropdown" uib-dropdown>

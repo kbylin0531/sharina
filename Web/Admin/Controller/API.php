@@ -13,41 +13,55 @@ use Sharin\Core\Response;
 
 class API extends Admin
 {
-    public function getSideMenu()
+    public function getMenu()
     {
         Response::ajaxBack([
             'status' => 1,
             'data' => [
                 'sidemenu' => [
                     [
-                        'title' => 'NAVIGATION',
-                        'children' => [
-                            [
-                                'title' => 'Dashboard',
-                                'name' => 'tachometer',
-                                'icon' => 'tachometer',
-                                'path' => '/Admin/Index/dashboard',
-                            ],
-                            [
-                                'title' => 'Tables',
-                                'name' => 'table',
-                                'icon' => 'table',
-                                'path' => '/Admin/Index/tables',
-                            ],
-                            [
-                                'title' => 'BlogAdd',
-                                'name' => 'BlogAdd',
-                                'icon' => 'file-word-o',
-                                'path' => '/Admin/Blog/Article/add',
-                            ],
-                            [
-                                'title' => 'Member',
-                                'name' => 'Member',
-                                'icon' => 'user-o',
-                                'path' => '/Admin/Member/index',
-                            ],
-                        ]
-                    ]
+                        'title' => 'Dashboard',
+                        'icon' => 'tachometer',
+                        'path' => '/Admin/Index/dashboard',
+                    ],
+                    [
+                        'title' => 'Tables',
+                        'icon' => 'table',
+                        'path' => '/Admin/Index/tables',
+                    ],
+                    [
+                        'title' => 'BlogAdd',
+                        'icon' => 'file-word-o',
+                        'path' => '/Admin/Blog/Article/add',
+                    ],
+                    [
+                        'title' => 'Member',
+                        'icon' => 'user-o',
+                        'path' => '/Admin/Member/index',
+                    ],
+                ],
+                'usermenu' => [
+                    'route' => [
+                        //menu groups
+                        [
+                            'title' => 'Profile',
+                            'path' => '/Admin/Member/profile',
+                        ],
+                        [
+                            'title' => 'Setting',
+                            'path' => '/Admin/Member/setting',
+                        ],
+                        [
+                            'title' => 'Reset password',
+                            'path' => '/Admin/Member/changePasswd',
+                        ],
+                    ],
+                    'link' => [
+                        [
+                            'title' => 'Sign out',
+                            'url' => '/Admin/Publics/logout',
+                        ],
+                    ],
                 ],
                 'footmenu' => [
                     [
@@ -67,36 +81,11 @@ class API extends Admin
         ]);
     }
 
-    public function getSiteinfo()
+    public function getInfo()
     {
         Response::ajaxBack([
             'status' => 1,
-            'data' => [
-                'userinfo' => $this->sign->getInfo(),
-                'usermenu' => [
-                    'personal' => [
-                        //menu groups
-                        [
-                            'title' => 'Profile',
-                            'url' => '#',
-                        ],
-                        [
-                            'title' => 'Setting',
-                            'url' => '#',
-                        ],
-                        [
-                            'title' => 'Reset password',
-                            'url' => '#/changePasswd',
-                        ],
-                    ],
-                    'common' => [
-                        [
-                            'title' => 'Sign out',
-                            'url' => '/Admin/Publics/logout',
-                        ],
-                    ],
-                ],
-            ],
+            'data' => $this->sign->getInfo(),
         ]);
     }
 
