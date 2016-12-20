@@ -10,6 +10,11 @@ namespace Web\System\Sign;
 
 /**
  * Interface SignInterface
+ * @method array query(string $sql, array $bind = null)
+ * @method int exec(string $sql, array $bind = null)
+ *
+ * @method bool changePassword($id, $newPassword)
+ *
  * @package Sharin\Addon\Sign
  */
 interface SignInterface
@@ -27,6 +32,13 @@ interface SignInterface
      * @return false|array
      */
     public function signIn($username, $password);
+
+    /**
+     * 获取登录信息
+     * @param string $username
+     * @return mixed
+     */
+    public function getInfo(string $username);
 
     /**
      * sign in with email and password

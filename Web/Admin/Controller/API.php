@@ -9,12 +9,10 @@
 
 namespace Web\Admin\Controller;
 
-
 use Sharin\Core\Response;
 
 class API extends Admin
 {
-
     public function getSideMenu()
     {
         Response::ajaxBack([
@@ -41,6 +39,12 @@ class API extends Admin
                                 'name' => 'BlogAdd',
                                 'icon' => 'file-word-o',
                                 'path' => '/Admin/Blog/Article/add',
+                            ],
+                            [
+                                'title' => 'changePasswd',
+                                'name' => 'changePasswd',
+                                'icon' => 'user-o',
+                                'path' => '/Admin/Member/changePasswd',
                             ],
                         ]
                     ]
@@ -70,24 +74,26 @@ class API extends Admin
             'data' => [
                 'userinfo' => $this->sign->getInfo(),
                 'usermenu' => [
-                    //menu groups
-                    [
-                        'title' => 'Profile',
-                        'url' => '#',
+                    'personal' => [
+                        //menu groups
+                        [
+                            'title' => 'Profile',
+                            'url' => '#',
+                        ],
+                        [
+                            'title' => 'Setting',
+                            'url' => '#',
+                        ],
+                        [
+                            'title' => 'Reset password',
+                            'url' => '#/changePasswd',
+                        ],
                     ],
-                    [
-                        'title' => 'Setting',
-                        'url' => '#',
-                    ],
-                    [
-                        'title' => 'Change password',
-                        'url' => '#',
-                    ],
-                ],
-                'generalmenu' => [
-                    [
-                        'title' => 'Sign out',
-                        'url' => '/Admin/Publics/logout',
+                    'common' => [
+                        [
+                            'title' => 'Sign out',
+                            'url' => '/Admin/Publics/logout',
+                        ],
                     ],
                 ],
             ],

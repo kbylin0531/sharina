@@ -218,7 +218,21 @@ rdash.directive("rdLoading", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
 });
 
-for (var x in ctrlers) {
-    var ctrlername = ctrlers[x];
+isea.each(ctrlers, function (ctrlername) {
     rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
-}
+});
+
+rdash.controller("MemberController", ["$scope", function ($scope) {
+    $scope.saveChange = function () {
+        if ($scope.newpwd != $scope.rpnewpwd) {
+            alert("密码不一致");
+        } else {
+            $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
+                alert(data.message);
+                if (data.status) {
+                    location.href = "/Admin/Publics/logout";
+                }
+            });
+        }
+    }
+}]);

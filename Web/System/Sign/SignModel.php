@@ -45,12 +45,16 @@ class SignModel extends Model implements SignInterface
 
     protected $tablename = 'srg_member';
 
+    public function getInfo(string $username)
+    {
+        return $this->where(['username' => $username])->find();
+    }
+
     public function signIn($username, $password)
     {
         $info = $this->where(['username' => $username])->find();
 
         if (!empty($info['password']) and $info['password'] === $password) {
-            unset($info['password']);
             return $info;
         } else {
             $this->error = '{_PASSWD_INVALID_}';
@@ -77,6 +81,19 @@ class SignModel extends Model implements SignInterface
         return false;
     }
 
+    public function changePassword($id, $newPassword)
+    {
+        if (empty($newPassword)) {
+            $this->error = "密码不能修改为空";
+            return false;
+        }
+        return $this->update([
+            'password' => $newPassword
+        ], [
+            'id' => $id,
+        ]);
+
+    }
 
     protected $validate = [
         'username' => '',
