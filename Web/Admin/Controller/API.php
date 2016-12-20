@@ -11,7 +11,6 @@ namespace Web\Admin\Controller;
 
 
 use Sharin\Core\Response;
-use Web\System\Sign\Sign;
 
 class API extends Admin
 {

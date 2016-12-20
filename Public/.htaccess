@@ -1,9 +1,9 @@
 <IfModule mod_rewrite.c>
-    order deny,allow
-    allow from all
+# windows apache 下无法工作
+#    order deny,allow
+#    allow from all
 
     Options +FollowSymlinks
-
 
     #URL重写
     RewriteEngine On
@@ -14,7 +14,6 @@
     # 这些后缀的文件，就直接访问文件，不进行Rewrite
 #    RewriteCond %{REQUEST_URI} !^.*(\.css|\.js|\.gif|\.png|\.jpg|\.jpeg)$
     RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
-
 
 </IfModule>
 
