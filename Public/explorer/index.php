@@ -19,7 +19,7 @@
 //}
 
 
-include('./config/config.php');
+require __DIR__.'/../../KODExplorer/config/config.php';
 $app = new Application();
 init_config();
 $app->run();
