@@ -66,14 +66,15 @@ class API extends Admin
                 'footmenu' => [
                     [
                         'title' => 'Github',
-                        'url' => '#',
+                        'url' => 'https://github.com/lichtung/sharina',
                         'target' => '_blank',
                     ], [
-                        'title' => 'About',
-                        'url' => '#',
+                        'title' => 'Database',
+                        'url' => '/database.php',
+                        'target' => '_blank',
                     ], [
-                        'title' => 'Support',
-                        'url' => '#',
+                        'title' => 'Explorer',
+                        'url' => '/explorer.php',
                         'target' => '_blank',
                     ],
                 ],

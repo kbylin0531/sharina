@@ -82,7 +82,7 @@ class share extends Controller
             $this->error('password');
         } else {
             if ($this->in['password'] == $share_info['share_password']) {
-                session_start();
+                \Sharin\Core\Session::begin();
                 $_SESSION['password_' . $this->in['sid']] = $share_info['share_password'];
                 show_json('success');
             } else {

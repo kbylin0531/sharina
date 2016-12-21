@@ -109,7 +109,7 @@ class explorer extends Controller
     public function pathList()
     {
         load_class('history');
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $session = isset($_SESSION['history']) ? $_SESSION['history'] : false;
         $user_path = $this->in['path'];
         if (is_array($session)) {
@@ -243,7 +243,7 @@ class explorer extends Controller
     public function historyBack()
     {
         load_class('history');
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $session = $_SESSION['history'];
         if (is_array($session)) {
             $hi = new history($session);
@@ -262,7 +262,7 @@ class explorer extends Controller
     public function historyNext()
     {
         load_class('history');
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $session = $_SESSION['history'];
         if (is_array($session)) {
             $hi = new history($session);
@@ -366,7 +366,7 @@ class explorer extends Controller
 
     public function pathCopy()
     {
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $copy_list = json_decode($this->in['list'], true);
         $list_num = count($copy_list);
         for ($i = 0; $i < $list_num; $i++) {
@@ -379,7 +379,7 @@ class explorer extends Controller
 
     public function pathCute()
     {
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $cute_list = json_decode($this->in['list'], true);
         $list_num = count($cute_list);
         for ($i = 0; $i < $list_num; $i++) {
@@ -458,7 +458,7 @@ class explorer extends Controller
             show_json($this->L['clipboard_null'], false, array());
         }
 
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $error = '';
         $data = array();
         $clipboard = json_decode($_SESSION['path_copy'], true);
@@ -734,9 +734,9 @@ class explorer extends Controller
         }
         $save_path = get_filename_auto(iconv_system($save_path));
         $save_path_temp = $save_path . '.downloading';
-        session_start();
+        \Sharin\Core\Session::begin();
         $_SESSION[$uuid] = array('length' => $header['length'], 'path' => $save_path_temp);
-        session_write_close();
+//        session_write_close();
 
         if (file_download_this($url, $save_path_temp)) {
             if (@rename($save_path_temp, $save_path)) {//下载完后重命名

@@ -2,7 +2,8 @@ define("app/src/user/main", ["lib/jquery-lib", "lib/util", "lib/artDialog/jquery
     e("lib/jquery-lib"), e("lib/util"), e("lib/artDialog/jquery-artDialog"), core = e("../../common/core"), $(document).ready(function () {
         core.update("check_status");
         var e = function () {
-            var e = $("#username").val(), t = $("#password").val(), a = $("input[name=rember_password]").attr("checked") ? 1 : 0, i = "./explorer.php?user/loginSubmit&name=" + urlEncode(e) + "&check_code=" + $("input.check_code").val() + "&password=" + urlEncode(t) + "&rember_password=" + a;
+            var e = $("#username").val(), t = $("#password").val(), a = $("input[name=rember_password]").attr("checked") ? 1 : 0,
+                i = "./explorer.php?user/loginSubmit&name=" + urlEncode(e) + "&check_code=" + $("input.check_code").val() + "&password=" + urlEncode(t) + "&rember_password=" + a;
             window.location.href = i
         };
         $("#username").focus(), $("#submit").bind("click", e), $("#username,#password,input.check_code").keyEnter(e)

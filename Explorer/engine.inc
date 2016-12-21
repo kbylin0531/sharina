@@ -151,9 +151,25 @@ empty($URI[1]) and $URI[1] = 'index';//设置默认控制器操作
 define('ST', $URI[0]);
 define('ACT', $URI[1]);
 
-if (count($config['autorun']) > 0) {
-    foreach ($config['autorun'] as $key => $var) {
-        Util::appRun($var['controller'], $var['function']);
+//登录过的前提下实现自动登录
+if (!\Web\System\Sign\Sign::getInstance(\Web\System\Sign\SignModel::getInstance())->getInfo()) {
+    \Sharin\Core\Response::redirect(SR_PUBLIC_URL . 'Admin/Publics/login');
+}else{
+    $member = \Explorer\Member::getInstance();
+    $user = $member->get('admin');
+    if ($user['status'] == 0) {//初始化app
+        $app = init_controller('app');
+        $app->init_app($user);
     }
+    $_SESSION['kod_login'] = true;
+    $_SESSION['kod_user'] = $user;
+    setcookie('kod_name', $user['name'], time() + 3600 * 24 * 365);
+//setcookie('kod_token', md5($user['password'] . \Sharin\Library\UserAgent::getIp()), time() + 3600 * 24 * 365);
+
+    if (count($config['autorun']) > 0) {
+        foreach ($config['autorun'] as $key => $var) {
+            Util::appRun($var['controller'], $var['function']);
+        }
+    }
+    Util::appRun(ST, ACT);
 }
-Util::appRun(ST, ACT);

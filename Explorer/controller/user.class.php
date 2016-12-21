@@ -62,7 +62,7 @@ class user extends Controller
                 $this->logout();
             }
             if (md5($user['password'] . \Sharin\Library\UserAgent::getIp()) == $_COOKIE['kod_token']) {
-                session_start();//re start
+                \Sharin\Core\Session::begin();//re start
                 $_SESSION['kod_login'] = true;
                 $_SESSION['kod_user'] = $user;
                 setcookie('kod_name', $_COOKIE['kod_name'], time() + 3600 * 24 * 365);
@@ -175,12 +175,12 @@ class user extends Controller
      */
     public function logout()
     {
-        session_start();
-        setcookie('PHPSESSID', '', time() - 3600, '/');
+        \Sharin\Core\Session::begin();
+//        setcookie('PHPSESSID', '', time() - 3600, '/');
         setcookie('kod_name', '', time() - 3600);
         setcookie('kod_token', '', time() - 3600);
         setcookie('kod_user_language', '', time() - 3600);
-        session_destroy();
+//        session_destroy();
         header('location:./' . ENTRY_FILE . '?user/login');
         exit;
     }
@@ -193,11 +193,11 @@ class user extends Controller
         if (!isset($this->in['name']) || !isset($this->in['password'])) {
             $msg = $this->L['login_not_null'];
         } else {
-            //错误三次输入验证码            
+            //错误三次输入验证码
             $name = rawurldecode($this->in['name']);
             $password = rawurldecode($this->in['password']);
 
-            session_start();//re start 有新的修改后调用
+            \Sharin\Core\Session::begin();//re start 有新的修改后调用
             if (isset($_SESSION['code_error_time']) and
                 intval($_SESSION['code_error_time']) >= 3 and
                 $_SESSION['check_code'] !== strtolower($this->in['check_code'])
@@ -228,7 +228,7 @@ class user extends Controller
             isset($_SESSION['code_error_time']) or $_SESSION['code_error_time'] = 0;
             $_SESSION['code_error_time'] = intval($_SESSION['code_error_time']) + 1;
         }
-        $this->login($msg);
+        $this->login();
     }
 
     /**
@@ -317,7 +317,7 @@ class user extends Controller
 
     public function checkCode()
     {
-        session_start();//re start
+        \Sharin\Core\Session::begin();//re start
         $code = rand_string(4);
         $_SESSION['check_code'] = strtolower($code);
         check_code($code);
