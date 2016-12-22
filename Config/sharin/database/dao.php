@@ -29,9 +29,9 @@ return [
         'pgyxwd' =>  [
             DAO_DBNAME => 'pgyxwd',//选择的数据库
             DAO_USERNAME => 'lin',
-            DAO_PASSWORD => 'pgyxwd8888',
-            DAO_HOST => '120.55.163.154',
-            DAO_PORT => '10010',
+            DAO_PASSWORD => '123456',
+            DAO_HOST => '127.0.0.1',
+            DAO_PORT => '13306',
             DAO_CHARSET => 'UTF8',
             DAO_DSN => null,//默认先检查差DSN是否正确,直接写dsn而不设置其他的参数可以提高效率，也可以避免潜在的bug
             DAO_OPTIONS => [

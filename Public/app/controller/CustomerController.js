@@ -3,14 +3,26 @@
  */
 rdash.CustomerController = {
     run: function ($scope) {
-        if ($("#dtable").length) {
+
+        //当前页面是客户列表
+        if ($("#customerlist").length) {
             isea.loader.load([
                 'http://cdn.bootcss.com/datatables/1.10.13/css/dataTables.bootstrap.min.css',
                 'http://cdn.bootcss.com/datatables/1.10.13/js/jquery.dataTables.min.js',
                 'http://cdn.bootcss.com/datatables/1.10.13/js/dataTables.bootstrap.min.js'
             ], function () {
+                var infoModal, customerlist;
+                isea.loader.use("modal", function () {
+                    infoModal = isea.modal.create("#imodal", {
+                        width: 1024,//宽度固定为1024px
+                        confirm: function () {
+
+                        }
+                    });
+                });
+
                 isea.loader.use('datatables', function () {
-                    var dtable = isea.datatables.create("#dtable", {
+                    customerlist = isea.datatables.create("#customerlist", {
                         columns: [
                             {
                                 title: 'ID',
@@ -39,6 +51,16 @@ rdash.CustomerController = {
                                 data: 'idCard',
                                 width: "6%"
                             },
+                            {
+                                title: 'type',
+                                data: 'type',
+                                width: "6%"
+                            },
+                            {
+                                title: 'csnote',
+                                data: 'csnote',
+                                width: "20%"
+                            },
 
                             {
                                 title: 'operation',
@@ -49,35 +71,25 @@ rdash.CustomerController = {
                         ]
                     }).onDraw(function () {
                         $(".edit").unbind("click").click(function () {
-                            isea.loader.use('layer',function () {
-                                isea.loader.use("modal",function () {
-                                    var modal = isea.modal.create("#imodal",{
-                                        confirm:function () {
-
-                                        }
+                            var row = customerlist.data($(this).closest('tr'));
+                            $.get("/Pgy/Customer/getinfo?id=" + row.id, function (data) {
+                                if (!data) {
+                                    alert('查不到此人信息');
+                                } else {
+                                    isea.loader.use("form", function () {
+                                        isea.form.fill("#customerinfoForm", data.data);
+                                        infoModal.show();
                                     });
-                                    modal.show();
-                                });
+                                }
                             });
                         });
                     });
                     $.get("/Pgy/Customer/index", {}, function (data) {
-                        dtable.load(data.data);
+                        //https://datatables.net/examples/server_side/row_details.html 列详情
+                        customerlist.load(data.data);
                     });
                 });
             });
-        }
-        $scope.saveChange = function () {
-            if ($scope.newpwd != $scope.rpnewpwd) {
-                alert("密码不一致");
-            } else {
-                $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
-                    alert(data.message);
-                    if (data.status) {
-                        location.href = "/Admin/Publics/logout";
-                    }
-                });
-            }
         }
     }
 };

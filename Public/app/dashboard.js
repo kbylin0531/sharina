@@ -78,7 +78,6 @@
     })
 })(window, window.angular);
 
-
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router", "ngCookies"]);
 var apiurl = {
     menu: "/Admin/API/getMenu",
@@ -236,5 +235,17 @@ isea.each(ctrlers, function (ctrlername) {
     rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));
 });
 
-// rdash.controller("MemberController", ["$scope", function ($scope) {
-// }]);
+rdash.controller("MemberController", ["$scope", function ($scope) {
+    $scope.saveChange = function () {
+        if ($scope.newpwd != $scope.rpnewpwd) {
+            alert("密码不一致");
+        } else {
+            $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
+                alert(data.message);
+                if (data.status) {
+                    location.href = "/Admin/Publics/logout";
+                }
+            });
+        }
+    }
+}]);

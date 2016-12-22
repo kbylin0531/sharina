@@ -31,4 +31,13 @@ class Customer
         $this->display();
     }
 
+    public function getinfo($id)
+    {
+        $info = CustomerModel::getInstance()->getinfo($id);
+        Response::ajaxBack([
+            'status' => 1,
+            'data' => $info,
+        ]);
+    }
+
 }
