@@ -15,3 +15,8 @@ chown -R ${USER}.${GROUP} Data/
 # 公共访问的自生成文件
 mkdir Public/dynamic
 chown -R ${USER}.${GROUP} Public/dynamic/
+
+# -----------------------------------
+chown -R apache.apache Runtime/
+chown -R apache.apache Data/
+chown -R apache.apache Public/dynamic/

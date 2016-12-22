@@ -3,32 +3,28 @@
  * Created by linzhonghuang.
  * Github: git@github.com:lichtung/Sharin.git
  * Email: 784855684@qq.com
- * Date: 2016/12/20
- * Time: 15:11
+ * Date: 2016/12/22
+ * Time: 13:14
  */
 
-namespace Web\Admin\Model;
-
+namespace Web\Pgy\Model;
 
 use Sharin\Core\Logger;
-use Sharin\Database\Model;
 
 /**
- * Class MemberModel
- * @method MemberModel getInstance($index = null) static
- * @package Web\Admin\Model
+ * Class CustomerModel
+ *
+ * @method CustomerModel getInstance($index = null) static
+ *
+ * @package Web\Pgy\Model
  */
-class MemberModel extends Model
+class CustomerModel extends PgyModel
 {
     protected function tableName()
     {
-        return 'member';
+        return 'customers';
     }
 
-    /**
-     * 获取客户列表
-     * @return array
-     */
     public function getlist()
     {
         $list = $this->fields('id,name,phone,sex,idCard')->limit(100)->select();
@@ -38,6 +34,4 @@ class MemberModel extends Model
         }
         return $list;
     }
-
-
 }

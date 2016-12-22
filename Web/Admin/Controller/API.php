@@ -37,7 +37,7 @@ class API extends Admin
                     [
                         'title' => 'Member',
                         'icon' => 'user-o',
-                        'path' => '/Admin/Member/index',
+                        'path' => '/Pgy/Customer/index',
                     ],
                 ],
                 'usermenu' => [
