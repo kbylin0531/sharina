@@ -73,10 +73,12 @@ rdash.CustomerController = {
                         $(".edit").unbind("click").click(function () {
                             var row = customerlist.data($(this).closest('tr'));
                             $.get("/Pgy/Customer/getinfo?id=" + row.id, function (data) {
-                                if (!data) {
+                                console.log(data);
+                                if (!data.status) {
                                     alert('查不到此人信息');
                                 } else {
                                     isea.loader.use("form", function () {
+                                        console.log($("#customerinfoForm"), data.data);
                                         isea.form.fill("#customerinfoForm", data.data);
                                         infoModal.show();
                                     });

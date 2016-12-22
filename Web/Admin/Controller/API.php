@@ -24,16 +24,16 @@ class API extends Admin
                         'icon' => 'tachometer',
                         'path' => '/Admin/Index/dashboard',
                     ],
-                    [
-                        'title' => 'Tables',
-                        'icon' => 'table',
-                        'path' => '/Admin/Index/tables',
-                    ],
-                    [
-                        'title' => 'BlogAdd',
-                        'icon' => 'file-word-o',
-                        'path' => '/Admin/Blog/Article/add',
-                    ],
+//                    [
+//                        'title' => 'Tables',
+//                        'icon' => 'table',
+//                        'path' => '/Admin/Index/tables',
+//                    ],
+//                    [
+//                        'title' => 'BlogAdd',
+//                        'icon' => 'file-word-o',
+//                        'path' => '/Admin/Blog/Article/add',
+//                    ],
                     [
                         'title' => 'Member',
                         'icon' => 'user-o',
