@@ -28,7 +28,6 @@ class CustomerModel extends PgyModel
     public function getlist()
     {
         $list = $this->fields('id,name,phone,sex,idCard,type,csnote')
-            ->limit(100)
             ->select();
         if (false === $list) {
             Logger::debug($this->error());

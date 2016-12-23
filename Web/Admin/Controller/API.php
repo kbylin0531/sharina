@@ -35,9 +35,14 @@ class API extends Admin
 //                        'path' => '/Admin/Blog/Article/add',
 //                    ],
                     [
-                        'title' => 'Member',
+                        'title' => 'Customer',
                         'icon' => 'user-o',
                         'path' => '/Pgy/Customer/index',
+                    ],
+                    [
+                        'title' => 'Loan',
+                        'icon' => 'share-square',
+                        'path' => '/Pgy/Customer/loan',
                     ],
                 ],
                 'usermenu' => [
