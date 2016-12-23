@@ -166,17 +166,23 @@ rdash.controller("MasterCtrl", ["$scope", "$cookieStore", function ($scope, $coo
         $scope.username = data.data.username;
     });
 
+    $scope.mastertitle = 'PSR';
     $scope.getWidth = function () {
         return window.innerWidth;
     };
 
     $scope.$watch($scope.getWidth, function (newValue, oldValue) {
-        if (newValue >= mobileView) {
-            if (angular.isDefined($cookieStore.get('toggle'))) {
-                $scope.toggle = !!$cookieStore.get('toggle');
-            } else {
-                $scope.toggle = true;
-            }
+        // if (newValue >= mobileView) {
+        //     if (angular.isDefined($cookieStore.get('toggle'))) {
+        //         $scope.toggle = !!$cookieStore.get('toggle');
+        //     } else {
+        //         $scope.toggle = true;
+        //     }
+        // } else {
+        //     $scope.toggle = false;
+        // }
+        if (angular.isDefined($cookieStore.get('toggle'))) {
+            $scope.toggle = !!$cookieStore.get('toggle');
         } else {
             $scope.toggle = false;
         }

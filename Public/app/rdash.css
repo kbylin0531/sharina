@@ -125,25 +125,30 @@
 }
 
 .row.header .user > .item ul.dropdown-menu {
+    cursor: default;
     border-radius: 2px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
 
 .row.header .user > .item ul.dropdown-menu .dropdown-header {
+    cursor: default;
     text-align: center;
 }
 
 .row.header .user > .item ul.dropdown-menu li.link {
+    cursor: default;
     text-align: left;
 }
 
 .row.header .user > .item ul.dropdown-menu li.link a {
+    cursor: default;
     padding-left: 7px;
     /*padding-right: 7px;*/
 }
 
 .row.header .user > .item ul.dropdown-menu:before {
+    cursor: default;
     position: absolute;
     top: -7px;
     right: 23px;
@@ -154,7 +159,12 @@
     content: '';
 }
 
+.dropdown-toggle{
+    cursor: default;
+}
+
 .row.header .user > .item ul.dropdown-menu:after {
+    cursor: default;
     position: absolute;
     top: -6px;
     right: 24px;
@@ -323,12 +333,12 @@ ul.sidebar .sidebar-main a {
 }
 
 ul.sidebar .sidebar-main a:hover {
-    cursor: pointer;
+    cursor: default;
 }
 
 ul.sidebar .sidebar-main .menu-icon {
     float: right;
-    cursor: pointer;
+    cursor: default;
     font-size: 18px;
     padding-right: 28px;
     line-height: 60px;
@@ -348,6 +358,7 @@ ul.sidebar .sidebar-list {
 }
 
 ul.sidebar .sidebar-list a {
+    cursor: default;
     text-indent: 25px;
     font-size: 15px;
     color: #b2bfdc;
@@ -445,7 +456,7 @@ ul.sidebar .sidebar-list .menu-icon {
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     background: #ffffff;
-    cursor: pointer;
+    cursor: default;
     border: 1px solid transparent;
     border-radius: 2px;
     border-color: #e9e9e9;
