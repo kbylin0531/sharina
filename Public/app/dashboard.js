@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * switch(expression) 中的表达式采取的是严格模式
+ */
 // ngCookie
 (function (window, angular) {
     'use strict';
@@ -85,7 +88,7 @@ var apiurl = {
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler", "CustomerController"];
+var ctrlers = ["ArticleAddCtrler", "PgyRawDataController"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏

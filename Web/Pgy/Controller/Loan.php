@@ -12,6 +12,7 @@ namespace Web\Pgy\Controller;
 
 
 use Sharin\Core\Controller\Render;
+use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Web\Admin\Controller\Admin;
 use Web\Pgy\Model\LoanModel;
@@ -43,4 +44,35 @@ class Loan extends Admin
             'data' => $info,
         ]);
     }
+
+
+    /**
+     * 修改客户信息
+     */
+    public function updateInfo()
+    {
+        if (!empty($_POST['id'])) {
+            $id = $_POST['id'];
+            unset($_POST['id']);
+            $model = LoanModel::getInstance();
+            $rst = $model->update($_POST, ['id' => $id]);
+            if ($rst) {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '修改成功',
+                ]);
+            } else {
+                Logger::error([$_POST, $id, $model->error()]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '系统出错',
+                ]);
+            }
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '填写的信息不完整',
+        ]);
+    }
+
 }

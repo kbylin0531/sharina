@@ -45,7 +45,7 @@ class Customer extends Admin
     /**
      * 修改客户信息
      */
-    public function updateCustomerInfo()
+    public function updateInfo()
     {
         if (!empty($_POST['id'])) {
             $id = $_POST['id'];

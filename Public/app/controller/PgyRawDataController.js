@@ -1,7 +1,12 @@
 /**
  * Created by linzh on 2016/12/22.
  */
-rdash.CustomerController = {
+/**
+ * 蒲公英原始數據管理控制器
+ * 各個頁面的數據對應一張數據表，如果有需要關聯的字段，需要在修改操作中將其餘字段unset,否則修改操作一定會失敗
+ * @type object
+ */
+rdash.PgyRawDataController = {
     lOptions: {
         config: {
             columns: [
@@ -43,18 +48,19 @@ rdash.CustomerController = {
                 {
                     title: 'status',
                     data: function (row) {
-                        switch (row.status) {
+                        switch (parseInt(row.status)) {
                             case 0:
                                 return "未还款";
                                 break;
                             case 1:
-                                return "";//已还款
+                                return "已还款";
                                 break;
                             case 2:
                                 return "有逾期";
                                 break;
+                            default:
+                                return "";
                         }
-                        return "";
                     },
                     width: "6%"
                 },
@@ -142,7 +148,10 @@ rdash.CustomerController = {
     iTable: null,
     //客户数据和借款数据
     iData: {},
-    run: function ($scope) {
+
+
+    currentRow: null,
+    run: function () {
         var env = this;
 
         var iTable = $("#iTable");
@@ -152,6 +161,19 @@ rdash.CustomerController = {
             //页面类型：customer|loan
             function getType() {
                 return $("#iTable").attr("data-type");
+            }
+
+            function getDataSourceURL() {
+                switch (getType()) {
+                    case "customer":
+                        return "/Pgy/Customer/index";
+                        break;
+                    case "loan":
+                        return "/Pgy/Loan/index";
+                        break;
+                    default:
+                        throw "undefined type";
+                }
             }
 
             //请求表单数据
@@ -181,11 +203,26 @@ rdash.CustomerController = {
                 }
             }
 
+            /**
+             * 刷新列表数据
+             * @param force bool 是否强制刷新，默认是undefined即false
+             */
+            function refreshTableData(force) {
+                var type = getType();
+                if (force || !(type in env.iData)) {
+                    $.get(getDataSourceURL(), function (data) {
+                        env.iTable.load(env.iData[type] = data.data);
+                    });
+                } else {
+                    env.iTable.load(env.iData[type]);
+                }
+            }
+
             //请求cutomer信息
             var requestInfo = function (id) {
                 $.get(getFromInfoURL(id), function (data) {
                     if (!data.status) {
-                        alert('查不到此人信息');
+                        alert('查詢失敗');
                     } else {
                         isea.loader.use("form", function () {
                             var selector;
@@ -215,9 +252,15 @@ rdash.CustomerController = {
                         env.cModal = isea.modal.create("#customerModal", {
                             width: 1024,//宽度固定为1024px
                             confirm: function () {
-                                $.post("/Pgy/Customer/updateCustomerInfo", $("#customerForm").serialize(), function (data) {
+                                var data = $("#customerForm").serialize();
+                                console.log(data, isea.client.parse(data));
+                                var newdata = isea.client.parse(data);
+                                $.post("/Pgy/Customer/updateInfo", data, function (data) {
                                     alert(data.message);
-                                    data.status && env.cModal.hide();
+                                    if (data.status) {
+                                        env.currentRow && env.iTable.update(newdata, env.currentRow);
+                                        env.cModal.hide();
+                                    }
                                 });
                             }
                         });
@@ -226,9 +269,15 @@ rdash.CustomerController = {
                         env.jModal = isea.modal.create("#loanModal", {
                             width: 1024,//宽度固定为1024px
                             confirm: function () {
-                                $.post("/Pgy/Customer/updateLoanInfo", $("#loanForm").serialize(), function (data) {
+                                var data = $("#loanForm").serialize();
+                                console.log(data, isea.client.parse(data));
+                                var newdata = isea.client.parse(data);
+                                $.post("/Pgy/Loan/updateInfo", data, function (data) {
                                     alert(data.message);
-                                    data.status && env.cModal.hide();
+                                    if (data.status) {
+                                        env.currentRow && env.iTable.update(newdata, env.currentRow);
+                                        env.jModal.hide();
+                                    }
                                 });
                             }
                         });
@@ -242,37 +291,29 @@ rdash.CustomerController = {
                         isea.loader.use('jqcontextmenu', function () {
                             isea.jqcontextmenu.solve(function () {
                                 isea.jqcontextmenu.create('#iTable tr', {
-                                    edit: {name: "edit", icon: "edit"}
-                                }, function (key) {
-                                    //时间绑定在tr上，所有target就是row
-                                    var row = env.iTable.data($(this));
+                                    /* 右键编辑列 */
+                                    edit: {name: "edit", icon: "edit"},
+                                    /* 分隔符號 */
+                                    sep1: "---------",
+                                    /* 右键刷新列表 */
+                                    refresh: {name: "refresh", icon: "fa-refresh"}
+                                }, function (key) {/* 事件绑定在tr上，所有target就是row */
                                     switch (key) {
                                         case "edit":
                                             //customer和loan暂时没有区分
+                                            var row = env.iTable.data(env.currentRow = $(this));
                                             row.id && requestInfo(row.id);
                                             break;
-
+                                        case "refresh":
+                                            //刷新列表数据
+                                            refreshTableData(true);
+                                            break;
                                     }
                                 });
                             });
                         });
                     });
-                    if (!(getType() in env.iData)) {
-                        var url;
-                        switch (getType()) {
-                            case "customer":
-                                url = "/Pgy/Customer/index";
-                                break;
-                            case "loan":
-                                url = "/Pgy/Loan/index";
-                                break;
-                        }
-                        url && $.get(url, function (data) {
-                            env.iTable.load(env.iData[getType()] = data.data);
-                        });
-                    } else {
-                        env.iTable.load(env.iData[getType()]);
-                    }
+                    refreshTableData(false);
                 });
             });
         }
