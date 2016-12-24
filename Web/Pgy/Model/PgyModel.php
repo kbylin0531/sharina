@@ -10,6 +10,7 @@
 namespace Web\Pgy\Model;
 
 
+use Sharin\Core\Logger;
 use Sharin\Database\Model;
 
 abstract class PgyModel extends Model
@@ -25,4 +26,16 @@ abstract class PgyModel extends Model
         return '';
     }
 
+    public function getinfo($id)
+    {
+        $info = $this->where(['id' => $id])->find();
+        if (false === $info) {
+            Logger::debug([$info, $id]);
+        } elseif (empty($info)) {
+            //查不到此人信息
+        } else {
+            return $info;
+        }
+        return false;
+    }
 }

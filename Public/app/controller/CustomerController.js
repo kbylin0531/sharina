@@ -2,9 +2,7 @@
  * Created by linzh on 2016/12/22.
  */
 rdash.CustomerController = {
-    loanlist: null,
-    loadCache: null,
-    loanTableOpts: {
+    lOptions: {
         config: {
             columns: [
                 {
@@ -86,8 +84,7 @@ rdash.CustomerController = {
             ]
         }
     },
-    customerCache: null,
-    customerTableOpts: {
+    cOption: {
         config: {
             columns: [
                 {
@@ -137,105 +134,144 @@ rdash.CustomerController = {
         }
     },
 
+    //客户modal和借款modal
+    cModal: null,
+    jModal: null,
 
-    type: null,//表示这个页面哪个页面
-    iModal: null,
+    //当前的表格
     iTable: null,
+    //客户数据和借款数据
     iData: {},
     run: function ($scope) {
         var env = this;
 
         var iTable = $("#iTable");
+
         if (iTable.length) {
+
             //页面类型：customer|loan
-            env.type = iTable.attr("data-type");
+            function getType() {
+                return $("#iTable").attr("data-type");
+            }
+
+            //请求表单数据
+            function getFromInfoURL(id) {
+                switch (getType()) {
+                    case "customer":
+                        return "/Pgy/Customer/getinfo?id=" + id;
+                        break;
+                    case "loan":
+                        return "/Pgy/Loan/getinfo?id=" + id;
+                        break;
+                    default:
+                        throw "undefined type";
+                }
+            }
+
+            function getTableOptions() {
+                switch (getType()) {
+                    case "customer":
+                        return env.cOption;
+                        break;
+                    case "loan":
+                        return env.lOptions;
+                        break;
+                    default:
+                        throw "undefined type";
+                }
+            }
 
             //请求cutomer信息
             var requestInfo = function (id) {
-                $.get("/Pgy/Customer/getinfo?id=" + id, function (data) {
-                    console.log(data);
+                $.get(getFromInfoURL(id), function (data) {
                     if (!data.status) {
                         alert('查不到此人信息');
                     } else {
                         isea.loader.use("form", function () {
-                            isea.form.fill("#iForm", data.data);
-                            env.iModal.show();
+                            var selector;
+                            var modal;
+                            switch (getType()) {
+                                case "customer":
+                                    selector = "#customerForm";
+                                    modal = env.cModal;
+                                    break;
+                                case "loan":
+                                    selector = "#loanForm";
+                                    modal = env.jModal;
+                                    break;
+                                default:
+                                    throw "undefined type";
+                            }
+                            isea.form.fill(selector, data.data);
+                            modal.show();
                         });
                     }
                 });
             };
 
             isea.loader.use("modal", function () {
-                env.iModal = isea.modal.create("#iModal", {
-                    width: 1024,//宽度固定为1024px
-                    confirm: function () {
-                        var url;
-                        switch (env.type) {
-                            case "customer":
-                                url = "/Pgy/Customer/updateCustomerInfo";
-                                break;
-                            case "":
-                                url = "/Pgy/Customer/updateLoanInfo";
-                                break;
-                        }
-                        url && $.post(url, $("#iForm").serialize(), function (data) {
-                            alert(data.message);
-                            if (data.status) {
-                                env.iModal.hide();
+                switch (getType()) {
+                    case "customer":
+                        env.cModal = isea.modal.create("#customerModal", {
+                            width: 1024,//宽度固定为1024px
+                            confirm: function () {
+                                $.post("/Pgy/Customer/updateCustomerInfo", $("#customerForm").serialize(), function (data) {
+                                    alert(data.message);
+                                    data.status && env.cModal.hide();
+                                });
                             }
                         });
-                    }
-                });
+                        break;
+                    case "loan":
+                        env.jModal = isea.modal.create("#loanModal", {
+                            width: 1024,//宽度固定为1024px
+                            confirm: function () {
+                                $.post("/Pgy/Customer/updateLoanInfo", $("#loanForm").serialize(), function (data) {
+                                    alert(data.message);
+                                    data.status && env.cModal.hide();
+                                });
+                            }
+                        });
+                        break;
+                    default:
+                        throw "undefined type";
+                }
             }).use('datatables', function () {
                 isea.datatables.solveDependence(function () {
-                    var opts;
-                    switch (env.type) {
-                        case "customer":
-                            opts = env.customerTableOpts;
-                            break;
-                        case "loan":
-                            opts = env.loanTableOpts;
-                            break;
-                    }
-                    if (opts) env.iTable = isea.datatables.create("#iTable", opts).onDraw(
-                        function () {
-                            isea.loader.use('jqcontextmenu', function () {
-                                isea.jqcontextmenu.solve(function () {
-                                    isea.jqcontextmenu.create('#iTable tr', {
-                                        edit: {name: "edit", icon: "edit"}
-                                    }, function (key) {
-                                        //时间绑定在tr上，所有target就是row
-                                        var row = env.iTable.data($(this));
-                                        switch (env.type) {
-                                            case "customer":
-                                                switch (key) {
-                                                    case "edit":
-                                                        row.id && requestInfo(row.id);
-                                                        break;
-                                                }
-                                                break;
+                    env.iTable = isea.datatables.create("#iTable", getTableOptions()).onDraw(function () {
+                        isea.loader.use('jqcontextmenu', function () {
+                            isea.jqcontextmenu.solve(function () {
+                                isea.jqcontextmenu.create('#iTable tr', {
+                                    edit: {name: "edit", icon: "edit"}
+                                }, function (key) {
+                                    //时间绑定在tr上，所有target就是row
+                                    var row = env.iTable.data($(this));
+                                    switch (key) {
+                                        case "edit":
+                                            //customer和loan暂时没有区分
+                                            row.id && requestInfo(row.id);
+                                            break;
 
-                                        }
-                                    });
+                                    }
                                 });
                             });
                         });
-
-                    if (!(env.type in env.iData)) {
+                    });
+                    if (!(getType() in env.iData)) {
                         var url;
-                        switch (env.type) {
+                        switch (getType()) {
                             case "customer":
                                 url = "/Pgy/Customer/index";
                                 break;
                             case "loan":
-                                url = "/Pgy/Customer/loan";
+                                url = "/Pgy/Loan/index";
                                 break;
                         }
                         url && $.get(url, function (data) {
-                            env.iTable.load(env.iData[env.type] = data.data);
+                            env.iTable.load(env.iData[getType()] = data.data);
                         });
                     } else {
-                        env.iTable.load(env.iData[env.type]);
+                        env.iTable.load(env.iData[getType()]);
                     }
                 });
             });

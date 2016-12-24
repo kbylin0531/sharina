@@ -42,7 +42,7 @@ class API extends Admin
                     [
                         'title' => 'Loan',
                         'icon' => 'share-square',
-                        'path' => '/Pgy/Customer/loan',
+                        'path' => '/Pgy/Loan/index',
                     ],
                 ],
                 'usermenu' => [

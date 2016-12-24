@@ -36,17 +36,4 @@ class CustomerModel extends PgyModel
         return $list;
     }
 
-    public function getinfo($id)
-    {
-        $info = $this->where(['id' => $id])->find();
-        if (false === $info) {
-            Logger::debug([$info, $id]);
-        } elseif (empty($info)) {
-            //查不到此人信息
-        } else {
-            return $info;
-        }
-        return false;
-    }
-
 }

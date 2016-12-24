@@ -9,13 +9,11 @@
 
 namespace Web\Pgy\Controller;
 
-
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Web\Admin\Controller\Admin;
 use Web\Pgy\Model\CustomerModel;
-use Web\Pgy\Model\LoanModel;
 
 class Customer extends Admin
 {
@@ -33,19 +31,6 @@ class Customer extends Admin
         }
         $this->display();
     }
-
-    public function loan()
-    {
-        if (SR_IS_AJAX) {
-            $list = LoanModel::getInstance()->getlist();
-            Response::ajaxBack([
-                'status' => 1,
-                'data' => $list,
-            ]);
-        }
-        $this->display();
-    }
-
 
     //-----------------------AJAX---------------
     public function getinfo($id)
