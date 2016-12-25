@@ -6,6 +6,10 @@
  * Date: 2016/12/20
  * Time: 21:11
  */
+const MY_MARIA_ADDR = '121.42.60.123';
+const MY_MARIA_USER = 'lin';
+const MY_MARIA_PASSWD = 'asusen';
+const MY_MARIA_PORT = 3306;
 return [
     DRIVER_DEFAULT_INDEX => 'sharin',
     DRIVER_CLASS_LIST => [
@@ -26,7 +30,7 @@ return [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,//结果集返回形式
             ],
         ],
-        'pgyxwd' =>  [
+        'pgyxwd' => [
             DAO_DBNAME => 'pgyxwd',//选择的数据库
             DAO_USERNAME => 'lin',
             DAO_PASSWORD => 'asusen',

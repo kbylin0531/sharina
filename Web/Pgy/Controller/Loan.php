@@ -29,6 +29,7 @@ class Loan extends Admin
             Response::ajaxBack([
                 'status' => 1,
                 'data' => $list,
+                'type'  => 'loan',//標注數據類型
             ]);
         }
         $this->display();

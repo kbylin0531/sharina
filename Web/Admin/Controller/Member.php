@@ -62,5 +62,16 @@ class Member extends Admin
         $this->display();
     }
 
+    public function profile()
+    {
+        $this->display();
+    }
+
+
+    public function register()
+    {
+        $this->display();
+    }
+
 
 }

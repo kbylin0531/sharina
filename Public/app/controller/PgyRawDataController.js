@@ -1,6 +1,7 @@
 /**
  * Created by linzh on 2016/12/22.
  */
+
 /**
  * 蒲公英原始數據管理控制器
  * 各個頁面的數據對應一張數據表，如果有需要關聯的字段，需要在修改操作中將其餘字段unset,否則修改操作一定會失敗
@@ -68,17 +69,18 @@ rdash.PgyRawDataController = {
                     title: 'category',
                     data: function (row) {
                         switch (row.category) {
-                            case 0:
+                            case "0":
                                 return "首借";//1为2为
                                 break;
-                            case 1:
+                            case "1":
                                 return "延期";
                                 break;
-                            case 2:
+                            case "2":
                                 return "续借";
                                 break;
+                            default:
+                                return "";
                         }
-                        return "";
                     },
                     width: "6%"
                 },
@@ -202,16 +204,22 @@ rdash.PgyRawDataController = {
                         throw "undefined type";
                 }
             }
-
             /**
              * 刷新列表数据
              * @param force bool 是否强制刷新，默认是undefined即false
              */
             function refreshTableData(force) {
                 var type = getType();
-                if (force || !(type in env.iData)) {
+                if (force || !(type in env.iData) || !env.iData[type]) {
+                    isea.loading.show();
                     $.get(getDataSourceURL(), function (data) {
-                        env.iTable.load(env.iData[type] = data.data);
+                        isea.loading.hide();
+                        var type = getType();
+                        //當請求上一個頁面的數據抵達時頁面切換到下一個，不將數據加載到當前的iTable中
+                        if (type == data.type) {
+                            env.iData[type] = data.data;
+                            env.iTable.load(env.iData[type]);
+                        }
                     });
                 } else {
                     env.iTable.load(env.iData[type]);
@@ -226,65 +234,67 @@ rdash.PgyRawDataController = {
                     } else {
                         isea.loader.use("form", function () {
                             var selector;
-                            var modal;
                             switch (getType()) {
                                 case "customer":
                                     selector = "#customerForm";
-                                    modal = env.cModal;
+                                    env.cModal.show();
                                     break;
                                 case "loan":
                                     selector = "#loanForm";
-                                    modal = env.jModal;
+                                    env.jModal.show();
                                     break;
                                 default:
                                     throw "undefined type";
                             }
                             isea.form.fill(selector, data.data);
-                            modal.show();
                         });
                     }
                 });
             };
 
             isea.loader.use("modal", function () {
-                switch (getType()) {
-                    case "customer":
-                        env.cModal = isea.modal.create("#customerModal", {
-                            width: 1024,//宽度固定为1024px
-                            confirm: function () {
-                                var data = $("#customerForm").serialize();
-                                console.log(data, isea.client.parse(data));
-                                var newdata = isea.client.parse(data);
-                                $.post("/Pgy/Customer/updateInfo", data, function (data) {
-                                    alert(data.message);
-                                    if (data.status) {
-                                        env.currentRow && env.iTable.update(newdata, env.currentRow);
-                                        env.cModal.hide();
-                                    }
-                                });
-                            }
-                        });
-                        break;
-                    case "loan":
-                        env.jModal = isea.modal.create("#loanModal", {
-                            width: 1024,//宽度固定为1024px
-                            confirm: function () {
-                                var data = $("#loanForm").serialize();
-                                console.log(data, isea.client.parse(data));
-                                var newdata = isea.client.parse(data);
-                                $.post("/Pgy/Loan/updateInfo", data, function (data) {
-                                    alert(data.message);
-                                    if (data.status) {
-                                        env.currentRow && env.iTable.update(newdata, env.currentRow);
-                                        env.jModal.hide();
-                                    }
-                                });
-                            }
-                        });
-                        break;
-                    default:
-                        throw "undefined type";
-                }
+                isea.modal.solve(function () {
+                    switch (getType()) {
+                        case "customer":
+                            env.cModal = isea.modal.create("#customerModal", {
+                                width: 1024,//宽度固定为1024px
+                                confirm: function () {
+                                    var data = $("#customerForm").serialize();
+                                    var newdata = isea.client.parse(data);
+                                    console.log(data, newdata);
+                                    $.post("/Pgy/Customer/updateInfo", data, function (data) {
+                                        if (data.status) {
+                                            env.currentRow && env.iTable.update(newdata, env.currentRow);
+                                            env.cModal.hide();
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    });
+                                }
+                            });
+                            break;
+                        case "loan":
+                            env.jModal = isea.modal.create("#loanModal", {
+                                width: 1024,//宽度固定为1024px
+                                confirm: function () {
+                                    var data = $("#loanForm").serialize();
+                                    var newdata = isea.client.parse(data);
+                                    console.log(data, newdata);
+                                    $.post("/Pgy/Loan/updateInfo", data, function (data) {
+                                        if (data.status) {
+                                            env.currentRow && env.iTable.update(newdata, env.currentRow);
+                                            env.jModal.hide();
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    });
+                                }
+                            });
+                            break;
+                        default:
+                            throw "undefined type";
+                    }
+                });
             }).use('datatables', function () {
                 isea.datatables.solveDependence(function () {
                     env.iTable = isea.datatables.create("#iTable", getTableOptions()).onDraw(function () {
@@ -297,7 +307,8 @@ rdash.PgyRawDataController = {
                                     sep1: "---------",
                                     /* 右键刷新列表 */
                                     refresh: {name: "refresh", icon: "fa-refresh"}
-                                }, function (key) {/* 事件绑定在tr上，所有target就是row */
+                                }, function (key) {
+                                    /* 事件绑定在tr上，所有target就是row */
                                     switch (key) {
                                         case "edit":
                                             //customer和loan暂时没有区分

@@ -27,6 +27,7 @@ class Customer extends Admin
             Response::ajaxBack([
                 'status' => 1,
                 'data' => $list,
+                'type'  => 'customer',
             ]);
         }
         $this->display();
