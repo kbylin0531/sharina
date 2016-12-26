@@ -27,26 +27,13 @@ class CustomerModel extends PgyModel
 
     public function getlist()
     {
-        $list = $this->fields('id,name,phone,sex,idCard,type,csnote')
+        $list = $this->fields('id,name,phone,sex,idCard,type,csnote')//->limit(100)
             ->select();
         if (false === $list) {
             Logger::debug($this->error());
             $list = [];
         }
         return $list;
-    }
-
-    public function getinfo($id)
-    {
-        $info = $this->where(['id' => $id])->find();
-        if (false === $info) {
-            Logger::debug([$info, $id]);
-        } elseif (empty($info)) {
-            //查不到此人信息
-        } else {
-            return $info;
-        }
-        return false;
     }
 
 }

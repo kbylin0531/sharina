@@ -13,13 +13,14 @@ return [
         '/app/rdash.css',
     ],
     'scripts' => [
+        '/isea/index.js',
         //angular material
         'http://cdn.bootcss.com/angular.js/1.5.9/angular.min.js',
         'http://cdn.bootcss.com/angular-ui-bootstrap/1.0.3/ui-bootstrap-tpls.min.js',
         'http://cdn.bootcss.com/angular-ui-router/0.3.2/angular-ui-router.min.js',
         'http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js',
         'http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js',
-        '/isea/index.js',
+        //application
         '/app/dashboard.js',
     ],
 ];

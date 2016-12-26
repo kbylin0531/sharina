@@ -30,7 +30,7 @@ class LoanModel extends PgyModel
 
     public function getlist()
     {
-        $list = $this->fields(' * ')
+        $list = $this->fields(' * ')//->limit(100)
             ->select();
         if (false === $list) {
             Logger::debug($this->error());

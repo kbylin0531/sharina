@@ -1,21 +1,23 @@
 <?php
 /**
  * Created by linzhonghuang.
- * Github: git@github.com:lichtung/Sharin.git
+ * Github: git@github.com:lichtung/Sharina.git
  * Email: 784855684@qq.com
- * Date: 2016/12/22
- * Time: 13:12
+ * User: asus
+ * Date: 12/24/16
+ * Time: 9:25 PM
  */
 
 namespace Web\Pgy\Controller;
+
 
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Web\Admin\Controller\Admin;
-use Web\Pgy\Model\CustomerModel;
+use Web\Pgy\Model\LoanModel;
 
-class Customer extends Admin
+class Loan extends Admin
 {
 
     use Render;
@@ -23,25 +25,27 @@ class Customer extends Admin
     public function index()
     {
         if (SR_IS_AJAX) {
-            $list = CustomerModel::getInstance()->getlist();
+            $list = LoanModel::getInstance()->getlist();
             Response::ajaxBack([
                 'status' => 1,
                 'data' => $list,
-                'type'  => 'customer',
+                'type'  => 'loan',//標注數據類型
             ]);
         }
         $this->display();
     }
 
+
     //-----------------------AJAX---------------
     public function getinfo($id)
     {
-        $info = CustomerModel::getInstance()->getinfo($id);
+        $info = LoanModel::getInstance()->getinfo($id);
         Response::ajaxBack([
             'status' => 1,
             'data' => $info,
         ]);
     }
+
 
     /**
      * 修改客户信息
@@ -51,7 +55,7 @@ class Customer extends Admin
         if (!empty($_POST['id'])) {
             $id = $_POST['id'];
             unset($_POST['id']);
-            $model = CustomerModel::getInstance();
+            $model = LoanModel::getInstance();
             $rst = $model->update($_POST, ['id' => $id]);
             if ($rst) {
                 Response::ajaxBack([
