@@ -6,19 +6,14 @@
  * Time: 21:52
  */
 
-namespace Sharin\Addon\Auth\Implementation;
-use Sharin\Database\Model;
+namespace Web\RBCA;
 
 /**
  * Class RBCA0 RBCA0
  * @package Sharin\Addon\Auth\Implementation
  */
-class RBCA0 extends Model
+class RBCA0
 {
-    protected function tableName()
-    {
-        return '';
-    }
 
 //--------------------------------------- Insert --------------------------------------------------------------
     /**
@@ -67,7 +62,9 @@ class RBCA0 extends Model
 
 //--------------------------------------- Select --------------------------------------------------------------
 
-    public function getRoles(){}
+    public function getRoles()
+    {
+    }
 
 
     /**
