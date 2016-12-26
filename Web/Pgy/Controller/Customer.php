@@ -52,6 +52,9 @@ class Customer extends Admin
             $id = $_POST['id'];
             unset($_POST['id']);
             $model = CustomerModel::getInstance();
+            foreach ($_POST as $k=>$v){
+                if(empty($v)) unset($_POST[$k]);
+            }
             $rst = $model->update($_POST, ['id' => $id]);
             if ($rst) {
                 Response::ajaxBack([
