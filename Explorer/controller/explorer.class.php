@@ -368,10 +368,6 @@ class explorer extends Controller
     {
         \Sharin\Core\Session::begin();//re start
         $copy_list = json_decode($this->in['list'], true);
-        $list_num = count($copy_list);
-        for ($i = 0; $i < $list_num; $i++) {
-            $copy_list[$i]['path'] = $copy_list[$i]['path'];
-        }
         $_SESSION['path_copy'] = json_encode($copy_list);
         $_SESSION['path_copy_type'] = 'copy';
         show_json($this->L['copy_success']);
@@ -381,10 +377,6 @@ class explorer extends Controller
     {
         \Sharin\Core\Session::begin();//re start
         $cute_list = json_decode($this->in['list'], true);
-        $list_num = count($cute_list);
-        for ($i = 0; $i < $list_num; $i++) {
-            $cute_list[$i]['path'] = $cute_list[$i]['path'];
-        }
         $_SESSION['path_copy'] = json_encode($cute_list);
         $_SESSION['path_copy_type'] = 'cute';
         show_json($this->L['cute_success']);

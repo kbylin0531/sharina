@@ -55,6 +55,10 @@ class Loan extends Admin
         if (!empty($_POST['id'])) {
             $id = $_POST['id'];
             unset($_POST['id']);
+            foreach ($_POST as $k=>$v){
+                if(empty($v)) unset($_POST[$k]);
+                if($v == 'null') unset($_POST[$k]);
+            }
             $model = LoanModel::getInstance();
             $rst = $model->update($_POST, ['id' => $id]);
             if ($rst) {

@@ -15,7 +15,7 @@ class LogViewer
 
     public function getlist(){
         $dir = SR_PATH_RUNTIME.'Log/';
-        $list = Storage::readdir($dir);
+        $list = Storage::readdir($dir,true);
         \Sharin\dumpout($list);
     }
 
