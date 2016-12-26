@@ -204,6 +204,7 @@ rdash.PgyRawDataController = {
                         throw "undefined type";
                 }
             }
+
             /**
              * 刷新列表数据
              * @param force bool 是否强制刷新，默认是undefined即false
@@ -230,7 +231,11 @@ rdash.PgyRawDataController = {
             var requestInfo = function (id) {
                 $.get(getFromInfoURL(id), function (data) {
                     if (!data.status) {
-                        alert('查詢失敗');
+                        if (data.message && ("_NO_LOGIN_" === data.message)) {
+                            location.href = '/Admin/Publics/login';
+                        } else {
+                            alert('查询失败');
+                        }
                     } else {
                         isea.loader.use("form", function () {
                             var selector;

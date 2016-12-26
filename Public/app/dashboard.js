@@ -4,9 +4,10 @@
  */
 // ngCookie
 var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router"]);
-var apiurl = {
+rdash.url = {
     menu: "/Admin/API/getMenu",
     info: "/Admin/API/getInfo"
+
 };
 var controllerPath = "/app/controller/";
 //控制器列表
@@ -21,7 +22,7 @@ var mobileView = 768;
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
 
-    $.get(apiurl.menu, function (data) {
+    $.get(rdash.url.menu, function (data) {
         data = data.data;
         var first = '';
         var sidebar = $("ul.sidebar");
@@ -62,7 +63,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             var dropdownmenu = $("#dropdown-menu");
             //路由菜单
             if ("route" in data["usermenu"]) isea.each(data["usermenu"]["route"], function (item) {
-                dropdownmenu.append('<li class="link"><a href="#' + item.path + '">' + item.title + '</a></li>');
+                dropdownmenu.append(isea.dom.create('li.link',{},'<a href="#' + item.path + '">' + item.title + '</a>'));
                 stateProvider.state(item.path, {
                     url: item.path,
                     templateUrl: item.path
@@ -86,7 +87,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", function ($scope) {
     //user info and menu
-    $.get(apiurl.info, function (data) {
+    $.get(rdash.url.info, function (data) {
         $scope.profile = data.data.profile;
         $scope.username = data.data.username;
     });
