@@ -428,6 +428,10 @@
     document.login.username.attributes.value = '';
     document.login.password.attributes.value = '';
 
+    if ((BROWSER.type == "ie") && (BROWSER.version < 10)) {
+        alert('你的浏览器版本过低');
+    }
+
     isea.ready(function () {
         isea.loader.use('encrypt', function () {
             document.body.querySelector(".floating-btn").onclick = function () {

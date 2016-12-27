@@ -17,7 +17,6 @@ var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "
  * 小于这个值将视为移动设备而收起侧边栏
  */
 var mobileView = 768;
-
 //-------------------------------------- ROUTE -------------------------------------------------------------
 rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, urlRouterProvider) {
     urlRouterProvider.otherwise("/");
@@ -63,7 +62,7 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             var dropdownmenu = $("#dropdown-menu");
             //路由菜单
             if ("route" in data["usermenu"]) isea.each(data["usermenu"]["route"], function (item) {
-                dropdownmenu.append(isea.dom.create('li.link',{},'<a href="#' + item.path + '">' + item.title + '</a>'));
+                dropdownmenu.append(isea.dom.create('li.link', {}, '<a href="#' + item.path + '">' + item.title + '</a>'));
                 stateProvider.state(item.path, {
                     url: item.path,
                     templateUrl: item.path
