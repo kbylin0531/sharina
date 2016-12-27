@@ -11,12 +11,8 @@
 namespace Web\Admin\Controller;
 
 
-use Sharin\Core\Controller\Render;
-
 class Auth extends Admin
 {
-    use Render;
-
     public function index()
     {
         $this->display();

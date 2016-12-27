@@ -85,6 +85,9 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
 }]);
 
 //-------------------------------------- CONTROLLER -------------------------------------------------------------
+//--  如果元素在控制器scope範圍以內被刪除，將會出現angularjs內部監聽的錯誤（雖然不會對實際的JS和DOM造成影響）
+//--  解決的辦法可以是將不想讓angularjs控制的代碼放到控制器scope以外的區域
+//---------------------------------------------------------------------------------------------------------------
 rdash.controller("MasterCtrl", ["$scope", function ($scope) {
     //user info and menu
     $.get(rdash.url.info, function (data) {
@@ -103,8 +106,7 @@ rdash.controller("MasterCtrl", ["$scope", function ($scope) {
     });
 
     $scope.toggleSidebar = function () {
-        $scope.toggle = !$scope.toggle;
-        isea.cookie.set('toggle', $scope.toggle, 0);
+        isea.cookie.set('toggle', $scope.toggle = !$scope.toggle, 0);
     };
 
     window.onresize = function () {

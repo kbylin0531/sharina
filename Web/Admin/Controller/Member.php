@@ -17,7 +17,6 @@ use Web\System\Exceptions\PasswordGetFailedException;
 
 class Member extends Admin
 {
-    use Render;
 
     public function index()
     {

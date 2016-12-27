@@ -10,6 +10,7 @@
 namespace Web\Admin\Controller;
 
 use Sharin\Core\Controller\Redirect;
+use Sharin\Core\Controller\Render;
 use Sharin\Core\Response;
 use Web\System\Sign\Sign;
 use Web\System\Sign\SignModel;
@@ -18,6 +19,10 @@ class Admin
 {
 
     use Redirect;
+    /**
+     * 繼承者們無需use Render，否則會報錯“Fatal error: Cannot override final method ”
+     */
+    use Render;
     /**
      * @var Sign
      */
@@ -36,5 +41,10 @@ class Admin
                 $this->redirect('Admin/Publics/login');
             }
         }
+    }
+
+    public function empty($action)
+    {
+        $this->display($action);
     }
 }
