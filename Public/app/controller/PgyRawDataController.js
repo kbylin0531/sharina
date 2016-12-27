@@ -164,9 +164,9 @@ rdash.PgyRawDataController = {
 
     currentRow: null,
     run: function () {
-        isea.notify.solve(function (env) {
-            env.show("当前处于测试环境");
-        });
+        // isea.notify.solve(function (env) {
+        //     env.show("当前处于测试环境");
+        // });
 
         var env = this;
 
