@@ -10,6 +10,7 @@ const MY_MARIA_ADDR = '121.42.60.123';
 const MY_MARIA_USER = 'lin';
 const MY_MARIA_PASSWD = 'asusen';
 const MY_MARIA_PORT = 3306;
+
 return [
     DRIVER_DEFAULT_INDEX => 'sharin',
     DRIVER_CLASS_LIST => [
@@ -20,10 +21,10 @@ return [
     DRIVER_CONFIG_LIST => [
         'sharin' => [
             DAO_DBNAME => 'sharin',//选择的数据库
-            DAO_USERNAME => 'lin',
-            DAO_PASSWORD => 'asusen',
-            DAO_HOST => '121.42.60.123',
-            DAO_PORT => '3306',
+            DAO_USERNAME => MY_MARIA_USER,
+            DAO_PASSWORD => MY_MARIA_PASSWD,
+            DAO_HOST => MY_MARIA_ADDR,
+            DAO_PORT => MY_MARIA_PORT,
             DAO_CHARSET => 'UTF8',
             DAO_DSN => null,//默认先检查差DSN是否正确,直接写dsn而不设置其他的参数可以提高效率，也可以避免潜在的bug
             DAO_OPTIONS => [
@@ -33,10 +34,14 @@ return [
         ],
         'pgyxwd' => [
             DAO_DBNAME => 'pgyxwd',//选择的数据库
-            DAO_USERNAME => 'lin',
-            DAO_PASSWORD => 'pgyxwd8888',
-            DAO_HOST => '120.55.163.154',
-            DAO_PORT => '10010',
+            DAO_USERNAME => MY_MARIA_USER,
+            DAO_PASSWORD => MY_MARIA_PASSWD,
+            DAO_HOST => MY_MARIA_ADDR,
+            DAO_PORT => MY_MARIA_PORT,
+//            DAO_USERNAME => 'lin',
+//            DAO_PASSWORD => 'pgyxwd8888',
+//            DAO_HOST => '120.55.163.154',
+//            DAO_PORT => '10010',
             DAO_CHARSET => 'UTF8',
             DAO_DSN => null,//默认先检查差DSN是否正确,直接写dsn而不设置其他的参数可以提高效率，也可以避免潜在的bug
             DAO_OPTIONS => [

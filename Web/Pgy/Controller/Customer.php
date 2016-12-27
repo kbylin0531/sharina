@@ -18,8 +18,6 @@ use Web\Pgy\Model\CustomerModel;
 class Customer extends Admin
 {
 
-    use Render;
-
     public function index()
     {
         if (SR_IS_AJAX) {

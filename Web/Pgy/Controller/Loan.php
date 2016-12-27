@@ -20,8 +20,6 @@ use Web\Pgy\Model\LoanModel;
 class Loan extends Admin
 {
 
-    use Render;
-
     public function index()
     {
         if (SR_IS_AJAX) {
@@ -29,7 +27,7 @@ class Loan extends Admin
             Response::ajaxBack([
                 'status' => 1,
                 'data' => $list,
-                'type'  => 'loan',//標注數據類型
+                'type' => 'loan',//標注數據類型
             ]);
         }
         $this->display();
@@ -46,7 +44,6 @@ class Loan extends Admin
         ]);
     }
 
-
     /**
      * 修改客户信息
      */
@@ -55,9 +52,11 @@ class Loan extends Admin
         if (!empty($_POST['id'])) {
             $id = $_POST['id'];
             unset($_POST['id']);
-            foreach ($_POST as $k=>$v){
-                if(empty($v)) unset($_POST[$k]);
-                if($v == 'null') unset($_POST[$k]);
+            unset($_POST['name']);
+            unset($_POST['phone']);
+            foreach ($_POST as $k => $v) {
+                if (empty($v)) unset($_POST[$k]);
+                if ($v == 'null') unset($_POST[$k]);
             }
             $model = LoanModel::getInstance();
             $rst = $model->update($_POST, ['id' => $id]);

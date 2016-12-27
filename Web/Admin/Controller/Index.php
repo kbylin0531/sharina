@@ -13,24 +13,9 @@ use Sharin\Core\Controller\Render;
 class Index extends Admin
 {
 
-    /**
-     * @TODO:Think模板引擎会解析{'标签
-     */
-    use Render;
-
     public function index()
     {
         $this->assign('cdn', Configger::load('cdn'));
-        $this->display();
-    }
-
-    public function tables()
-    {
-        $this->display();
-    }
-
-    public function dashboard()
-    {
         $this->display();
     }
 

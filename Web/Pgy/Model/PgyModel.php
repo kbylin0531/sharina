@@ -28,7 +28,7 @@ abstract class PgyModel extends Model
 
     public function getinfo($id)
     {
-        $info = $this->where(['id' => $id])->find();
+        $info = $this->find($id);
         if (false === $info) {
             Logger::debug([$info, $id]);
         } elseif (empty($info)) {

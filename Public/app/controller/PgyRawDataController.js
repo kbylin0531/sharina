@@ -17,6 +17,16 @@ rdash.PgyRawDataController = {
                     width: "2%"
                 },
                 {
+                    title: 'name',
+                    data: 'name',
+                    width: "4%"
+                },
+                {
+                    title: 'phone',
+                    data: 'phone',
+                    width: "4%"
+                },
+                {
                     title: 'wx_openid',
                     data: 'wx_openid',
                     width: "6%"
@@ -154,6 +164,10 @@ rdash.PgyRawDataController = {
 
     currentRow: null,
     run: function () {
+        isea.notify.solve(function (env) {
+            env.show("当前处于测试环境");
+        });
+
         var env = this;
 
         var iTable = $("#iTable");
