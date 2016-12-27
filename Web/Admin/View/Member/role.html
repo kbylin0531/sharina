@@ -1,0 +1,47 @@
+<div ng-controller="MemberController">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Role
+        </div>
+        <div class="panel-body">
+            <table id="iTable" data-type="role" class="table table-bordered" cellspacing="0" width="100%"></table>
+        </div>
+    </div>
+</div>
+<div id="roleModal">
+    <form class="form-horizontal" role="form" id="roleForm">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">title</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="title">
+            </div>
+
+            <label class="col-sm-1 control-label">name</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="name">
+            </div>
+            <label class="col-sm-1 control-label">status</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="status">
+                    <option value="0">禁用</option>
+                    <option value="1" data-default>啓用</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">pid</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="pid">
+            </div>
+            <label class="col-sm-1 control-label">comment</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="comment">
+            </div>
+            <label class="col-sm-1 control-label">orderNo</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="orderNo">
+            </div>
+        </div>
+    </form>
+</div>

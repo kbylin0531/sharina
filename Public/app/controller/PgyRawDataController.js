@@ -315,7 +315,7 @@ rdash.PgyRawDataController = {
                     }
                 });
             }).use('datatables', function () {
-                isea.datatables.solveDependence(function () {
+                isea.datatables.solve(function () {
                     env.iTable = isea.datatables.create("#iTable", getTableOptions()).onDraw(function () {
                         isea.loader.use('jqcontextmenu', function () {
                             isea.jqcontextmenu.solve(function () {

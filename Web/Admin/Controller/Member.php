@@ -12,8 +12,10 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
+use Sharin\Database\Exceptions\DatabaseException;
 use Web\Admin\Model\MemberModel;
 use Web\System\Exceptions\PasswordGetFailedException;
+use Web\System\RBCA\Model\RoleModel;
 
 class Member extends Admin
 {
@@ -61,16 +63,80 @@ class Member extends Admin
         $this->display();
     }
 
-    public function profile()
+
+    public function role()
     {
+        if (SR_IS_AJAX) {
+            $model = RoleModel::getInstance();
+            try {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'data' => $model->getlist(),
+                ]);
+            } catch (DatabaseException $e) {
+                Logger::getLogger('controller')->error($e->getMessage());
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '獲取數據發生了錯誤',
+                ]);
+            }
+        }
         $this->display();
     }
 
-
-    public function register()
+    public function getRoleInfo($rid)
     {
-        $this->display();
+        $model = RoleModel::getInstance();
+        try {
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $model->getById($rid),
+            ]);
+        } catch (DatabaseException $exception) {
+            Logger::getLogger('controller')->error($exception->getMessage());
+            Response::ajaxBack([
+                'status' => 0,
+                'message' => '查詢失敗',
+            ]);
+        }
     }
 
+    public function updateRole()
+    {
+        if (!empty($_POST['id'])) {
+            $id = $_POST['id'];
+            unset($_POST['id']);
+            $model = RoleModel::getInstance();
+            foreach ($_POST as $k => $v) {
+                if (empty($v)) unset($_POST[$k]);
+                if ($v == 'null') unset($_POST[$k]);
+            }
+            $rst = $model->update($_POST, ['id' => $id]);
+            if ($rst) {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '修改成功',
+                ]);
+            } else {
+                Logger::error([$_POST, $id, $model->error()]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '系统出错',
+                ]);
+            }
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '填写的信息不完整',
+        ]);
+    }
+
+    public function addRole()
+    {
+        $model = RoleModel::getInstance();
+        Response::ajaxBack([
+            'status' => $model->insert($_POST) ? 1 : 0,
+        ]);
+    }
 
 }

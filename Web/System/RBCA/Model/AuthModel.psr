@@ -12,5 +12,9 @@ namespace Web\System\RBCA\Model;
 
 class AuthModel extends RBCAModel
 {
+    protected function tableName()
+    {
+        return 'auth';
+    }
 
 }

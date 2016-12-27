@@ -44,6 +44,11 @@ class API extends Admin
                         'icon' => 'share-square',
                         'path' => '/Pgy/Loan/index',
                     ],
+                    [
+                        'title' => 'Role',
+                        'icon' => 'toggle-on',
+                        'path' => '/Admin/Member/role',
+                    ],
                 ],
                 'usermenu' => [
                     'route' => [
