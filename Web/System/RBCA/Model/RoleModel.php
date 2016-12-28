@@ -13,6 +13,9 @@ use Sharin\Database\Exceptions\DatabaseException;
 
 /**
  * Class RoleModel 角色模型
+ *
+ * @method RoleModel getInstance($index=null) static
+ *
  * @package Web\System\RBCA\Model
  */
 class RoleModel extends RBCAModel
@@ -33,7 +36,6 @@ class RoleModel extends RBCAModel
         if (false === $list) {
             throw new DatabaseException($this);
         }
-
         return $list;
     }
 
