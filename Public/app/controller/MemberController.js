@@ -2,7 +2,7 @@
  * Created by Lin on 2016/12/19.
  */
 rdash.MemberController = {
-    roleTableOptions: {
+    option_role: {
         config: {
             columns: [
                 {
@@ -43,6 +43,42 @@ rdash.MemberController = {
             ]
         }
     },
+    option_auth: {
+        config: {
+            columns: [
+                {
+                    title: 'id',
+                    data: 'id',
+                    width: "2%"
+                },
+                {
+                    title: 'name',
+                    data: 'name',
+                    width: "4%"
+                },
+                {
+                    title: 'value',
+                    data: 'value',
+                    width: "4%"
+                },
+                {
+                    title: 'type',
+                    data: 'type',
+                    width: "6%"
+                },
+                {
+                    title: 'comment',
+                    data: 'comment',
+                    width: "6%"
+                },
+                {
+                    title: 'status',
+                    data: 'status',
+                    width: "6%"
+                }
+            ]
+        }
+    },
     rModal: null,
     iTable: null,
     run: function ($scope) {
@@ -58,14 +94,22 @@ rdash.MemberController = {
                     }
                 });
             }
-        }
-
+        };
 
         if ($("#iTable").length) {
-
             function requestData() {
-                //請求頁面數據
-                $.get("/Admin/Member/role", function (data) {
+                var url;
+                switch (getType()) {
+                    case "role":
+                        url = "/Admin/Member/role";
+                        break;
+                    case "auth":
+                        url = "/Admin/Member/auth";
+                        break;
+                    default:
+                        throw "BILIBILI";
+                }
+                $.get(url, function (data) {
                     if (data.status) {
                         env.iTable.load(data.data);
                     } else {
@@ -77,7 +121,7 @@ rdash.MemberController = {
             }
 
             function getType() {
-                return $("#iTable").attr("data-type")
+                return $("#iTable").attr("data-type");
             }
 
             function getInfoSourceURL(id) {
@@ -88,6 +132,32 @@ rdash.MemberController = {
                         throw "A";
                 }
             }
+
+            var deleteRocord = function (row) {
+                var outenv = env, tip, url;
+                switch (getType()) {
+                    case "role":
+                        tip = "確定要刪除角色'" + row.name + "'?";
+                        url = "/Admin/Member/deleteRole?id=" + row.id;
+                        break;
+                    case "auth":
+                        tip = "確定要刪除權限'" + row.name + "'?";
+                        url = "/Admin/Member/deleteAuth?id=" + row.id;
+                        break;
+                    default:
+                        throw "Bi";
+                }
+                if (confirm(tip)) {
+                    $.get(url, function (data) {
+                        isea.notify.solve(function (env) {
+                            env.show(data.message, true);
+                            if (data.status) {
+                                outenv.iTable.remove(outenv.currentRow);
+                            }
+                        });
+                    });
+                }
+            };
 
             //请求cutomer信息
             var requestInfo = function (id) {
@@ -150,54 +220,60 @@ rdash.MemberController = {
                 });
             };
 
-            isea.loader.use("datatables", function () {
-                isea.datatables.solve(function () {
-                    env.iTable = isea.datatables.create("#iTable", env.roleTableOptions).onDraw(function () {
-                        isea.loader.use('jqcontextmenu', function () {
-                            isea.jqcontextmenu.solve(function () {
-                                isea.jqcontextmenu.create('#iTable tr', {
-                                    /* 右键编辑列 */
-                                    edit: {name: "edit", icon: "edit"},
-                                    add: {name: "add", icon: "add"},
-                                    /* 分隔符號 */
-                                    sep1: "---------",
-                                    /* 右键刷新列表 */
-                                    refresh: {name: "refresh", icon: "fa-refresh"}
-                                }, function (key) {
-                                    /* 事件绑定在tr上，所有target就是row */
-                                    switch (key) {
-                                        case "edit":
-                                            //customer和loan暂时没有区分
-                                            var row = env.iTable.data(env.currentRow = $(this));
-                                            row.id && requestInfo(row.id);
-                                            break;
-                                        case "add":
-                                            isea.loader.use("form", function () {
-                                                var selector;
-                                                switch (getType()) {
-                                                    case "role":
-                                                        selector = "#roleForm";
-                                                        env.rModal.show();
-                                                        break;
-                                                    default:
-                                                        throw "undefined type";
-                                                }
-                                                env.rModal.onConfirm(addRole);
-                                                isea.form.clean(selector);
-                                            });
-                                            break;
-                                        case "refresh":
-                                            //刷新列表数据
-                                            requestData();
-                                            break;
-                                    }
-                                });
+            function buildTable() {
+                env.iTable = isea.datatables.create("#iTable", env["option_" + getType()]).onDraw(function () {
+                    isea.loader.use('jqcontextmenu', function () {
+                        isea.jqcontextmenu.solve(function () {
+                            isea.jqcontextmenu.create('#iTable tr', {
+                                /* 右键编辑列 */
+                                edit: {name: "edit", icon: "edit"},
+                                add: {name: "add", icon: "add"},
+                                delete: {name: "delete", icon: "delete"},
+                                /* 分隔符號 */
+                                sep1: "---------",
+                                /* 右键刷新列表 */
+                                refresh: {name: "refresh", icon: "fa-refresh"}
+                            }, function (key) {
+                                /* 事件绑定在tr上，所有target就是row */
+                                switch (key) {
+                                    case "edit":
+                                        //customer和loan暂时没有区分
+                                        var row = env.iTable.data(env.currentRow = $(this));
+                                        row.id && requestInfo(row.id);
+                                        break;
+                                    case "add":
+                                        isea.loader.use("form", function () {
+                                            var selector;
+                                            switch (getType()) {
+                                                case "role":
+                                                    selector = "#roleForm";
+                                                    env.rModal.show();
+                                                    break;
+                                                default:
+                                                    throw "undefined type";
+                                            }
+                                            env.rModal.onConfirm(addRole);
+                                            isea.form.clean(selector);
+                                        });
+                                        break;
+                                    case "delete":
+                                        deleteRocord(env.iTable.data(env.currentRow = $(this)));
+                                        break;
+                                    case "refresh":
+                                        //刷新列表数据
+                                        requestData();
+                                        break;
+                                }
                             });
                         });
-
                     });
-                    requestData();
+
                 });
+                requestData();
+            }
+
+            isea.loader.use("datatables", function () {
+                isea.datatables.solve(buildTable);
             });
 
         }

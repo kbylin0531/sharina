@@ -15,6 +15,7 @@ use Sharin\Core\Response;
 use Sharin\Database\Exceptions\DatabaseException;
 use Web\Admin\Model\MemberModel;
 use Web\System\Exceptions\PasswordGetFailedException;
+use Web\System\RBCA\Model\AuthModel;
 use Web\System\RBCA\Model\RoleModel;
 
 class Member extends Admin
@@ -84,6 +85,26 @@ class Member extends Admin
         $this->display();
     }
 
+    public function auth()
+    {
+        if (SR_IS_AJAX) {
+            $model = AuthModel::getInstance();
+            try {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'data' => $model->getlist(),
+                ]);
+            } catch (DatabaseException $e) {
+                Logger::getLogger('controller')->error($e->getMessage());
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '獲取數據發生了錯誤',
+                ]);
+            }
+        }
+        $this->display();
+    }
+
     public function getRoleInfo($rid)
     {
         $model = RoleModel::getInstance();
@@ -108,8 +129,7 @@ class Member extends Admin
             unset($_POST['id']);
             $model = RoleModel::getInstance();
             foreach ($_POST as $k => $v) {
-                if (empty($v)) unset($_POST[$k]);
-                if ($v == 'null') unset($_POST[$k]);
+                if ('' === $v or $v == 'null') unset($_POST[$k]);
             }
             $rst = $model->update($_POST, ['id' => $id]);
             if ($rst) {
@@ -136,6 +156,44 @@ class Member extends Admin
         $model = RoleModel::getInstance();
         Response::ajaxBack([
             'status' => $model->insert($_POST) ? 1 : 0,
+        ]);
+    }
+
+    public function addAuth()
+    {
+        $model = AuthModel::getInstance();
+        Response::ajaxBack([
+            'status' => $model->insert($_POST) ? 1 : 0,
+        ]);
+    }
+
+    public function deleteAuth($id)
+    {
+        $model = AuthModel::getInstance();
+        if ($model->delete(['id' => $id])) {
+            Response::ajaxBack([
+                'status' => 1,
+                'message' => '刪除成功',
+            ]);
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '刪除失敗',
+        ]);
+    }
+
+    public function deleteRole($id)
+    {
+        $model = RoleModel::getInstance();
+        if ($model->delete(['id' => $id])) {
+            Response::ajaxBack([
+                'status' => 1,
+                'message' => '刪除成功',
+            ]);
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '刪除失敗',
         ]);
     }
 
