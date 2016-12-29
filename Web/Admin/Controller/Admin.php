@@ -32,14 +32,10 @@ class Admin
     {
         $this->sign = Sign::getInstance(SignModel::getInstance());
         if (!$this->sign->getInfo()) {
-            if (SR_IS_AJAX) {
-                Response::ajaxBack([
-                    'status' => 0,
-                    'message' => '_NO_LOGIN_',
-                ]);
-            } else {
-                $this->redirect('Admin/Publics/login');
-            }
+            SR_IS_AJAX ? Response::ajaxBack([
+                'status' => 0,
+                'message' => '_NO_LOGIN_',
+            ]) : $this->redirect('Admin/Publics/login');
         }
     }
 

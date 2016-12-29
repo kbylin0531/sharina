@@ -44,6 +44,18 @@ class Loan extends Admin
         ]);
     }
 
+    public function delete($id)
+    {
+        $model = LoanModel::getInstance();
+        if ($model->delete(['id' => $id])) {
+            Response::ajaxBack(['status' => 1]);
+        } else {
+            Logger::fatal([$id, '删除借款记录失败']);
+            Response::ajaxBack(['status' => 0]);
+        }
+
+    }
+
     /**
      * 修改客户信息
      */
