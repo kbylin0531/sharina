@@ -25,7 +25,7 @@ class Customer extends Admin
             Response::ajaxBack([
                 'status' => 1,
                 'data' => $list,
-                'type'  => 'customer',
+                'type' => 'customer',
             ]);
         }
         $this->display();
@@ -41,6 +41,27 @@ class Customer extends Admin
         ]);
     }
 
+    public function add()
+    {
+        $model = CustomerModel::getInstance();
+        foreach ($_POST as $key => &$item) {
+//            if ($key !== 'note') {
+                '' === $item and $item = null;
+//            }
+        }
+        if ($model->insert($_POST)) {
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $model->getinfo($model->lastInsertId()),//列表数据量过大，直接刷新显得不合理
+            ]);
+        }
+        Logger::error([$_POST, $model->error()]);
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => $model->error(),
+        ]);
+    }
+
     /**
      * 修改客户信息
      */
@@ -50,9 +71,9 @@ class Customer extends Admin
             $id = $_POST['id'];
             unset($_POST['id']);
             $model = CustomerModel::getInstance();
-            foreach ($_POST as $k=>$v){
-                if(empty($v)) unset($_POST[$k]);
-                if($v == 'null') unset($_POST[$k]);
+            foreach ($_POST as $k => $v) {
+                if (empty($v)) unset($_POST[$k]);
+                if ($v == 'null') unset($_POST[$k]);
             }
             $rst = $model->update($_POST, ['id' => $id]);
             if ($rst) {

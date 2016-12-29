@@ -162,6 +162,7 @@ rdash.PgyRawDataController = {
     iData: {},
 
 
+    actionType: "",
     currentRow: null,
     run: function () {
         // isea.notify.solve(function (env) {
@@ -241,6 +242,79 @@ rdash.PgyRawDataController = {
                 }
             }
 
+            var editRecord = function () {
+                var data, url;
+                switch (getType()) {
+                    case "loan":
+                        data = $("#loanForm").serialize();
+                        url = "/Pgy/Loan/updateInfo";
+                        break;
+                    case "customer":
+                        data = $("#customerForm").serialize();
+                        url = "/Pgy/Customer/updateInfo";
+                        break;
+                    default:
+                        console.log(getType())
+                        throw "ASD";
+                }
+                var newdata = isea.client.parse(data);
+                $.post(url, data, function (data) {
+                    if (data.status) {
+                        env.currentRow && env.iTable.update(newdata, env.currentRow);
+                        env.jModal && env.jModal.hide();
+                        env.cModal && env.cModal.hide();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            };
+
+            var addRecord = function () {
+                var data, url;
+                switch (getType()) {
+                    case "loan":
+                        data = $("#loanForm").serialize();
+                        url = "/Pgy/Loan/add";
+                        break;
+                    case "customer":
+                        data = $("#customerForm").serialize();
+                        url = "/Pgy/Customer/add";
+                        break;
+                    default:
+                        throw "ASD";
+                }
+                $.post(url, data, function (data) {
+                    if (data.status) {
+                        env.currentRow && env.iTable.load(data.data,false);
+                        env.jModal && env.jModal.hide();
+                        env.cModal && env.cModal.hide();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            };
+
+            var showAddModal = function () {
+                isea.loader.use("form", function () {
+                    var selector;
+                    switch (getType()) {
+                        case "loan":
+                            selector = "#loanForm";
+                            env.jModal.show();
+                            break;
+                        case "customer":
+                            selector = "#customerForm";
+                            env.cModal.show();
+                            break;
+                        default:
+                            throw "undefined type";
+                    }
+                    env.jModal && env.jModal.onConfirm(addRecord);
+                    env.cModal && env.cModal.onConfirm(addRecord);
+                    isea.form.clean(selector);
+                });
+            };
+
             var deleteRecord = function (row) {
                 switch (getType()) {
                     case "loan":
@@ -289,40 +363,10 @@ rdash.PgyRawDataController = {
                 isea.modal.solve(function () {
                     switch (getType()) {
                         case "customer":
-                            env.cModal = isea.modal.create("#customerModal", {
-                                width: 1024,//宽度固定为1024px
-                                confirm: function () {
-                                    var data = $("#customerForm").serialize();
-                                    var newdata = isea.client.parse(data);
-                                    console.log(data, newdata);
-                                    $.post("/Pgy/Customer/updateInfo", data, function (data) {
-                                        if (data.status) {
-                                            env.currentRow && env.iTable.update(newdata, env.currentRow);
-                                            env.cModal.hide();
-                                        } else {
-                                            alert(data.message);
-                                        }
-                                    });
-                                }
-                            });
+                            env.cModal = isea.modal.create("#customerModal", {width: 1024});
                             break;
                         case "loan":
-                            env.jModal = isea.modal.create("#loanModal", {
-                                width: 1024,//宽度固定为1024px
-                                confirm: function () {
-                                    var data = $("#loanForm").serialize();
-                                    var newdata = isea.client.parse(data);
-                                    console.log(data, newdata);
-                                    $.post("/Pgy/Loan/updateInfo", data, function (data) {
-                                        if (data.status) {
-                                            env.currentRow && env.iTable.update(newdata, env.currentRow);
-                                            env.jModal.hide();
-                                        } else {
-                                            alert(data.message);
-                                        }
-                                    });
-                                }
-                            });
+                            env.jModal = isea.modal.create("#loanModal", {width: 1024});
                             break;
                         default:
                             throw "undefined type";
@@ -337,6 +381,7 @@ rdash.PgyRawDataController = {
                                     /* 右键编辑列 */
                                     edit: {name: "edit", icon: "edit"},
                                     delete: {name: "delete", icon: "delete"},
+                                    add: {name: "add", icon: "add"},
                                     /* 分隔符號 */
                                     sep1: "---------",
                                     /* 右键刷新列表 */
@@ -346,13 +391,21 @@ rdash.PgyRawDataController = {
                                     var row = env.iTable.data(env.currentRow = $(this));
                                     env.currentRow.closest("table").find("tr").removeClass("selected");
                                     env.currentRow.addClass('selected');
+                                    env.actionType = key;
                                     switch (key) {
                                         case "edit":
                                             //customer和loan暂时没有区分
+                                            env.jModal && env.jModal.onConfirm(editRecord);
+                                            env.cModal && env.cModal.onConfirm(editRecord);
                                             row.id && requestInfo(row.id);
                                             break;
                                         case "delete":
                                             row.id && deleteRecord(row);
+                                            break;
+                                        case "add":
+                                            env.jModal && env.jModal.onConfirm(addRecord);
+                                            env.cModal && env.cModal.onConfirm(addRecord);
+                                            showAddModal();
                                             break;
                                         case "refresh":
                                             //刷新列表数据

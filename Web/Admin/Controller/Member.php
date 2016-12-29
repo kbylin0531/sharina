@@ -9,7 +9,6 @@
 
 namespace Web\Admin\Controller;
 
-use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Sharin\Database\Exceptions\DatabaseException;
@@ -103,6 +102,23 @@ class Member extends Admin
             }
         }
         $this->display();
+    }
+
+    public function getAuthInfo($aid)
+    {
+        $model = AuthModel::getInstance();
+        try {
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $model->getById($aid),
+            ]);
+        } catch (DatabaseException $exception) {
+            Logger::getLogger('controller')->error($exception->getMessage());
+            Response::ajaxBack([
+                'status' => 0,
+                'message' => '查詢失敗',
+            ]);
+        }
     }
 
     public function getRoleInfo($rid)

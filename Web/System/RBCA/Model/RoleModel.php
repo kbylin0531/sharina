@@ -14,7 +14,7 @@ use Sharin\Database\Exceptions\DatabaseException;
 /**
  * Class RoleModel 角色模型
  *
- * @method RoleModel getInstance($index=null) static
+ * @method RoleModel getInstance($index = null) static
  *
  * @package Web\System\RBCA\Model
  */
@@ -65,61 +65,5 @@ class RoleModel extends RBCAModel
             throw new DatabaseException($this);
         }
         return $info;
-    }
-
-    /**
-     * 添加一个角色
-     * @param string $title
-     * @param string $name
-     * @param bool $status
-     * @param string $comment
-     * @param int $orderNo
-     * @param int $pid
-     * @return bool
-     */
-    public function add(string $title, string $name, bool $status = true, string $comment = '', int $orderNo = 0, int $pid = 0): bool
-    {
-        $rst = $this->insert([
-            'title' => $title,
-            'name' => $name,
-            'status' => $status ? 1 : 0,
-            'comment' => $comment,
-            'orderNo' => $orderNo,
-            'pid' => $pid,
-        ]);
-        if (false === $rst) {
-            return false;
-        }
-        return $rst > 0;
-    }
-
-    /**
-     * 重命名title
-     * @param string $newvalue
-     * @param int $id
-     * @return bool
-     */
-    public function renameTitleById(string $newvalue, int $id): bool
-    {
-        $rst = $this->update(['title' => $newvalue], [$this->pk => $id]);
-        if (false === $rst) {
-            return false;
-        }
-        return $rst;
-    }
-
-    /**
-     * 重命名title
-     * @param string $newvalue
-     * @param string $name
-     * @return bool
-     */
-    public function renameTitleByName(string $newvalue, string $name): bool
-    {
-        $rst = $this->update(['title' => $newvalue], ['name' => $name]);
-        if (false === $rst) {
-            return false;
-        }
-        return $rst;
     }
 }

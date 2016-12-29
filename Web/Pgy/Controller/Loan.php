@@ -56,6 +56,28 @@ class Loan extends Admin
 
     }
 
+    public function add()
+    {
+        $model = LoanModel::getInstance();
+        empty($_POST['paydate']) and $_POST['paydate'] = null;
+        foreach ($_POST as $key=>&$item) {
+            if($key !== 'note'){
+                '' === $item and $item = null;
+            }
+        }
+        if ($model->insert($_POST)) {
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $model->getinfo($model->lastInsertId()),//列表数据量过大，直接刷新显得不合理
+            ]);
+        }
+        Logger::error([$_POST, $model->error()]);
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => $model->error(),
+        ]);
+    }
+
     /**
      * 修改客户信息
      */

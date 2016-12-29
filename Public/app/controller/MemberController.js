@@ -11,11 +11,6 @@ rdash.MemberController = {
                     width: "2%"
                 },
                 {
-                    title: 'title',
-                    data: 'title',
-                    width: "4%"
-                },
-                {
                     title: 'pid',
                     data: 'pid',
                     width: "4%"
@@ -80,6 +75,7 @@ rdash.MemberController = {
         }
     },
     rModal: null,
+    aModal: null,
     iTable: null,
     run: function ($scope) {
         var env = this;
@@ -128,6 +124,8 @@ rdash.MemberController = {
                 switch (getType()) {
                     case "role":
                         return "/Admin/Member/getRoleInfo?rid=" + id;
+                    case "auth":
+                        return "/Admin/Member/getAuthInfo?aid=" + id;
                     default:
                         throw "A";
                 }
@@ -178,41 +176,65 @@ rdash.MemberController = {
                                     selector = "#roleForm";
                                     env.rModal.show();
                                     break;
+                                case "auth":
+                                    selector = "#authForm";
+                                    env.aModal.show();
+                                    break;
                                 default:
                                     throw "undefined type";
                             }
-                            env.rModal.onConfirm(updateRole);
+                            env.rModal.onConfirm(updateInfo);
                             isea.form.fill(selector, data.data);
                         });
                     }
                 });
             };
 
+            var updateInfo = function () {
+                var data, url, modal;
+                switch (getType()) {
+                    case "role":
+                        data = $("#roleForm").serialize();
+                        url = "/Admin/Member/updateRole";
+                        modal = env.rModal;
+                        break;
+                    case "auth":
+                        data = $("#authForm").serialize();
+                        url = "/Admin/Member/updateAuth";
+                        modal = env.aModal;
+                        break;
 
-            isea.loader.use("modal", function () {
-                isea.modal.solve(function () {
-                    env.rModal = isea.modal.create("#roleModal", {width: 1024});
-                });
-            });
-
-            var updateRole = function () {
-                var data = $("#roleForm").serialize();
+                }
                 var newdata = isea.client.parse(data);
-                $.post("/Admin/Member/updateRole", data, function (data) {
+                $.post(url, data, function (data) {
                     if (data.status) {
                         env.currentRow && env.iTable.update(newdata, env.currentRow);
-                        env.rModal.hide();
+                        modal.hide();
                     } else {
                         alert(data.message);
                     }
                 });
             };
 
-            var addRole = function () {
-                var data = $("#roleForm").serialize();
-                $.post("/Admin/Member/addRole", data, function (data) {
+            var addRecord = function () {
+                var data, url, modal;
+                switch (getType()) {
+                    case "role":
+                        data = $("#roleForm").serialize();
+                        url = "/Admin/Member/addRole";
+                        modal = env.rModal;
+                        break;
+                    case "auth":
+                        data = $("#authForm").serialize();
+                        url = "/Admin/Member/addAuth";
+                        modal = env.aModal;
+                        break;
+                    default:
+                        throw "AA";
+                }
+                $.post(url, data, function (data) {
                     if (data.status) {
-                        env.rModal.hide();
+                        modal.hide();
                         requestData();
                     } else {
                         alert(data.message);
@@ -249,10 +271,14 @@ rdash.MemberController = {
                                                     selector = "#roleForm";
                                                     env.rModal.show();
                                                     break;
+                                                case "auth":
+                                                    selector = "#authForm";
+                                                    env.aModal.show();
+                                                    break;
                                                 default:
                                                     throw "undefined type";
                                             }
-                                            env.rModal.onConfirm(addRole);
+                                            env.rModal.onConfirm(addRecord);
                                             isea.form.clean(selector);
                                         });
                                         break;
@@ -270,6 +296,20 @@ rdash.MemberController = {
 
                 });
                 requestData();
+                isea.loader.use("modal", function () {
+                    isea.modal.solve(function () {
+                        switch (getType()) {
+                            case "role":
+                                env.rModal = isea.modal.create("#roleModal", {width: 1024});
+                                break;
+                            case "auth":
+                                env.aModal = isea.modal.create("#authModal", {width: 1024});
+                                break;
+                            default:
+                                throw "AA";
+                        }
+                    });
+                });
             }
 
             isea.loader.use("datatables", function () {

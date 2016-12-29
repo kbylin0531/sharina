@@ -55,8 +55,8 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
             });
         });
 
-        if("inside" in data) isea.each(data["inside"], function (item) {
-            stateProvider.state(item, {url: item,templateUrl: item});
+        if ("inside" in data) isea.each(data["inside"], function (item) {
+            stateProvider.state(item, {url: item, templateUrl: item});
         });
         if ("footmenu" in data) isea.each(data["footmenu"], function (item) {
             sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + (item.url || "#") + '" target="' + (item.target || "_self") + '">' + item.title + '</a></div>');
@@ -100,20 +100,26 @@ rdash.controller("MasterCtrl", ["$scope", function ($scope) {
 
     $scope.mastertitle = 'PSR';
 
-    $scope.$watch(window.innerWidth, function (newValue, oldValue) {
-        if (newValue >= mobileView) {
-            $scope.toggle = "true" === isea.cookie.get("toggle");
-        } else {
-            $scope.toggle = false;
-        }
-    });
+    // $scope.$watch(window.innerWidth, function (newValue, oldValue) {
+    //     console.log(newValue,mobileView);
+    //     if (newValue >= mobileView) {
+    //         console.log(isea.cookie.get("toggle"), isea.util.gettype(isea.cookie.get("toggle")));
+    //         $scope.toggle = "true" === isea.cookie.get("toggle");
+    //     } else {
+    //         $scope.toggle = false;
+    //     }
+    // });
 
     $scope.toggleSidebar = function () {
         isea.cookie.set('toggle', $scope.toggle = !$scope.toggle, 0);
     };
 
     window.onresize = function () {
-        $scope.$apply();
+        if (isea.client.viewport().width >= mobileView) {
+            $scope.toggle = ("true" === isea.cookie.get("toggle"));
+        } else {
+            $scope.toggle = false;
+        }
     };
 }]);
 //-------------------------------------- DIRECTIVE ------------------------------------------------------------------------------
