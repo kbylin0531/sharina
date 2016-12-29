@@ -15,11 +15,11 @@ namespace {
     Sharin::register();
 
     $info = Sign::getInstance(new SignModel())->getInfo();
-    if(empty($info)){
+    if (empty($info)) {
         Response::redirect('/Admin/Publics/login');
 
     }
 
-    require __DIR__ . '/../Explorer/engine.inc';
+    require __DIR__ . '/../Explorer/index.inc';
 
 }

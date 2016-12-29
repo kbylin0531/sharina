@@ -34,14 +34,14 @@ return [
         ],
         'pgyxwd' => [
             DAO_DBNAME => 'pgyxwd',//选择的数据库
-            DAO_USERNAME => MY_MARIA_USER,
-            DAO_PASSWORD => MY_MARIA_PASSWD,
-            DAO_HOST => MY_MARIA_ADDR,
-            DAO_PORT => MY_MARIA_PORT,
-//            DAO_USERNAME => 'lin',
-//            DAO_PASSWORD => 'pgyxwd8888',
-//            DAO_HOST => '120.55.163.154',
-//            DAO_PORT => '10010',
+//            DAO_USERNAME => MY_MARIA_USER,
+//            DAO_PASSWORD => MY_MARIA_PASSWD,
+//            DAO_HOST => MY_MARIA_ADDR,
+//            DAO_PORT => MY_MARIA_PORT,
+            DAO_USERNAME => 'lin',
+            DAO_PASSWORD => 'pgyxwd8888',
+            DAO_HOST => '120.55.163.154',
+            DAO_PORT => '10010',
             DAO_CHARSET => 'UTF8',
             DAO_DSN => null,//默认先检查差DSN是否正确,直接写dsn而不设置其他的参数可以提高效率，也可以避免潜在的bug
             DAO_OPTIONS => [

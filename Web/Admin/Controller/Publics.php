@@ -36,7 +36,7 @@ class Publics
     public function logout()
     {
         $this->sign->signOut();
-        $this->display('login');
+        $this->redirect('Admin/Publics/login');
     }
 
     /**
