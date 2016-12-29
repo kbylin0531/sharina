@@ -1,13 +1,37 @@
 <div ng-controller="MemberController">
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            修改密码
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget ng-click="switchManage('member')">
+                <rd-widget-body>
+                    <div class="widget-icon green pull-left">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="title">{$m}</div>
+                    <div class="comment">Member</div>
+                </rd-widget-body>
+            </rd-widget>
         </div>
-        <div class="panel-body">
-
-            <table id="dtable" class="table table-bordered" cellspacing="0" width="100%"></table>
-
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget ng-click="switchManage('role')">
+                <rd-widget-body>
+                    <div class="widget-icon red pull-left">
+                        <i class="fa fa-tasks"></i>
+                    </div>
+                    <div class="title">{$r}</div>
+                    <div class="comment">Role</div>
+                </rd-widget-body>
+            </rd-widget>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget ng-click="switchManage('auth')">
+                <rd-widget-body>
+                    <div class="widget-icon orange pull-left">
+                        <i class="fa fa-sitemap"></i>
+                    </div>
+                    <div class="title">{$a}</div>
+                    <div class="comment">Auth</div>
+                </rd-widget-body>
+            </rd-widget>
         </div>
     </div>
 </div>

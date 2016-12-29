@@ -1,0 +1,61 @@
+<div ng-controller="MemberController">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            RBCA
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{{member}}">Member</a></li>
+                <li><a href="{{role}}">Role</a></li>
+                <li><a href="{{auth}}">Auth</a></li>
+            </ul>
+            <p>&nbsp;</p>
+            <table id="iTable" data-type="member" class="table table-bordered" cellspacing="0" width="100%"></table>
+        </div>
+    </div>
+</div>
+<div id="memberModal">
+    <form class="form-horizontal" role="form" id="memberForm">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">username</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="username">
+            </div>
+
+            <label class="col-sm-1 control-label">email</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="email">
+            </div>
+            <label class="col-sm-1 control-label">sex</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="sex">
+                    <option value="0">女</option>
+                    <option value="1" data-default>男</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">phone</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="phone">
+            </div>
+            <label class="col-sm-1 control-label">nickname</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="nickname">
+            </div>
+            <label class="col-sm-1 control-label">birthday</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="birthday">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">status</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="status">
+                    <option value="0">禁用</option>
+                    <option value="1" data-default>启用</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>

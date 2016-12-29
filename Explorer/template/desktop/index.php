@@ -4,15 +4,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="renderer" content="webkit">
 	<title><?php echo $L['ui_desktop'].' - '.$L['kod_name'].$L['kod_power_by'];?></title>
-	<link rel="Shortcut Icon" href="<?php echo STATIC_PATH;?>images/favicon.ico">
-	<link href="<?php echo STATIC_PATH;?>style/bootstrap.css" rel="stylesheet"/>
+	<link rel="Shortcut Icon" href="./static/images/favicon.ico">
+	<link href="./static/style/bootstrap.css" rel="stylesheet"/>
 	<link rel="stylesheet" href="./static/style/font-awesome/css/font-awesome.css">
 	<!--[if IE 7]>
 	<link rel="stylesheet" href="./static/style/font-awesome/css/font-awesome-ie7.css">
 	<![endif]-->
-	<link href="<?php echo STATIC_PATH;?>js/lib/picasa/style/style.css" rel="stylesheet"/>
+	<link href="./static/js/lib/picasa/style/style.css" rel="stylesheet"/>
 	
-	<link href="<?php echo STATIC_PATH;?>style/skin/<?php echo $config['user']['theme'];?>app_desktop.css" rel="stylesheet" id='link_css_list'/>
+	<link href="./static/style/skin/<?php echo $config['user']['theme'];?>app_desktop.css" rel="stylesheet" id='link_css_list'/>
 	
 </head>
 <body style="overflow: hidden;" oncontextmenu="return core.contextmenu();">
@@ -22,22 +22,22 @@
 		<div class="fileContiner fileList_icon hidden">
 			<div class="file systemBox menuDefault" 
 			data-app={"type":"app","width":"","height":"","content":"core.explorer('',LNG.my_computer);"}>
-				<div class="ico" filetype="oexe" style="background-image:url(<?php echo STATIC_PATH;?>images/app/computer.png)"></div>
+				<div class="ico" filetype="oexe" style="background-image:url(./static/images/app/computer.png)"></div>
 				<div class="titleBox"><span><?php echo $L['my_computer'];?></span></div>
 			</div>
 			<div class="file systemBox menuRecycleButton" title="<?php echo $L['setting'];?>"
 			data-app={"type":"app","width":"","height":"","content":"core.explorer('*recycle*/',LNG.recycle);"}>
-				<div class="ico" filetype="oexe" style="background-image:url(<?php echo STATIC_PATH;?>images/app/recycle.png)"></div>
+				<div class="ico" filetype="oexe" style="background-image:url(./static/images/app/recycle.png)"></div>
 				<div class="titleBox" ><span><?php echo $L['recycle'];?></span></div>
 			</div>
 			<div class="file systemBox menuDefault" title="<?php echo $L['setting'];?>"
 			data-app={"type":"app","width":"","height":"","content":"core.setting();"}>
-				<div class="ico" filetype="oexe" style="background-image:url(<?php echo STATIC_PATH;?>images/app/setting.png)"></div>
+				<div class="ico" filetype="oexe" style="background-image:url(./static/images/app/setting.png)"></div>
 				<div class="titleBox" ><span><?php echo $L['setting'];?></span></div>
 			</div>
 			<div class="file systemBox menuDefault" title="<?php echo $L['app_store'];?>"
 			data-app={"type":"app","width":"","height":"","content":"core.appStore();"}>
-				<div class="ico" filetype="oexe" style="background-image:url(<?php echo STATIC_PATH;?>images/app/market.png)"></div>
+				<div class="ico" filetype="oexe" style="background-image:url(./static/images/app/market.png)"></div>
 				<div class="titleBox"><span><?php echo $L['app_store'];?></span></div>
 			</div>
 		</div>
@@ -72,12 +72,12 @@
 			<li><a href="./explorer.php?user/logout" style="margin-top:70px;"><span><?php echo $L['ui_logout'];?>></span></a></li>
 		</ul>
 	</div>
-<script src="<?php echo STATIC_PATH;?>js/lib/seajs/sea.js"></script>
+<script src="./static/js/lib/seajs/sea.js"></script>
 <script src="./explorer.php?user/common_js&type=desktop&id=<?php echo rand_string(8);?>"></script>
 <script type="text/javascript">
 	G.this_path = "<?php echo MYHOME.'desktop/';?>";
 	seajs.config({
-		base: "<?php echo STATIC_PATH;?>js/",
+		base: "./static/js/",
 		preload: ["lib/jquery-1.8.0.min"],
 		map:[
 			[ /^(.*\.(?:css|js))(.*)$/i,'$1$2?ver='+G.version]

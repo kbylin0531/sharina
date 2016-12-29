@@ -12,9 +12,9 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Sharin\Database\Exceptions\DatabaseException;
-use Web\Admin\Model\MemberModel;
 use Web\System\Exceptions\PasswordGetFailedException;
 use Web\System\RBCA\Model\AuthModel;
+use Web\System\RBCA\Model\MemberModel;
 use Web\System\RBCA\Model\RoleModel;
 
 class Member extends Admin
@@ -22,13 +22,11 @@ class Member extends Admin
 
     public function index()
     {
-        if (SR_IS_AJAX) {
-            $list = MemberModel::getInstance()->getlist();
-            Response::ajaxBack([
-                'status' => 1,
-                'data' => $list,
-            ]);
-        }
+        $this->assign([
+            'm' => MemberModel::getInstance()->getCount(),
+            'r' => RoleModel::getInstance()->getCount(),
+            'a' => AuthModel::getInstance()->getCount(),
+        ]);
         $this->display();
     }
 
@@ -63,6 +61,25 @@ class Member extends Admin
         $this->display();
     }
 
+    public function member()
+    {
+        if (SR_IS_AJAX) {
+            $model = MemberModel::getInstance();
+            try {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'data' => $model->getlist(),
+                ]);
+            } catch (DatabaseException $e) {
+                Logger::getLogger('controller')->error($e->getMessage());
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '獲取數據發生了錯誤',
+                ]);
+            }
+        }
+        $this->display();
+    }
 
     public function role()
     {
@@ -104,6 +121,23 @@ class Member extends Admin
         $this->display();
     }
 
+    public function getMemberInfo($mid)
+    {
+        $model = MemberModel::getInstance();
+        try {
+            Response::ajaxBack([
+                'status' => 1,
+                'data' => $model->getById($mid),
+            ]);
+        } catch (DatabaseException $exception) {
+            Logger::getLogger('controller')->error($exception->getMessage());
+            Response::ajaxBack([
+                'status' => 0,
+                'message' => '查詢失敗',
+            ]);
+        }
+    }
+
     public function getAuthInfo($aid)
     {
         $model = AuthModel::getInstance();
@@ -138,6 +172,65 @@ class Member extends Admin
         }
     }
 
+    public function updateAuth()
+    {
+        if (!empty($_POST['id'])) {
+            $id = $_POST['id'];
+            unset($_POST['id']);
+            $model = AuthModel::getInstance();
+            foreach ($_POST as $k => $v) {
+                if ('' === $v or $v == 'null') unset($_POST[$k]);
+            }
+            $rst = $model->update($_POST, ['id' => $id]);
+            if ($rst) {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '修改成功',
+                ]);
+            } else {
+                Logger::error([$_POST, $id, $model->error()]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '系统出错',
+                ]);
+            }
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '填写的信息不完整',
+        ]);
+    }
+
+    public function updateMember()
+    {
+
+        if (!empty($_POST['id'])) {
+            $id = $_POST['id'];
+            unset($_POST['id']);
+            $model = MemberModel::getInstance();
+            foreach ($_POST as $k => $v) {
+                if ('' === $v or $v == 'null') unset($_POST[$k]);
+            }
+            $rst = $model->update($_POST, ['id' => $id]);
+            if ($rst) {
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '修改成功',
+                ]);
+            } else {
+                Logger::error([$_POST, $id, $model->error()]);
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '系统出错',
+                ]);
+            }
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '填写的信息不完整',
+        ]);
+    }
+
     public function updateRole()
     {
         if (!empty($_POST['id'])) {
@@ -167,6 +260,13 @@ class Member extends Admin
         ]);
     }
 
+    public function addMember(){
+        $model = MemberModel::getInstance();
+        Response::ajaxBack([
+            'status' => $model->insert($_POST) ? 1 : 0,
+        ]);
+    }
+
     public function addRole()
     {
         $model = RoleModel::getInstance();
@@ -180,6 +280,21 @@ class Member extends Admin
         $model = AuthModel::getInstance();
         Response::ajaxBack([
             'status' => $model->insert($_POST) ? 1 : 0,
+        ]);
+    }
+
+    public function deleteMember($id)
+    {
+        $model = MemberModel::getInstance();
+        if ($model->delete(['id' => $id])) {
+            Response::ajaxBack([
+                'status' => 1,
+                'message' => '刪除成功',
+            ]);
+        }
+        Response::ajaxBack([
+            'status' => 0,
+            'message' => '刪除失敗',
         ]);
     }
 
@@ -212,5 +327,8 @@ class Member extends Admin
             'message' => '刪除失敗',
         ]);
     }
+
+
+    //---------------------------------
 
 }

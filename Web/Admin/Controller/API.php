@@ -19,7 +19,10 @@ class API extends Admin
             'status' => 1,
             'data' => [
                 'inside' => [
-                    '/Admin/Member/auth'
+                    //member
+                    '/Admin/Member/member',
+                    '/Admin/Member/role',
+                    '/Admin/Member/auth',
 
                 ],
                 'sidemenu' => [
@@ -49,9 +52,9 @@ class API extends Admin
                         'path' => '/Pgy/Loan/index',
                     ],
                     [
-                        'title' => 'Role',
+                        'title' => 'Member',
                         'icon' => 'toggle-on',
-                        'path' => '/Admin/Member/role',
+                        'path' => '/Admin/Member/index',
                     ],
                 ],
                 'usermenu' => [

@@ -74,11 +74,80 @@ rdash.MemberController = {
             ]
         }
     },
+    option_member: {
+        config: {
+            columns: [
+                {
+                    title: 'id',
+                    data: 'id',
+                    width: "2%"
+                },
+                {
+                    title: 'username',
+                    data: 'username',
+                    width: "4%"
+                },
+                {
+                    title: 'email',
+                    data: 'email',
+                    width: "4%"
+                },
+                {
+                    title: 'phone',
+                    data: 'phone',
+                    width: "6%"
+                },
+                {
+                    title: 'nickname',
+                    data: 'nickname',
+                    width: "6%"
+                },
+                {
+                    title: 'sex',
+                    data: function (row) {
+                        switch (row.sex) {
+                            case "M":
+                                return "男";
+                            case "F":
+                                return "女";
+                            default:
+                                return "-";
+                        }
+                    },
+                    width: "6%"
+                },
+                {
+                    title: 'birthday',
+                    data: 'birthday',
+                    width: "6%"
+                },
+                {
+                    title: 'status',
+                    data: function (row) {
+                        switch (parseInt(row.status)) {
+                            case 1:
+                                return "啓用";
+                            case 0:
+                                return "禁用";
+                            default:
+                                return "-";
+                        }
+                    },
+                    width: "6%"
+                }
+            ]
+        }
+    },
     rModal: null,
     aModal: null,
+    mModal: null,
     iTable: null,
     run: function ($scope) {
         var env = this;
+        $scope.index = "#/Admin/Member/index";
+        $scope.member = "#/Admin/Member/member";
+        $scope.role = "#/Admin/Member/role";
+        $scope.auth = "#/Admin/Member/auth";
         $scope.saveChange = function () {
             if ($scope.newpwd != $scope.rpnewpwd) {
                 alert("密码不一致");
@@ -91,21 +160,32 @@ rdash.MemberController = {
                 });
             }
         };
+        $scope.switchManage = function (type) {
+            location.href = $scope[type];
+        };
+
+        switch (location.hash) {
+            // case $scope.index:
+            //     $.get("/Admin/Member/index",function (data) {
+            //         if(data.status){
+            //             $scope.mCount = " A"+data.data.m;
+            //             $scope.rCount = data.data.r;
+            //             $scope.aCount = data.data.a;
+            //         }else{
+            //             alert(data.message);
+            //             $scope.mCount = 0;
+            //             $scope.rCount = 0;
+            //             $scope.aCount = 0;
+            //         }
+            //     });
+            //     break;
+
+            default:/* undefined */
+        }
 
         if ($("#iTable").length) {
             function requestData() {
-                var url;
-                switch (getType()) {
-                    case "role":
-                        url = "/Admin/Member/role";
-                        break;
-                    case "auth":
-                        url = "/Admin/Member/auth";
-                        break;
-                    default:
-                        throw "BILIBILI";
-                }
-                $.get(url, function (data) {
+                $.get("/Admin/Member/" + getType(), function (data) {
                     if (data.status) {
                         env.iTable.load(data.data);
                     } else {
@@ -126,6 +206,8 @@ rdash.MemberController = {
                         return "/Admin/Member/getRoleInfo?rid=" + id;
                     case "auth":
                         return "/Admin/Member/getAuthInfo?aid=" + id;
+                    case "member":
+                        return "/Admin/Member/getMemberInfo?mid=" + id;
                     default:
                         throw "A";
                 }
@@ -141,6 +223,10 @@ rdash.MemberController = {
                     case "auth":
                         tip = "確定要刪除權限'" + row.name + "'?";
                         url = "/Admin/Member/deleteAuth?id=" + row.id;
+                        break;
+                    case "member":
+                        tip = "確定要刪除用戶'" + row.username + "'?";
+                        url = "/Admin/Member/deleteMember?id=" + row.id;
                         break;
                     default:
                         throw "Bi";
@@ -170,20 +256,24 @@ rdash.MemberController = {
                         }
                     } else {
                         isea.loader.use("form", function () {
-                            var selector;
+                            var selector, modal;
                             switch (getType()) {
                                 case "role":
                                     selector = "#roleForm";
-                                    env.rModal.show();
+                                    modal = env.rModal.show();
                                     break;
                                 case "auth":
                                     selector = "#authForm";
-                                    env.aModal.show();
+                                    modal = env.aModal.show();
+                                    break;
+                                case "member":
+                                    selector = "#memberForm";
+                                    modal = env.mModal.show();
                                     break;
                                 default:
                                     throw "undefined type";
                             }
-                            env.rModal.onConfirm(updateInfo);
+                            modal.onConfirm(updateInfo);
                             isea.form.fill(selector, data.data);
                         });
                     }
@@ -203,7 +293,11 @@ rdash.MemberController = {
                         url = "/Admin/Member/updateAuth";
                         modal = env.aModal;
                         break;
-
+                    case "member":
+                        data = $("#memberForm").serialize();
+                        url = "/Admin/Member/updateMember";
+                        modal = env.mModal;
+                        break;
                 }
                 var newdata = isea.client.parse(data);
                 $.post(url, data, function (data) {
@@ -228,6 +322,11 @@ rdash.MemberController = {
                         data = $("#authForm").serialize();
                         url = "/Admin/Member/addAuth";
                         modal = env.aModal;
+                        break;
+                    case "member":
+                        data = $("#memberForm").serialize();
+                        url = "/Admin/Member/addMember";
+                        modal = env.mModal;
                         break;
                     default:
                         throw "AA";
@@ -265,20 +364,24 @@ rdash.MemberController = {
                                         break;
                                     case "add":
                                         isea.loader.use("form", function () {
-                                            var selector;
+                                            var selector, modal;
                                             switch (getType()) {
                                                 case "role":
                                                     selector = "#roleForm";
-                                                    env.rModal.show();
+                                                    modal = env.rModal.show();
                                                     break;
                                                 case "auth":
                                                     selector = "#authForm";
-                                                    env.aModal.show();
+                                                    modal = env.aModal.show();
+                                                    break;
+                                                case "member":
+                                                    selector = "#memberForm";
+                                                    modal = env.mModal.show();
                                                     break;
                                                 default:
                                                     throw "undefined type";
                                             }
-                                            env.rModal.onConfirm(addRecord);
+                                            modal.onConfirm(addRecord);
                                             isea.form.clean(selector);
                                         });
                                         break;
@@ -304,6 +407,9 @@ rdash.MemberController = {
                                 break;
                             case "auth":
                                 env.aModal = isea.modal.create("#authModal", {width: 1024});
+                                break;
+                            case "member":
+                                env.mModal = isea.modal.create("#memberModal", {width: 1024});
                                 break;
                             default:
                                 throw "AA";

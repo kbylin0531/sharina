@@ -9,6 +9,7 @@
 
 namespace Web\System\RBCA\Model;
 
+use Sharin\Database\Exceptions\DatabaseException;
 use Sharin\Database\Model;
 
 abstract class RBCAModel extends Model
@@ -18,4 +19,14 @@ abstract class RBCAModel extends Model
     {
         return 'psr_rbca_';
     }
+
+    public function getCount()
+    {
+        $count = $this->count();
+        if (false === $count) {
+            throw new DatabaseException($this);
+        }
+        return $count;
+    }
+
 }

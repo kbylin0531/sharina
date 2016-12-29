@@ -7,9 +7,9 @@
 	<!--[if IE 7]>
 	<link rel="stylesheet" href="./static/style/font-awesome/css/font-awesome-ie7.css">
 	<![endif]-->
-	<link href="<?php echo STATIC_PATH;?>style/bootstrap.css" rel="stylesheet"/>
+	<link href="./static/style/bootstrap.css" rel="stylesheet"/>
 	
-	<link href="<?php echo STATIC_PATH;?>style/skin/<?php echo $config['user']['theme'];?>app_setting.css" rel="stylesheet" id='link_css_list'/>
+	<link href="./static/style/skin/<?php echo $config['user']['theme'];?>app_setting.css" rel="stylesheet" id='link_css_list'/>
 	
 </head>
 <body>
@@ -30,11 +30,11 @@
 		</div>		
 		<div class='main'></div>
 	</div>
-<script src="<?php echo STATIC_PATH;?>js/lib/seajs/sea.js"></script>
+<script src="./static/js/lib/seajs/sea.js"></script>
 <script src="./explorer.php?user/common_js#id=<?php echo rand_string(8);?>"></script>
 <script type="text/javascript">
 	seajs.config({
-		base: "<?php echo STATIC_PATH;?>js/",
+		base: "./static/js/",
 		preload: ["lib/jquery-1.8.0.min"],
 		map:[
 			[ /^(.*\.(?:css|js))(.*)$/i,'$1$2?ver='+G.version]
