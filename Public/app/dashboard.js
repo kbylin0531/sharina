@@ -54,6 +54,10 @@ rdash.config(["$stateProvider", "$urlRouterProvider", function (stateProvider, u
                 templateUrl: item.path
             });
         });
+
+        if("inside" in data) isea.each(data["inside"], function (item) {
+            stateProvider.state(item, {url: item,templateUrl: item});
+        });
         if ("footmenu" in data) isea.each(data["footmenu"], function (item) {
             sidebarFooter.append('<div class="col-xs-' + spacing + '"><a href="' + (item.url || "#") + '" target="' + (item.target || "_self") + '">' + item.title + '</a></div>');
         });

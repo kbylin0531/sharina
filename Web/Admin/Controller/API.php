@@ -18,6 +18,10 @@ class API extends Admin
         Response::ajaxBack([
             'status' => 1,
             'data' => [
+                'inside' => [
+                    '/Admin/Member/auth'
+
+                ],
                 'sidemenu' => [
                     [
                         'title' => 'Dashboard',
