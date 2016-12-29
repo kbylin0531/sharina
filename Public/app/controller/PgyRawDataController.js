@@ -241,6 +241,20 @@ rdash.PgyRawDataController = {
                 }
             }
 
+            var deleteRecord = function (row) {
+                switch (getType()) {
+                    case "loan":
+                        if (confirm("确定要删除" + row.name + "的借款日期为" + row.jkdate + " 的记录?")) {
+                            $.get("/Pgy/Loan/delete?id=" + row.id, function (data) {
+                                if (data.status) {
+                                    env.iTable.remove(env.currentRow)
+                                }
+                            });
+                        }
+                        break;
+                }
+            };
+
             //请求cutomer信息
             var requestInfo = function (id) {
                 $.get(getFromInfoURL(id), function (data) {
@@ -322,17 +336,23 @@ rdash.PgyRawDataController = {
                                 isea.jqcontextmenu.create('#iTable tr', {
                                     /* 右键编辑列 */
                                     edit: {name: "edit", icon: "edit"},
+                                    delete: {name: "delete", icon: "delete"},
                                     /* 分隔符號 */
                                     sep1: "---------",
                                     /* 右键刷新列表 */
                                     refresh: {name: "refresh", icon: "fa-refresh"}
                                 }, function (key) {
                                     /* 事件绑定在tr上，所有target就是row */
+                                    var row = env.iTable.data(env.currentRow = $(this));
+                                    env.currentRow.closest("table").find("tr").removeClass("selected");
+                                    env.currentRow.addClass('selected');
                                     switch (key) {
                                         case "edit":
                                             //customer和loan暂时没有区分
-                                            var row = env.iTable.data(env.currentRow = $(this));
                                             row.id && requestInfo(row.id);
+                                            break;
+                                        case "delete":
+                                            row.id && deleteRecord(row);
                                             break;
                                         case "refresh":
                                             //刷新列表数据
