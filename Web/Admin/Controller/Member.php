@@ -15,6 +15,7 @@ use Sharin\Database\Exceptions\DatabaseException;
 use Web\System\Exceptions\PasswordGetFailedException;
 use Web\System\RBCA\Model\AuthModel;
 use Web\System\RBCA\Model\MemberModel;
+use Web\System\RBCA\Model\RoleAuthModel;
 use Web\System\RBCA\Model\RoleModel;
 
 class Member extends Admin
@@ -27,6 +28,25 @@ class Member extends Admin
             'r' => RoleModel::getInstance()->getCount(),
             'a' => AuthModel::getInstance()->getCount(),
         ]);
+        $this->display();
+    }
+
+    public function mapMemberRole($rid = null)
+    {
+        if (SR_IS_AJAX) {
+            $status = 1;
+            try {
+                $model = RoleAuthModel::getInstance();
+                $list = $model->getAuthById($rid);
+            } catch (DatabaseException $exception) {
+                $list = [];
+                $status = 0;
+            }
+            Response::ajaxBack([
+                'data' => $list,
+                'status' => $status,
+            ]);
+        }
         $this->display();
     }
 
@@ -260,7 +280,8 @@ class Member extends Admin
         ]);
     }
 
-    public function addMember(){
+    public function addMember()
+    {
         $model = MemberModel::getInstance();
         Response::ajaxBack([
             'status' => $model->insert($_POST) ? 1 : 0,

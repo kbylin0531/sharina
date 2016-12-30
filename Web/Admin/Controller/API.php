@@ -23,6 +23,8 @@ class API extends Admin
                     '/Admin/Member/member',
                     '/Admin/Member/role',
                     '/Admin/Member/auth',
+                    '/Admin/Member/mapRoleAuth',
+                    '/Admin/Member/mapMemberRole',
 
                 ],
                 'sidemenu' => [

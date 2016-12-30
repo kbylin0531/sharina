@@ -148,6 +148,8 @@ rdash.MemberController = {
         $scope.member = "#/Admin/Member/member";
         $scope.role = "#/Admin/Member/role";
         $scope.auth = "#/Admin/Member/auth";
+        $scope.roleauth = "#/Admin/Member/mapRoleAuth";
+        $scope.memberrole = "#/Admin/Member/mapMemberRole";
         $scope.saveChange = function () {
             if ($scope.newpwd != $scope.rpnewpwd) {
                 alert("密码不一致");
@@ -165,25 +167,91 @@ rdash.MemberController = {
         };
 
         switch (location.hash) {
-            // case $scope.index:
-            //     $.get("/Admin/Member/index",function (data) {
-            //         if(data.status){
-            //             $scope.mCount = " A"+data.data.m;
-            //             $scope.rCount = data.data.r;
-            //             $scope.aCount = data.data.a;
-            //         }else{
-            //             alert(data.message);
-            //             $scope.mCount = 0;
-            //             $scope.rCount = 0;
-            //             $scope.aCount = 0;
-            //         }
-            //     });
-            //     break;
-
-            default:/* undefined */
+            /* 当前界面的hash，带# */
         }
 
-        if ($("#iTable").length) {
+
+        if ($("#ra").length) {
+            var rTable, aTable, authlist;
+            //关系设置页面
+            isea.loader.use("datatables", function () {
+                isea.datatables.solve(function () {
+                    rTable = isea.datatables.create("#rTable", {
+                        config: {
+                            columns: [
+                                {
+                                    title: 'id',
+                                    data: 'id',
+                                    width: "2%"
+                                },
+                                {
+                                    title: 'status',
+                                    data: 'status',
+                                    width: "6%"
+                                },
+                                {
+                                    title: 'comment',
+                                    data: 'comment',
+                                    width: "6%"
+                                },
+                                {
+                                    title: 'name',
+                                    data: 'name',
+                                    width: "6%"
+                                }
+                            ]
+                        }
+                    }).onDraw(null, function (tr) {
+                        var data = rTable.data(tr);
+                        console.log(tr, data);
+
+                        //筛选
+                        $.get("/Admin/Member/mapMemberRole", function (data) {
+
+                        });
+                    });
+                    aTable = isea.datatables.create("#aTable", {
+                        config: {
+                            columns: [
+                                {
+                                    title: 'id',
+                                    data: 'id',
+                                    width: "2%"
+                                },
+                                {
+                                    title: 'name',
+                                    data: 'name',
+                                    width: "4%"
+                                },
+                                {
+                                    title: 'type',
+                                    data: 'type',
+                                    width: "6%"
+                                },
+                                {
+                                    title: 'comment',
+                                    data: 'comment',
+                                    width: "6%"
+                                },
+                                {
+                                    title: 'status',
+                                    data: 'status',
+                                    width: "6%"
+                                }
+                            ]
+                        }
+                    }).onDraw(null, function () {
+                    });
+
+                    $.get("/Admin/Member/role", function (data) {
+                        rTable.load(data.data);
+                    });
+                    $.get("/Admin/Member/auth", function (data) {
+                        authlist = data.data;
+                    });
+                })
+            });
+        } else if ($("#iTable").length) {
             function requestData() {
                 $.get("/Admin/Member/" + getType(), function (data) {
                     if (data.status) {

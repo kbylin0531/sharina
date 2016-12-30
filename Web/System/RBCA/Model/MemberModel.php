@@ -21,8 +21,7 @@ use Sharin\Database\Model;
  */
 class MemberModel extends Model
 {
-
-    protected function tablePrefix()
+    public function tablePrefix()
     {
         return 'psr_';
     }
