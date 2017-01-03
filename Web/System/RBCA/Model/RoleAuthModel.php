@@ -28,7 +28,11 @@ class RoleAuthModel extends RBCAModel
 
     public function getAuthById($rid)
     {
-        $list = $this->where(['rid' => $rid])->select();
+        $rid = intval($rid);
+        $list = $this->fields("ra.*,ifnull(rra.aid,0) as auth,{$rid} as rid")
+            ->table('{{auth}} ra')
+            ->leftOuterJoin("{{rel_role_auth}}  rra on rra.aid = ra.id and rra.rid = $rid")
+            ->select();
         if (false === $list) {
             throw new DatabaseException($this);
         }

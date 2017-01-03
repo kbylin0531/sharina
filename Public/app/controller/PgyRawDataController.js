@@ -116,6 +116,11 @@ rdash.PgyRawDataController = {
                     width: "6%"
                 },
                 {
+                    title: 'wx_openid',
+                    data: 'wx_openid',
+                    width: "6%"
+                },
+                {
                     title: 'phone',
                     data: 'phone',
                     width: "6%"

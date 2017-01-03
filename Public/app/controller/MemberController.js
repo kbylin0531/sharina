@@ -172,7 +172,14 @@ rdash.MemberController = {
 
 
         if ($("#ra").length) {
-            var rTable, aTable, authlist;
+            var rTable, aTable, currentRole;
+            window.ra_authorize = function (add, rid, aid) {
+                console.log(add, rid, aid);
+                $.get("/Admin/Member/addRoleAuth", function (data) {
+
+
+                });
+            };
             //关系设置页面
             isea.loader.use("datatables", function () {
                 isea.datatables.solve(function () {
@@ -185,16 +192,6 @@ rdash.MemberController = {
                                     width: "2%"
                                 },
                                 {
-                                    title: 'status',
-                                    data: 'status',
-                                    width: "6%"
-                                },
-                                {
-                                    title: 'comment',
-                                    data: 'comment',
-                                    width: "6%"
-                                },
-                                {
                                     title: 'name',
                                     data: 'name',
                                     width: "6%"
@@ -203,15 +200,14 @@ rdash.MemberController = {
                         }
                     }).onDraw(null, function (tr) {
                         var data = rTable.data(tr);
-                        console.log(tr, data);
-
                         //筛选
-                        $.get("/Admin/Member/mapMemberRole", function (data) {
-
+                        $.get("/Admin/Member/mapMemberRole?rid=" + (currentRole = data.id), function (data) {
+                            aTable.load(data.data, true);
                         });
                     });
                     aTable = isea.datatables.create("#aTable", {
                         config: {
+                            onselect:0,
                             columns: [
                                 {
                                     title: 'id',
@@ -229,14 +225,23 @@ rdash.MemberController = {
                                     width: "6%"
                                 },
                                 {
-                                    title: 'comment',
-                                    data: 'comment',
-                                    width: "6%"
+                                    title: 'auth',
+                                    data: function (row) {
+                                        return parseInt(row.auth) > 0 ? "√" : "";
+                                    },
+                                    width: "1%"
                                 },
                                 {
-                                    title: 'status',
-                                    data: 'status',
-                                    width: "6%"
+                                    title: "operation",
+                                    data: function (row) {
+                                        var params = row['rid'] + "," + row.id;
+                                        if (parseInt(row.auth) > 0) {
+                                            return '<button class="btn btn-sm btn-primary" href="javascript:ra_authorize(false,' + params + ');"> - </button>';
+                                        } else {
+                                            return '<button class="btn btn-sm btn-default" href="javascript:ra_authorize(true,' + params + ');"> + </button>';
+                                        }
+                                    },
+                                    width: "5%"
                                 }
                             ]
                         }
@@ -245,9 +250,6 @@ rdash.MemberController = {
 
                     $.get("/Admin/Member/role", function (data) {
                         rTable.load(data.data);
-                    });
-                    $.get("/Admin/Member/auth", function (data) {
-                        authlist = data.data;
                     });
                 })
             });
