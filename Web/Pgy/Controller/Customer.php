@@ -72,7 +72,7 @@ class Customer extends Admin
             unset($_POST['id']);
             $model = CustomerModel::getInstance();
             foreach ($_POST as $k => $v) {
-                if (empty($v)) unset($_POST[$k]);
+                if ('' === $v) unset($_POST[$k]);
                 if ($v == 'null') unset($_POST[$k]);
             }
             $rst = $model->update($_POST, ['id' => $id]);
