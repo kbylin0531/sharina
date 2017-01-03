@@ -89,7 +89,7 @@ class Loan extends Admin
             unset($_POST['name']);
             unset($_POST['phone']);
             foreach ($_POST as $k => $v) {
-                if (empty($v)) unset($_POST[$k]);
+                if ('' === $v) unset($_POST[$k]);
                 if ($v == 'null') unset($_POST[$k]);
             }
             $model = LoanModel::getInstance();
