@@ -58,6 +58,11 @@ class API extends Admin
                         'icon' => 'toggle-on',
                         'path' => '/Admin/Member/index',
                     ],
+                    [
+                        'title' => 'Markbook',
+                        'icon' => 'bookmark',
+                        'path' => '/Admin/Markbook/index',
+                    ],
                 ],
                 'usermenu' => [
                     'route' => [

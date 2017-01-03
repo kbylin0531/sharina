@@ -7,11 +7,10 @@ var rdash = angular.module("RDash", ["ui.bootstrap", "ui.router"]);
 rdash.url = {
     menu: "/Admin/API/getMenu",
     info: "/Admin/API/getInfo"
-
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController"];
+var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController","BookmarkController"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏
