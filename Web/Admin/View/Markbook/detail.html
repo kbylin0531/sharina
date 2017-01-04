@@ -1017,25 +1017,10 @@
                     }
                 };
 
-                var hashto;
-                var update = function (e) {
-                    setOutput(e.getValue());
-
-                    clearTimeout(hashto);
-                    hashto = setTimeout(function () {
-                        //localStorage.hash
-                        location.hash = btoa( // base64 so url-safe
-                            RawDeflate.deflate( // gzip
-                                unescape(encodeURIComponent( // convert to utf8
-                                    editor.getValue()
-                                ))
-                            )
-                        );
-                    }, 1000);
+                var update = function () {
+                    setOutput(editor.getValue());
                 };
-
                 editor.on('change', update);
-
 
                 //拖动事件
                 document.addEventListener('drop', function (e) {
@@ -1050,32 +1035,13 @@
                     reader.readAsText(e["dataTransfer"].files[0]);
                 }, false);
 
-
-                if (location.hash) {
-                    var h = location.hash.replace(/^#/, '');
-                    if (h.slice(0, 5) == 'view:') {
-                        setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
-                        document.body.className = 'view';
-                    } else {
-                        editor.setValue(decodeURIComponent(escape(RawDeflate.inflate(atob(h)))));
-                        update(editor);
-                        editor.focus();
-                    }
-                } else {
-                    update(editor);
-                    editor.focus();
-                }
-
-//                $.get("/Admin/Markbook/getMarkdown?mdid=" + mdid, function (data) {
-//                    code.innerHTML = data.data.content;
-//                    update(editor);
-//                    editor.focus();
-//                });
+                update(editor);
+                editor.focus();
 
                 return {
                     saveAsMarkdown: saveAsMarkdown,
                     saveAsHtml: saveAsHtml,
-                    getMdValue:function () {
+                    getMdValue: function () {
                         return editor.getValue();
                     }
                 };
