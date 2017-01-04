@@ -10,7 +10,7 @@ rdash.url = {
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController","BookmarkController"];
+var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController","MarkbookController"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏
