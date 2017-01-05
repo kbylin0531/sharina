@@ -104,6 +104,9 @@ rdash.PgyRawDataController = {
     },
     cOption: {
         config: {
+            "processing": true,
+            "serverSide": true,
+            "ajax": "/Pgy/Customer/getlistOnServerSide",
             columns: [
                 {
                     title: 'ID',
@@ -188,7 +191,7 @@ rdash.PgyRawDataController = {
             function getDataSourceURL() {
                 switch (getType()) {
                     case "customer":
-                        return "/Pgy/Customer/index";
+                        return "";
                         break;
                     case "loan":
                         return "/Pgy/Loan/index";
@@ -230,10 +233,14 @@ rdash.PgyRawDataController = {
              * @param force bool 是否强制刷新，默认是undefined即false
              */
             function refreshTableData(force) {
-                var type = getType();
+                var type = getType(),url = getDataSourceURL();
+                if(!url){
+                    return ;//server side
+                }
                 if (force || !(type in env.iData) || !env.iData[type]) {
                     isea.loading.show();
-                    $.get(getDataSourceURL(), function (data) {
+
+                    $.get(url, function (data) {
                         isea.loading.hide();
                         var type = getType();
                         //當請求上一個頁面的數據抵達時頁面切換到下一個，不將數據加載到當前的iTable中

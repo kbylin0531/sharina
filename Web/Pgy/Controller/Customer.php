@@ -12,8 +12,10 @@ namespace Web\Pgy\Controller;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
+use Sharin\Database\Dao;
 use Web\Admin\Controller\Admin;
 use Web\Pgy\Model\CustomerModel;
+use Web\Pgy\Model\PgyModel;
 
 class Customer extends Admin
 {
@@ -21,17 +23,39 @@ class Customer extends Admin
     public function index()
     {
         if (SR_IS_AJAX) {
-            $list = CustomerModel::getInstance()->getlist();
-            Response::ajaxBack([
-                'status' => 1,
-                'data' => $list,
-                'type' => 'customer',
-            ]);
+            $this->getlist();
         }
         $this->display();
     }
 
+
     //-----------------------AJAX---------------
+
+    public function getlist()
+    {
+        $list = CustomerModel::getInstance()->getlist();
+        Response::ajaxBack([
+            'status' => 1,
+            'data' => $list,
+            'type' => 'customer',
+        ]);
+    }
+
+    /**
+     * @param mixed $draw //获取Datatables发送的参数 必要,这个值作者会直接返回给前台
+     * @param $draw
+     * @param string $order 排序
+     * @param string $search 获取前台传过来的过滤条件
+     * @param int $start 从多少开始
+     * @param int $length 数据长度
+     */
+    public function getlistOnServerSide($draw, $order, $search, $start, $length)
+    {
+        $list = CustomerModel::getInstance()->getlistByCustom($draw, $order, $search, $start, $length);
+        Response::ajaxBack($list);
+    }
+
+
     public function getinfo($id)
     {
         $info = CustomerModel::getInstance()->getinfo($id);
@@ -46,7 +70,7 @@ class Customer extends Admin
         $model = CustomerModel::getInstance();
         foreach ($_POST as $key => &$item) {
 //            if ($key !== 'note') {
-                '' === $item and $item = null;
+            '' === $item and $item = null;
 //            }
         }
         if ($model->insert($_POST)) {
