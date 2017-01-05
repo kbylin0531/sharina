@@ -1,12 +1,11 @@
-* {
-    margin: 0;
-    padding: 0;
-    outline: none;
-}
 
 a {
     color: #222;
     text-decoration: none;
+}
+
+.float-right{
+    float: right;
 }
 
 a:active,
@@ -56,11 +55,11 @@ a:focus {
 }
 
 .sui-nav ul > li > a {
-    padding: 0 20px;
+    padding: 0 0 0 20px;
 }
 
 .sui-nav ul > li span.indicator {
-    position: absolute;
+    position: relative;
     color: #bababa;
     top: 0;
     right: 0;

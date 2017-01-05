@@ -26,12 +26,8 @@
                     }, function () {
                         $(this).children('ul').stop().hide(defaultOptions.closingSpeed);
                     });
-                } else {
-//					这里加入float可以让宽度自适应，但是会有其它的布局问题，视情况去除注释
-//					$(that).css({
-//						'float': 'left',
-//						'margin-right': '10px'
-//					});
+                }
+                else {
                     if (defaultOptions.trigger == 'click') {
                         $(that).find('li').click(function () {
                             if ("none" == $(this).children('ul').css('display'))
