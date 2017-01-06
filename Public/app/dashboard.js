@@ -10,7 +10,7 @@ rdash.url = {
 };
 var controllerPath = "/app/controller/";
 //控制器列表
-var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController","MarkbookController"];
+var ctrlers = ["ArticleAddCtrler", "PgyRawDataController", "MemberController", "SystemController", "MarkbookController"];
 /**
  * Sidebar Toggle & Cookie Control
  * 小于这个值将视为移动设备而收起侧边栏
@@ -152,14 +152,18 @@ rdash.directive("rdLoading", function () {
     };
 }).directive("rdWidget", function () {
     return {transclude: !0, template: '<div class="widget" ng-transclude></div>', restrict: "EA"};
+}).directive("rdTable", function () {
+    //自定义table
+    return {
+        scope:{
+            identify:'@',
+            type:'@'
+        },
+        transclude: true,
+        template: '<table id="{{identify}}" data-type="{{type}}" class="table table-bordered" cellspacing="0" width="100%"></table>',
+        restrict: "EA"
+    };
 });
-//     .directive("rdTable", function () {
-//     return {
-//         transclude: !0,
-//         template: '<table id="dtable" class="table table-bordered" cellspacing="0" width="100%"></table>',
-//         restrict: "EA"
-//     };
-// });
 
 isea.each(ctrlers, function (ctrlername) {
     rdash.controller(ctrlername, new Function("$scope", "isea.loader.load('" + controllerPath + ctrlername + ".js',  function () { rdash['" + ctrlername + "'].run($scope);});"));

@@ -22,13 +22,17 @@ rdash.MarkbookController = {
         });
         isea.notify.solve();
 
-
-        var deleteRecord = function () {
-            var row = mTable.selected();
+        var deleteRecord = function (context) {
+            var row, data;
+            if (context) {
+                row = $(context).closest("tr");
+            } else {
+                row = mTable.selected();
+            }
             if (false === row) {
                 return isea.notify.show('请选择要删除的行');
             }
-            var data = mTable.data(row);
+            data = mTable.data(row);
 
             if (confirm("確定要刪除'" + data.name + "'?")) {
                 $.get("/Admin/Markbook/delete?id=" + data.id, function (data) {
@@ -111,6 +115,15 @@ rdash.MarkbookController = {
                                 title: 'upd_time',
                                 data: 'upd_time',
                                 width: "6%"
+                            },
+                            {
+                                title: 'operation',
+                                data: function (row) {
+                                    var url = "/Admin/Markbook/detail?id=" + row.id;
+                                    return '<a href="' + url + '" target="_blank">编辑</a>';
+
+                                },
+                                width: "6%"
                             }
                         ]
                     }
@@ -131,10 +144,10 @@ rdash.MarkbookController = {
                                         break;
                                     case "edit":
                                         var row = mTable.selected();
-                                        if(!row){
-                                            isea.notify.show("请选择行进行编辑",true);
-                                        }else{
-                                            window.open("/Admin/Markbook/detail?id="+mTable.data(row).id);
+                                        if (!row) {
+                                            isea.notify.show("请选择行进行编辑", true);
+                                        } else {
+                                            window.open("/Admin/Markbook/detail?id=" + mTable.data(row).id);
                                         }
                                         break;
                                     case "add":

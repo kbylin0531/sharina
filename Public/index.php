@@ -3,9 +3,9 @@ use Sharin\ClassLoader;
 //调试模式
 const SR_DEBUG_MODE_ON = true;
 const SR_WECHAT_TOKEN = 'sharina';
-const SR_WECHAT_ENCODINGAESKEY = '';
-const SR_WECHAT_APPID = 'wx2b0d34d6bc1868bd';
-const SR_WECHAT_SECRECT = 'ba729640ef32323f3767e57641aee821';
+const SR_WECHAT_ENCODINGAESKEY = 'IJFdGbPQu2dMXqiwua6CS5tJ9P17YrFEoSUtNnISGeW';
+const SR_WECHAT_APPID = 'wxd10144c82235ff4f';
+const SR_WECHAT_SECRECT = 'b2ef695342bbb9f9e513fbc7e1125a6b';
 
 //--------------- VALIDATE BEGIN ------------------------
 if (isset($_GET['echostr'])) {

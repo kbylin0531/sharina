@@ -166,10 +166,59 @@ rdash.MemberController = {
             location.href = $scope[type];
         };
 
-        switch (location.hash) {
-            /* 当前界面的hash，带# */
-        }
+        (function () {
+            var activeIndex;
+            switch (location.hash) {
+                /* 当前界面的hash，带# */
+                case $scope.member:
+                    activeIndex = 0;
+                    break;
+                case $scope.role:
+                    activeIndex = 1;
+                    break;
+                case $scope.auth:
+                    activeIndex = 2;
+                    break;
+                case $scope.roleauth:
+                    activeIndex = 0;
+                    break;
+                case $scope.memberrole:
+                    activeIndex = 1;
+                    break;
+                default:
+                    return;
 
+            }
+            var nav;
+            if ((nav = $("#nav")).length) {
+                nav.html(isea.bootstrap.navtab([
+                    {
+                        href: "#/Admin/Member/member",
+                        title: "Member"
+                    },
+                    {
+                        href: "#/Admin/Member/role",
+                        title: "Role"
+                    },
+                    {
+                        href: "#/Admin/Member/auth",
+                        title: "Auth"
+                    }
+                ], activeIndex));
+            }
+            if ((nav = $("#navr")).length) {
+                nav.html(isea.bootstrap.navtab([
+                    {
+                        href: "#/Admin/Member/mapRoleAuth",
+                        title: "Member"
+                    },
+                    {
+                        href: "#/Admin/Member/mapMemberRole",
+                        title: "Role"
+                    }
+                ], activeIndex));
+            }
+        })();
 
         if ($("#ra").length) {
             var rTable, aTable, currentRole;

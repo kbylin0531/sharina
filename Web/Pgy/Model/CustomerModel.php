@@ -82,10 +82,10 @@ class CustomerModel extends PgyModel
         }
 
         //where
-        $search = trim($search['value']);
+        $search = trim(htmlspecialchars($search['value']));
         $whereSql = '';
         if ($search) {
-            foreach (['wx_openid', 'phone', 'idCard'] as $field) {
+            foreach (['name','wx_openid', 'phone', 'idCard'] as $field) {
                 $whereSql .= " `$field` like '%{$search}%' or";
             }
             $whereSql = ' WHERE ' . rtrim($whereSql, 'ro');
