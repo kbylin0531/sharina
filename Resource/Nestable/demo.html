@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="nestable3"></div>
+<div id="nestable2"></div>
+
+<script src="../../Public/isea/index.js"></script>
+<script>
+
+    isea.loader.use("nestable", function () {
+        isea.nestable.solve(function () {
+            isea.nestable.create("#nestable3", [
+                {
+                    title: "haha",
+                    id: "12",
+                    children: [
+                        {
+                            title: "haha",
+                            id: "12",
+                            children: [
+                                {
+                                    title: "haha",
+                                    id: "12",
+                                    children: ""
+                                }, {
+                                    title: "haha",
+                                    id: "12",
+                                    children: ""
+                                }
+                            ]
+                        }, {
+                            title: "haha",
+                            id: "12"
+                        }, {
+                            title: "haha",
+                            id: "12"
+                        }
+                    ]
+                }, {
+                    title: "haha",
+                    id: "12",
+                    children: ""
+                }, {
+                    title: "haha",
+                    id: "12",
+                    children: ""
+                }
+            ],1).change(function () {
+                console.log($(this).nestable('serialize'))
+            });
+            isea.nestable.create("#nestable2", [
+                {
+                    title: "haha",
+                    id: "12",
+                    children: [
+                        {
+                            title: "haha",
+                            id: "12",
+                            children: [
+                                {
+                                    title: "haha",
+                                    id: "12",
+                                    children: ""
+                                }, {
+                                    title: "haha",
+                                    id: "12",
+                                    children: ""
+                                }
+                            ]
+                        }, {
+                            title: "haha",
+                            id: "12"
+                        }, {
+                            title: "haha",
+                            id: "12"
+                        }
+                    ]
+                }, {
+                    title: "haha",
+                    id: "12",
+                    children: ""
+                }, {
+                    title: "haha",
+                    id: "12",
+                    children: ""
+                }
+            ],1).change(function () {
+                console.log($(this).nestable('serialize'))
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

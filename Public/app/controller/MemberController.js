@@ -138,9 +138,7 @@ rdash.MemberController = {
             ]
         }
     },
-    rModal: null,
-    aModal: null,
-    mModal: null,
+    modal: null,
     iTable: null,
     run: function ($scope) {
         var env = this;
@@ -187,7 +185,6 @@ rdash.MemberController = {
                     break;
                 default:
                     return;
-
             }
             var nav;
             if ((nav = $("#nav")).length) {
@@ -256,7 +253,7 @@ rdash.MemberController = {
                     });
                     aTable = isea.datatables.create("#aTable", {
                         config: {
-                            onselect:0,
+                            onselect: 0,
                             columns: [
                                 {
                                     title: 'id',
@@ -303,242 +300,162 @@ rdash.MemberController = {
                 })
             });
         } else if ($("#iTable").length) {
-            function requestData() {
-                $.get("/Admin/Member/" + getType(), function (data) {
-                    if (data.status) {
-                        env.iTable.load(data.data);
-                    } else {
-                        isea.notify.solve(function (env) {
-                            env.show(data.message, true);
-                        })
-                    }
+
+            var page = (function () {
+                var form_selector, modal_selector, add_url, upd_url, get_url, del_url,
+                    type = $("#iTable").attr("data-type");
+                switch (type) {
+                    case "role":
+                        form_selector = "#roleForm";
+                        modal_selector = "#roleModal";
+                        add_url = "/Admin/Member/addRole";
+                        upd_url = "/Admin/Member/updateRole";
+                        get_url = "/Admin/Member/getRoleInfo";
+                        del_url = "/Admin/Member/deleteRole";
+                        break;
+                    case "auth":
+                        form_selector = "#authForm";
+                        modal_selector = "#authModal";
+                        add_url = "/Admin/Member/addAuth";
+                        upd_url = "/Admin/Member/updateAuth";
+                        get_url = "/Admin/Member/getAuthInfo";
+                        del_url = "/Admin/Member/deleteAuth";
+                        break;
+                    case "member":
+                        form_selector = "#memberForm";
+                        modal_selector = "#memberModal";
+                        add_url = "/Admin/Member/addMember";
+                        upd_url = "/Admin/Member/updateMember";
+                        get_url = "/Admin/Member/getMemberInfo";
+                        del_url = "/Admin/Member/deleteMember";
+                        break;
+                    default:
+                        throw "undefined type";
+                }
+
+                return {
+                    url: {
+                        src: "/Admin/Member/" + type,
+                        add: add_url,
+                        upd: upd_url,
+                        get: get_url,
+                        del: del_url
+                    },
+                    type: type,
+                    selector: {
+                        form: form_selector,
+                        modal: modal_selector
+                    },
+                    optionName: "option_" + type
+                };
+            })();
+
+            isea.loader.use("modal", function () {
+                isea.modal.solve(function () {
+                    env.modal = isea.modal.create(page.selector.modal, {width: 1024});
                 });
-            }
+            }).use("datatables", function () {
 
-            function getType() {
-                return $("#iTable").attr("data-type");
-            }
-
-            function getInfoSourceURL(id) {
-                switch (getType()) {
-                    case "role":
-                        return "/Admin/Member/getRoleInfo?rid=" + id;
-                    case "auth":
-                        return "/Admin/Member/getAuthInfo?aid=" + id;
-                    case "member":
-                        return "/Admin/Member/getMemberInfo?mid=" + id;
-                    default:
-                        throw "A";
-                }
-            }
-
-            var deleteRocord = function (row) {
-                var outenv = env, tip, url;
-                switch (getType()) {
-                    case "role":
-                        tip = "確定要刪除角色'" + row.name + "'?";
-                        url = "/Admin/Member/deleteRole?id=" + row.id;
-                        break;
-                    case "auth":
-                        tip = "確定要刪除權限'" + row.name + "'?";
-                        url = "/Admin/Member/deleteAuth?id=" + row.id;
-                        break;
-                    case "member":
-                        tip = "確定要刪除用戶'" + row.username + "'?";
-                        url = "/Admin/Member/deleteMember?id=" + row.id;
-                        break;
-                    default:
-                        throw "Bi";
-                }
-                if (confirm(tip)) {
-                    $.get(url, function (data) {
-                        isea.notify.solve(function (env) {
-                            env.show(data.message, true);
+                var actions = {
+                    requestData: function () {
+                        $.get(page.url.src, function (data) {
                             if (data.status) {
-                                outenv.iTable.remove(outenv.currentRow);
+                                env.iTable.load(data.data);
+                            } else {
+                                isea.notify.solve(function (env) {
+                                    env.show(data.message, true);
+                                })
                             }
                         });
-                    });
-                }
-            };
-
-            //请求cutomer信息
-            var requestInfo = function (id) {
-                $.get(getInfoSourceURL(id), function (data) {
-                    if (!data.status) {
-                        if (data.message && ("_NO_LOGIN_" === data.message)) {
-                            location.href = '/Admin/Publics/login';
-                        } else {
-                            isea.notify.solve(function (env) {
-                                env.show("查询失败", true);
-                            });
-                        }
-                    } else {
-                        isea.loader.use("form", function () {
-                            var selector, modal;
-                            switch (getType()) {
-                                case "role":
-                                    selector = "#roleForm";
-                                    modal = env.rModal.show();
-                                    break;
-                                case "auth":
-                                    selector = "#authForm";
-                                    modal = env.aModal.show();
-                                    break;
-                                case "member":
-                                    selector = "#memberForm";
-                                    modal = env.mModal.show();
-                                    break;
-                                default:
-                                    throw "undefined type";
-                            }
-                            modal.onConfirm(updateInfo);
-                            isea.form.fill(selector, data.data);
-                        });
-                    }
-                });
-            };
-
-            var updateInfo = function () {
-                var data, url, modal;
-                switch (getType()) {
-                    case "role":
-                        data = $("#roleForm").serialize();
-                        url = "/Admin/Member/updateRole";
-                        modal = env.rModal;
-                        break;
-                    case "auth":
-                        data = $("#authForm").serialize();
-                        url = "/Admin/Member/updateAuth";
-                        modal = env.aModal;
-                        break;
-                    case "member":
-                        data = $("#memberForm").serialize();
-                        url = "/Admin/Member/updateMember";
-                        modal = env.mModal;
-                        break;
-                }
-                var newdata = isea.client.parse(data);
-                $.post(url, data, function (data) {
-                    if (data.status) {
-                        env.currentRow && env.iTable.update(newdata, env.currentRow);
-                        modal.hide();
-                    } else {
-                        alert(data.message);
-                    }
-                });
-            };
-
-            var addRecord = function () {
-                var data, url, modal;
-                switch (getType()) {
-                    case "role":
-                        data = $("#roleForm").serialize();
-                        url = "/Admin/Member/addRole";
-                        modal = env.rModal;
-                        break;
-                    case "auth":
-                        data = $("#authForm").serialize();
-                        url = "/Admin/Member/addAuth";
-                        modal = env.aModal;
-                        break;
-                    case "member":
-                        data = $("#memberForm").serialize();
-                        url = "/Admin/Member/addMember";
-                        modal = env.mModal;
-                        break;
-                    default:
-                        throw "AA";
-                }
-                $.post(url, data, function (data) {
-                    if (data.status) {
-                        modal.hide();
-                        requestData();
-                    } else {
-                        alert(data.message);
-                    }
-                });
-            };
-
-            function buildTable() {
-                env.iTable = isea.datatables.create("#iTable", env["option_" + getType()]).onDraw(function () {
-                    isea.loader.use('jqcontextmenu', function () {
-                        isea.jqcontextmenu.solve(function () {
-                            isea.jqcontextmenu.create('#iTable tr', {
-                                /* 右键编辑列 */
-                                edit: {name: "edit", icon: "edit"},
-                                add: {name: "add", icon: "add"},
-                                delete: {name: "delete", icon: "delete"},
-                                /* 分隔符號 */
-                                sep1: "---------",
-                                /* 右键刷新列表 */
-                                refresh: {name: "refresh", icon: "fa-refresh"}
-                            }, function (key) {
-                                /* 事件绑定在tr上，所有target就是row */
-                                switch (key) {
-                                    case "edit":
-                                        //customer和loan暂时没有区分
-                                        var row = env.iTable.data(env.currentRow = $(this));
-                                        row.id && requestInfo(row.id);
-                                        break;
-                                    case "add":
-                                        isea.loader.use("form", function () {
-                                            var selector, modal;
-                                            switch (getType()) {
-                                                case "role":
-                                                    selector = "#roleForm";
-                                                    modal = env.rModal.show();
-                                                    break;
-                                                case "auth":
-                                                    selector = "#authForm";
-                                                    modal = env.aModal.show();
-                                                    break;
-                                                case "member":
-                                                    selector = "#memberForm";
-                                                    modal = env.mModal.show();
-                                                    break;
-                                                default:
-                                                    throw "undefined type";
-                                            }
-                                            modal.onConfirm(addRecord);
-                                            isea.form.clean(selector);
-                                        });
-                                        break;
-                                    case "delete":
-                                        deleteRocord(env.iTable.data(env.currentRow = $(this)));
-                                        break;
-                                    case "refresh":
-                                        //刷新列表数据
-                                        requestData();
-                                        break;
+                    },
+                    editRow: function (that) {
+                        if(!that) that = this;
+                        //customer和loan暂时没有区分
+                        var row = env.iTable.data(env.currentRow = $(that));
+                        row.id && $.get(page.url.get, {id: row.id}, function (data) {
+                            if (!data.status) {
+                                if (data.message && ("_NO_LOGIN_" === data.message)) {
+                                    location.href = '/Admin/Publics/login';
+                                } else {
+                                    isea.notify.solve(function (ntf) {
+                                        ntf.show("查询失败", true);
+                                    });
                                 }
+                            } else {
+                                isea.loader.use("form", function () {
+                                    env.modal.onConfirm(function () {
+                                        var data = $(page.selector.form).serialize();
+
+                                        var newdata = isea.client.parse(data);
+                                        $.post(page.url.upd, data, function (data) {
+                                            if (data.status) {
+                                                env.currentRow && env.iTable.update(newdata, env.currentRow);
+                                                env.modal.hide();
+                                            } else {
+                                                isea.notify.solve(function (ntf) {
+                                                    ntf.show(data.message, true);
+                                                });
+                                            }
+                                        });
+                                    }).show();
+                                    isea.form.fill(page.selector.form, data.data);
+                                });
+                            }
+                        });
+                    },
+                    addRow: function () {
+                        isea.loader.use("form", function () {
+                            env.modal.onConfirm(function () {
+                                $.post(page.url.add, $(page.selector.form).serialize(), function (data) {
+                                    if (data.status) {
+                                        env.modal.hide();
+                                        actions.requestData();
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                });
+                            }).show();
+                            isea.form.clean(page.selector.form);
+                        });
+                    },
+                    deleteRow: function (that) {
+                        if(!that) that = this;
+                        var row = env.iTable.data(env.currentRow = $(that));
+                        if (confirm("删除的数据将无法恢复，请确认操作")) {
+                            $.get(page.url.del, {id: row.id}, function (data) {
+                                isea.notify.solve(function () {
+                                    isea.notify.show(data.message, true);
+                                    if (data.status) {
+                                        env.iTable.remove(env.currentRow);
+                                    }
+                                });
+                            });
+                        }
+                    }
+                };
+
+                isea.datatables.solve(function () {
+                    env.iTable = isea.datatables.create("#iTable", env[page.optionName]).onDraw(function () {
+                        isea.loader.use('jqcontextmenu', function () {
+                            isea.jqcontextmenu.solve(function () {
+                                isea.jqcontextmenu.create('#iTable tr', {
+                                        /* 右键编辑列 */
+                                        editRow: {name: "edit", icon: "edit"},
+                                        addRow: {name: "add", icon: "add"},
+                                        deleteRow: {name: "delete", icon: "delete"},
+                                        /* 分隔符號 */
+                                        sep1: "---------",
+                                        /* 右键刷新列表 */
+                                        requestData: {name: "refresh", icon: "fa-refresh"}
+                                    },
+                                    function (key) {
+                                        key in actions && eval(";actions." + key + "(this);");
+                                    });
                             });
                         });
                     });
-
+                    actions.requestData();
                 });
-                requestData();
-                isea.loader.use("modal", function () {
-                    isea.modal.solve(function () {
-                        switch (getType()) {
-                            case "role":
-                                env.rModal = isea.modal.create("#roleModal", {width: 1024});
-                                break;
-                            case "auth":
-                                env.aModal = isea.modal.create("#authModal", {width: 1024});
-                                break;
-                            case "member":
-                                env.mModal = isea.modal.create("#memberModal", {width: 1024});
-                                break;
-                            default:
-                                throw "AA";
-                        }
-                    });
-                });
-            }
-
-            isea.loader.use("datatables", function () {
-                isea.datatables.solve(buildTable);
             });
 
         }

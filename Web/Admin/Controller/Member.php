@@ -141,13 +141,13 @@ class Member extends Admin
         $this->display();
     }
 
-    public function getMemberInfo($mid)
+    public function getMemberInfo($id)
     {
         $model = MemberModel::getInstance();
         try {
             Response::ajaxBack([
                 'status' => 1,
-                'data' => $model->getById($mid),
+                'data' => $model->getById($id),
             ]);
         } catch (DatabaseException $exception) {
             Logger::getLogger('controller')->error($exception->getMessage());
@@ -158,13 +158,13 @@ class Member extends Admin
         }
     }
 
-    public function getAuthInfo($aid)
+    public function getAuthInfo($id)
     {
         $model = AuthModel::getInstance();
         try {
             Response::ajaxBack([
                 'status' => 1,
-                'data' => $model->getById($aid),
+                'data' => $model->getById($id),
             ]);
         } catch (DatabaseException $exception) {
             Logger::getLogger('controller')->error($exception->getMessage());
@@ -175,13 +175,13 @@ class Member extends Admin
         }
     }
 
-    public function getRoleInfo($rid)
+    public function getRoleInfo($id)
     {
         $model = RoleModel::getInstance();
         try {
             Response::ajaxBack([
                 'status' => 1,
-                'data' => $model->getById($rid),
+                'data' => $model->getById($id),
             ]);
         } catch (DatabaseException $exception) {
             Logger::getLogger('controller')->error($exception->getMessage());

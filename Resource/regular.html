@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var str = "確定要刪除'{$name}'{$light}?";
+
+    var match,pattern = /\{\$(\w[\w\d_]+)\}/;
+    console.log(match = str.match(pattern),
+    str.replace(pattern,match[1])
+    )
+
+
+</script>
+</body>
+</html>
