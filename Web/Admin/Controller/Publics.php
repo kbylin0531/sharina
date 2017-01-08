@@ -10,6 +10,7 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Response;
+use Sharin\Library\Base64x;
 use Web\System\Sign\Sign;
 use Web\System\Sign\SignModel;
 
@@ -57,7 +58,12 @@ class Publics
             if (!$result) {
                 $this->failure('_ACCOUNT_OR_PASSWORD_FAILED_');
             } else {
-                $this->redirect('Admin/Index/index');
+                if (isset($_GET['refer'])) {
+                    $refer = Base64x::decode($_GET['refer'], 'sharina');
+                    Response::redirect($refer);
+                } else {
+                    $this->redirect('Admin/Index/index');
+                }
             }
             die;
         }

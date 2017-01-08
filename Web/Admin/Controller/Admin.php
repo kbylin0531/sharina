@@ -6,41 +6,57 @@
  * Date: 2016/12/19
  * Time: 11:27
  */
+namespace {
+    const URL_ENCRYPT_KEY = 'Timeline is free responsive template by templatemo.';
 
-namespace Web\Admin\Controller;
+}
+namespace Web\Admin\Controller {
 
-use Sharin\Core\Controller\Redirect;
-use Sharin\Core\Controller\Render;
-use Sharin\Core\Response;
-use Web\System\Sign\Sign;
-use Web\System\Sign\SignModel;
+    use Sharin\Core\Controller\Redirect;
+    use Sharin\Core\Controller\Render;
+    use Sharin\Core\Response;
+    use Sharin\Library\Base64x;
+    use Web\System\Sign\Sign;
+    use Web\System\Sign\SignModel;
 
-class Admin
-{
-
-    use Redirect;
     /**
-     * 繼承者們無需use Render，否則會報錯“Fatal error: Cannot override final method ”
+     * Class Admin 后台基类
+     * @package Web\Admin\Controller
      */
-    use Render;
-    /**
-     * @var Sign
-     */
-    protected $sign = null;
-
-    public function __construct()
+    class Admin
     {
-        $this->sign = Sign::getInstance(SignModel::getInstance());
-        if (!$this->sign->getInfo()) {
-            SR_IS_AJAX ? Response::ajaxBack([
-                'status' => 0,
-                'message' => '_NO_LOGIN_',
-            ]) : $this->redirect('Admin/Publics/login');
+
+        use Redirect;
+        /**
+         * 繼承者們無需use Render，否則會報錯“Fatal error: Cannot override final method ”
+         */
+        use Render;
+        /**
+         * @var Sign
+         */
+        protected $sign = null;
+
+        public function __construct()
+        {
+            $this->sign = Sign::getInstance(SignModel::getInstance());
+            if (!$this->sign->getInfo()) {
+                if (SR_IS_AJAX) {
+                    Response::ajaxBack([
+                        'status' => 0,
+                        'message' => '_NO_LOGIN_',
+                    ]);
+                } else {
+                    //记录来源页面
+                    $from = Base64x::encode(SR_PUBLIC_FULL_URL . $_SERVER['REQUEST_URI'], /* 同域名下完成解析 */
+                        'sharina');
+                    $this->redirect('Admin/Publics/login', ['refer' => $from]);
+                }
+            }
         }
-    }
 
-    public function empty($action)
-    {
-        $this->display($action);
+        public function empty($action)
+        {
+            $this->display($action);
+        }
     }
 }
