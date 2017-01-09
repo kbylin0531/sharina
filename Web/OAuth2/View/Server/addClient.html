@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Client</title>
+</head>
+<body>
+<form method="post" action="/OAuth2/Server/addClient">
+    <p>
+        <label for="client_id">Client ID:</label>
+        <input type="text" name="client_id" id="client_id"/>
+    </p>
+    <p>
+        <label for="client_secret">Client Secret (password/key):</label>
+        <input type="text" name="client_secret" id="client_secret"/>
+    </p>
+    <p>
+        <label for="redirect_uri">Redirect URI:</label>
+        <input type="text" name="redirect_uri" id="redirect_uri"/>
+    </p>
+    <input type="submit" value="Submit"/>
+</form>
+</body>
+</html>
