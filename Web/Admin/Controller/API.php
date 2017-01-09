@@ -10,6 +10,7 @@
 namespace Web\Admin\Controller;
 
 use Sharin\Core\Response;
+use Web\Member\Controller\Sign;
 
 class API extends Admin
 {
@@ -83,7 +84,7 @@ class API extends Admin
                     'link' => [
                         [
                             'title' => 'Sign out',
-                            'url' => '/Admin/Publics/logout',
+                            'url' => '/logout',
                         ],
                     ],
                 ],
@@ -110,7 +111,7 @@ class API extends Admin
     {
         Response::ajaxBack([
             'status' => 1,
-            'data' => $this->sign->getInfo(),
+            'data' => Sign::getInfo(),
         ]);
     }
 

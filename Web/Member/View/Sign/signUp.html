@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'/>
+
+    <title>Login</title>
+
+    <style>
+        .login-form {
+            width: 25rem;
+            height: 26.715rem;
+            position: fixed;
+            top: 30%;
+            margin-top: -9.375rem;
+            left: 50%;
+            margin-left: -12.5rem;
+            background-color: #ffffff;
+            opacity: 0;
+            -webkit-transform: scale(.8);
+            transform: scale(.8);
+        }
+    </style>
+
+</head>
+<body class="bg-darkTeal">
+<div class="login-form padding20 block-shadow">
+    <form method="post" name="sign" ng-app="myApp" ng-controller="myCtrl">
+        <h1 class="text-light">Sign Up</h1>
+        <hr class="thin"/>
+        <br/>
+        <div class="input-control text full-size" data-role="input">
+            <label>Email:</label>
+            <input type="email" required ng-model="formData.email">
+            <button class="button helper-button clear"><span class="mif-cross"></span></button>
+        </div>
+        <br/>
+        <br/>
+        <div class="input-control text full-size" data-role="input">
+            <label>Username:</label>
+            <input type="text" required ng-model="formData.username">
+            <button class="button helper-button clear"><span class="mif-cross"></span></button>
+        </div>
+        <br/>
+        <br/>
+        <div class="input-control password full-size" data-role="input">
+            <label>User password:</label>
+            <input type="password" required ng-model="formData.password">
+            <button class="button helper-button reveal"><span class="mif-looks"></span></button>
+        </div>
+        <br/>
+        <br/>
+        <div class="input-control password full-size" data-role="input">
+            <label>Repeat password:</label>
+            <input type="password" required ng-model="formData.rppassword">
+            <button class="button helper-button reveal"><span class="mif-looks"></span></button>
+        </div>
+        <br/>
+        <label class="input-control radio small-check">
+            <input type="radio" name="sex" ng-model="formData.sex" required value="1">
+            <span class="check"></span>
+            <span class="caption">男</span>
+        </label>
+        &nbsp;
+        <label class="input-control radio small-check">
+            <input type="radio" name="sex" ng-model="formData.sex" required value="0">
+            <span class="check"></span>
+            <span class="caption">女</span>
+        </label>
+        <br/>
+        <div class="form-actions">
+            <button id="submit" class="button primary">Go</button>
+        </div>
+    </form>
+    <script src="/isea/index.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.6.1/angular.min.js"></script>
+    <script>
+
+        if ((BROWSER.type == "ie") && (BROWSER.version < 10)) {
+            alert('你的浏览器版本过低');
+        } else {
+
+        }
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope) {
+            $scope.formData = {};
+
+            isea.loader.use("metro", function () {
+                isea.loader.use("jquery", function () {
+                    isea.metro.solve(function () {
+                        $(".login-form").css({
+                            opacity: 1,
+                            "-webkit-transform": "scale(1)",
+                            "transform": "scale(1)",
+                            "-webkit-transition": ".5s",
+                            "transition": ".5s"
+                        });
+
+
+                        //-----------
+                        isea.notify.solve(function () {
+                            $("#submit").click(function () {
+                                if ($scope.formData.password == $scope.formData.rppassword) {
+                                    if ($scope.formData.email &&
+                                        $scope.formData.username &&
+                                        $scope.formData.password &&
+                                        (undefined !== $scope.formData.sex)
+                                    ) {
+                                        $.post('/signup', $scope.formData, function (data) {
+                                            if (data.status) {
+                                                location.href = data.data.redirect;
+                                            } else {
+                                                isea.notify.show(data.message, true);
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    isea.notify.show('密码前后不一致', true);
+                                }
+                            });
+                        })
+                    });
+                });
+            });
+
+        });
+
+    </script>
+</div>
+</body>
+</html>
