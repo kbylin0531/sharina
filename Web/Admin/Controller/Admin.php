@@ -54,11 +54,8 @@ namespace Web\Admin\Controller {
             if (isset($auth_list[$access_path])) {
                 $auth = $auth_list[$access_path];
                 //在权限管理内
-                if (intval($auth['status']) === 0 or
-                    intval($auth['authed']) > 0
-                ) {
-                    //允许访问
-                } else {
+                if (intval($auth['status']) !== 0 and intval($auth['authed']) === 0) {
+                    //不允许访问
                     $this->responsePermissionDeny($auth);
                 }
 
@@ -78,12 +75,13 @@ namespace Web\Admin\Controller {
             if (SR_IS_AJAX) {
                 Response::failure($desc);
             } else {
-                \Sharin::template('error', [
+                \Sharin::template('code', [
                     'code' => 401,
                     'title' => 'Unauthorized',
                     'detail' => $desc,
                 ]);
             }
+            die;
         }
 
         public function _empty($action)
