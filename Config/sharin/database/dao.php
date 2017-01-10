@@ -6,9 +6,9 @@
  * Date: 2016/12/20
  * Time: 21:11
  */
-const MY_MARIA_ADDR = '121.42.60.123';
-const MY_MARIA_USER = 'lin';
-const MY_MARIA_PASSWD = 'asusen';
+const MY_MARIA_ADDR = '';
+const MY_MARIA_USER = '';
+const MY_MARIA_PASSWD = '';
 const MY_MARIA_PORT = 3306;
 
 return [
@@ -39,9 +39,9 @@ return [
 //            DAO_HOST => MY_MARIA_ADDR,
 //            DAO_PORT => MY_MARIA_PORT,
             DAO_USERNAME => 'lin',
-            DAO_PASSWORD => 'pgyxwd8888',
-            DAO_HOST => '120.55.163.154',
-            DAO_PORT => '10010',
+            DAO_PASSWORD => '',
+            DAO_HOST => '',
+            DAO_PORT => '',
             DAO_CHARSET => 'UTF8',
             DAO_DSN => null,//默认先检查差DSN是否正确,直接写dsn而不设置其他的参数可以提高效率，也可以避免潜在的bug
             DAO_OPTIONS => [
