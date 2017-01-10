@@ -14,6 +14,7 @@ namespace Web\Admin\Controller {
 
     use Sharin\Core\Controller\Redirect;
     use Sharin\Core\Controller\Render;
+    use Sharin\Core\Request;
     use Sharin\Core\Response;
     use Sharin\Library\Base64x;
     use Web\Member\Controller\Sign;
@@ -33,6 +34,7 @@ namespace Web\Admin\Controller {
 
         public function __construct()
         {
+            //登陆判断
             if (!Sign::getInfo()) {
                 if (SR_IS_AJAX) {
                     Response::ajaxBack([
@@ -46,9 +48,45 @@ namespace Web\Admin\Controller {
                     Response::redirect('/login?refer' . urlencode($from));
                 }
             }
+            //权限判断
+            $access_path = SR_REQUEST_MODULE . '/' . SR_REQUEST_CONTROLLER . '/' . SR_REQUEST_ACTION;
+            $auth_list = Sign::getAuthList();
+            if (isset($auth_list[$access_path])) {
+                $auth = $auth_list[$access_path];
+                //在权限管理内
+                if (intval($auth['status']) === 0 or
+                    intval($auth['authed']) > 0
+                ) {
+                    //允许访问
+                } else {
+                    $this->responsePermissionDeny($auth);
+                }
+
+            }
         }
 
-        public function empty($action)
+        /**
+         * 权限确实响应
+         * @param array $authinfo 权限相关信息
+         */
+        private function responsePermissionDeny($authinfo)
+        {
+            $url = $authinfo['value'];
+            $name = $authinfo['name'];
+            $desc = "无法访问'{$url}'，你缺少'{$name}'的权限";
+            Response::header(Response::HEADER_UTF8);
+            if (SR_IS_AJAX) {
+                Response::failure($desc);
+            } else {
+                \Sharin::template('error', [
+                    'code' => 401,
+                    'title' => 'Unauthorized',
+                    'detail' => $desc,
+                ]);
+            }
+        }
+
+        public function _empty($action)
         {
             $this->display($action);
         }

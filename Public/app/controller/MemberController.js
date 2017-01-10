@@ -461,7 +461,7 @@ rdash.MemberController = {
 
             isea.loader.use("modal", function () {
                 isea.modal.solve(function () {
-                    env.modal = isea.modal.create(page.selector.modal, {width: 1024});
+                    env.modal = isea.modal.create(page.selector.modal, {});
                 });
             }).use("datatables", function () {
 

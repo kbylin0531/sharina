@@ -20,13 +20,15 @@ use Web\Member\Model\MemberModel;
 use Web\Member\Model\RoleAuthModel;
 use Web\Member\Model\RoleModel;
 
+/**
+ * Class Member
+ *
+ * Admin@Member/
+ *
+ * @package Web\Admin\Controller
+ */
 class Member extends Admin
 {
-
-    public function index()
-    {
-        $this->display();
-    }
 
     public function mapRoleAuth($rid = null)
     {

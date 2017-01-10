@@ -9,6 +9,7 @@
 namespace Web\Member\Controller;
 
 
+use Sharin\Core\Cacher;
 use Sharin\Core\Controller\Redirect;
 use Sharin\Core\Controller\Render;
 use Sharin\Core\Cookie;
@@ -20,6 +21,7 @@ use Sharin\Developer;
 use Sharin\Library\Base64;
 use Sharin\Library\Mailer;
 use Web\Member\Model\MemberModel;
+use Web\Member\Model\RBCAModel;
 use Web\Member\Model\SignModel;
 
 class Sign
@@ -29,8 +31,12 @@ class Sign
     public function signIn(string $username = '', string $password = '', int $expire = ONE_DAY)
     {
         if (SR_IS_POST) {
-            self::$info = self::doSignIn($username, $password, $expire);
-            if (self::$info) {
+            if (self::doSignIn($username, $password, $expire)) {
+                //权限列表 - 每次登陆时刷新
+                $rbca = RBCAModel::getInstance();
+                $authlist = $rbca->getMemberAuthList(self::$info['id']);
+                Cacher::set('$authlist_' . $username, $authlist, ONE_WEEK);
+
                 if (isset($_GET['refer'])) {
                     $refer = Base64::decrypt($_GET['refer'], 'sharina');
                     Response::redirect($refer);
@@ -44,6 +50,13 @@ class Sign
         }
         $this->display();
     }
+
+    public static function getAuthList()
+    {
+        $authlist = Cacher::get('$authlist_' . self::getInfo('username'), null);
+        return $authlist ? $authlist : [];
+    }
+
 
     /**
      * sign out the current member
@@ -123,7 +136,7 @@ class Sign
                     $this->failure('你的账户不存在或者已经被激活', 3, 'Active', '/signup');
                 }
             } else {
-                $this->failure('你访问的链接已经失效','Active', 3,  '/signup');
+                $this->failure('你访问的链接已经失效', 'Active', 3, '/signup');
             }
 
         } elseif ($rmv) {
@@ -263,7 +276,7 @@ class Sign
      * @param int $expire expire of login info cache by browser and server-session
      * @return bool the error message will be set if any error occur
      */
-    public static function doSignIn($username, $password, $expire = ONE_DAY)
+    public static function doSignIn(string $username, string $password, int $expire = ONE_DAY): bool
     {
         if (null === self::$info) {
             $model = self::getModel();
