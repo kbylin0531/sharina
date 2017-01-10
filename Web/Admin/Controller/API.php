@@ -21,7 +21,6 @@ class API extends Admin
             'data' => [
                 'inside' => [
                     //member
-                    '/Admin/Member/member',
                     '/Admin/Member/role',
                     '/Admin/Member/auth',
                     '/Admin/Member/mapRoleAuth',
@@ -56,8 +55,8 @@ class API extends Admin
                     ],
                     [
                         'title' => 'Member',
-                        'icon' => 'toggle-on',
-                        'path' => '/Admin/Member/index',
+                        'icon' => 'user-o',
+                        'path' => '/Admin/Member/member',
                     ],
                     [
                         'title' => 'Markbook',

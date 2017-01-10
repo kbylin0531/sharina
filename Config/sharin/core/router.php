@@ -17,6 +17,7 @@ return [
         '/logout' => 'Member@Sign/signOut',
         '/signup' => 'Member@Sign/signUp',
         '/forgot' => 'Member@Sign/resetPasswrod',
+        '/active_account' => 'Member@Sign/activeAccount',
 
         //--------- OAuth2 --------------------------
         '/oauth2/authorize' => 'Member@OAuth2/authorize',

@@ -7,6 +7,7 @@
     <foreach name="cdn.styles" item="vo">
         <link href="{$vo}" rel="stylesheet">
     </foreach>
+    <link href="http://cdn.bootcss.com/semantic-ui/2.2.7/semantic.min.css" rel="stylesheet">
 </head>
 <body ng-controller="MasterCtrl">
 <div id="page-wrapper" ng-class="{ 'open': toggle }" ng-cloak>
@@ -75,5 +76,6 @@
 <foreach name="cdn.scripts" item="vo">
     <script src="{$vo}"></script>
 </foreach>
+<script src="http://cdn.bootcss.com/semantic-ui/2.2.7/semantic.min.js"></script>
 </body>
 </html>

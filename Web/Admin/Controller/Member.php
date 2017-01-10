@@ -12,26 +12,23 @@ namespace Web\Admin\Controller;
 use Sharin\Core\Logger;
 use Sharin\Core\Response;
 use Sharin\Database\Exceptions\DatabaseException;
+use Web\Member\Controller\Sign;
+use Web\Member\Model\MemberRoleModel;
 use Web\System\Exceptions\PasswordGetFailedException;
-use Web\System\RBCA\Model\AuthModel;
-use Web\System\RBCA\Model\MemberModel;
-use Web\System\RBCA\Model\RoleAuthModel;
-use Web\System\RBCA\Model\RoleModel;
+use Web\Member\Model\AuthModel;
+use Web\Member\Model\MemberModel;
+use Web\Member\Model\RoleAuthModel;
+use Web\Member\Model\RoleModel;
 
 class Member extends Admin
 {
 
     public function index()
     {
-        $this->assign([
-            'm' => MemberModel::getInstance()->getCount(),
-            'r' => RoleModel::getInstance()->getCount(),
-            'a' => AuthModel::getInstance()->getCount(),
-        ]);
         $this->display();
     }
 
-    public function mapMemberRole($rid = null)
+    public function mapRoleAuth($rid = null)
     {
         if (SR_IS_AJAX) {
             $status = 1;
@@ -50,12 +47,31 @@ class Member extends Admin
         $this->display();
     }
 
+    public function mapMemberRole($mid = null)
+    {
+        if (SR_IS_AJAX) {
+            $status = 1;
+            try {
+                $model = MemberRoleModel::getInstance();
+                $list = $model->getRoleById($mid);
+            } catch (DatabaseException $exception) {
+                $list = [];
+                $status = 0;
+            }
+            Response::ajaxBack([
+                'data' => $list,
+                'status' => $status,
+            ]);
+        }
+        $this->display();
+    }
+
     public function changePasswd($old = null, $new = null)
     {
         if (SR_IS_POST) {
             try {
-                if (md5(sha1($old)) === $this->sign->getPassword() and
-                    $this->sign->changePassword($new)
+                if (md5(sha1($old)) === Sign::getPassword() and
+                    Sign::changePassword($new)
                 ) {
                     Response::ajaxBack([
                         'status' => 1,
@@ -80,6 +96,63 @@ class Member extends Admin
         }
         $this->display();
     }
+
+    public function removeRoleAuth($rid, $aid)
+    {
+        $raModel = RoleAuthModel::getInstance();
+        if ($raModel->delete([
+            'rid' => $rid,
+            'aid' => $aid,
+        ])
+        ) {
+            Response::success('删除成功');
+        } else {
+            Response::failure('删除失败...');
+        }
+    }
+
+    public function addRoleAuth($rid, $aid)
+    {
+        $raModel = RoleAuthModel::getInstance();
+        if ($raModel->insert([
+            'rid' => $rid,
+            'aid' => $aid,
+        ])
+        ) {
+            Response::success('添加成功');
+        } else {
+            Response::failure('添加失败...');
+        }
+    }
+
+    public function removeMemberRole($mid, $rid)
+    {
+        $raModel = MemberRoleModel::getInstance();
+        if ($raModel->delete([
+            'mid' => $mid,
+            'rid' => $rid,
+        ])
+        ) {
+            Response::success('删除成功');
+        } else {
+            Response::failure('删除失败...');
+        }
+    }
+
+    public function addMemberRole($mid, $rid)
+    {
+        $raModel = MemberRoleModel::getInstance();
+        if ($raModel->insert([
+            'mid' => $mid,
+            'rid' => $rid,
+        ])
+        ) {
+            Response::success('添加成功');
+        } else {
+            Response::failure('添加失败...:' . $raModel->error());
+        }
+    }
+
 
     public function member()
     {
@@ -283,36 +356,55 @@ class Member extends Admin
     public function addMember()
     {
         $model = MemberModel::getInstance();
-        Response::ajaxBack([
-            'status' => $model->insert($_POST) ? 1 : 0,
-        ]);
+        if ($model->insert($_POST)) {
+            Response::success('');
+        } else {
+            Response::failure($model->error());
+        }
     }
 
     public function addRole()
     {
         $model = RoleModel::getInstance();
-        Response::ajaxBack([
-            'status' => $model->insert($_POST) ? 1 : 0,
-        ]);
+        if ($model->insert($_POST)) {
+            Response::success('');
+        } else {
+            Response::failure($model->error());
+        }
     }
 
     public function addAuth()
     {
         $model = AuthModel::getInstance();
-        Response::ajaxBack([
-            'status' => $model->insert($_POST) ? 1 : 0,
-        ]);
+        if ($model->insert($_POST)) {
+            Response::success('');
+        } else {
+            Response::failure($model->error());
+        }
     }
 
     public function deleteMember($id)
     {
         $model = MemberModel::getInstance();
+        $model->beginTransaction();
         if ($model->delete(['id' => $id])) {
-            Response::ajaxBack([
-                'status' => 1,
-                'message' => '刪除成功',
-            ]);
+
+            $rmodel = MemberRoleModel::getInstance();
+            if ($rmodel->delete(['mid' => $id])) {
+                $model->commit();
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '刪除成功',
+                ]);
+            } else {
+                $model->rollback();
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '刪除失敗.',
+                ]);
+            }
         }
+        $model->rollback();
         Response::ajaxBack([
             'status' => 0,
             'message' => '刪除失敗',
@@ -322,27 +414,62 @@ class Member extends Admin
     public function deleteAuth($id)
     {
         $model = AuthModel::getInstance();
+        $model->beginTransaction();
         if ($model->delete(['id' => $id])) {
-            Response::ajaxBack([
-                'status' => 1,
-                'message' => '刪除成功',
-            ]);
+            $ramodel = RoleAuthModel::getInstance();
+            if ($ramodel->delete(['aid' => $id])) {
+
+                $mrmodel = MemberRoleModel::getInstance();
+                if ($mrmodel->delete(['aid' => $id])) {
+                    $model->commit();
+                    Response::ajaxBack([
+                        'status' => 1,
+                        'message' => '刪除成功',
+                    ]);
+                } else {
+                    $model->rollback();
+                    Response::ajaxBack([
+                        'status' => 0,
+                        'message' => '刪除失敗.',
+                    ]);
+                }
+
+            } else {
+                $model->rollback();
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '刪除失敗..',
+                ]);
+            }
         }
+        $model->rollback();
         Response::ajaxBack([
             'status' => 0,
-            'message' => '刪除失敗',
+            'message' => '刪除失敗...',
         ]);
     }
 
     public function deleteRole($id)
     {
         $model = RoleModel::getInstance();
+        $model->beginTransaction();
         if ($model->delete(['id' => $id])) {
-            Response::ajaxBack([
-                'status' => 1,
-                'message' => '刪除成功',
-            ]);
+            $ramodel = RoleAuthModel::getInstance();
+            if ($ramodel->delete(['rid' => $id])) {
+                $model->commit();
+                Response::ajaxBack([
+                    'status' => 1,
+                    'message' => '刪除成功',
+                ]);
+            } else {
+                $model->rollback();
+                Response::ajaxBack([
+                    'status' => 0,
+                    'message' => '刪除失敗 . ',
+                ]);
+            }
         }
+        $model->rollback();
         Response::ajaxBack([
             'status' => 0,
             'message' => '刪除失敗',

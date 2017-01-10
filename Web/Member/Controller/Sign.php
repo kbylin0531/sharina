@@ -18,6 +18,7 @@ use Sharin\Core\Session;
 use Sharin\Database\Exceptions\DatabaseException;
 use Sharin\Developer;
 use Sharin\Library\Base64;
+use Sharin\Library\Mailer;
 use Web\Member\Model\MemberModel;
 use Web\Member\Model\SignModel;
 
@@ -38,6 +39,7 @@ class Sign
                 }
             } else {
                 $this->failure('_ACCOUNT_OR_PASSWORD_FAILED_');
+                die;
             }
         }
         $this->display();
@@ -52,28 +54,94 @@ class Sign
         Response::redirect('/login');
     }
 
-
     public function signUp($username = '', $password = '', $email = '', $sex = 1)
     {
         if (SR_IS_POST) {
             $model = MemberModel::getInstance();
             //TODO:verify
-            if ($model->insert([
+            $data = [
                 'username' => $username,
                 'nickname' => $username,
                 'password' => self::encryptPassword($password),
                 'email' => $email,
                 'sex' => $sex,
-            ])
-            ) {
-                Response::success('OK', ['redirect' => '/login']);
+                'status' => 0,
+            ];
+            if ($model->insert($data)) {
+                unset($data['password']);//删除密码
+                $data['id'] = $model->lastInsertId();
+                $query = Base64::encrypt(json_encode($data), 'iunpes');
+                $actlink = SR_PUBLIC_FULL_URL . '/active_account?act=' . $query;
+                $rmvlink = SR_PUBLIC_FULL_URL . '/active_account?rmv=' . $query;
+
+                $content = self::loadTemplate('email_active', [
+                    'act' => $actlink,
+                    'rmv' => $rmvlink,
+                    'email' => $email,
+                ]);
+
+                if (Mailer::send('Please active your account', $content, $email)) {
+                    Response::success("A Email has sent to '{$email}',please active you account", ['redirect' => '/login']);
+                } else {
+                    Response::failure("Send email to '{$email}' failed");
+                }
             } else {
                 $message = $model->error();
                 Response::failure($message);
-            };
+            }
         }
         $this->display();
     }
+
+    public static function loadTemplate($name, $search_replace)
+    {
+        $content = file_get_contents(__DIR__ . '/../Template/' . $name . '.tpl');
+        $search = array_keys($search_replace);
+        $replace = array_values($search_replace);
+        foreach ($search as &$item) {
+            $item = "{{{$item}}}";
+        }
+        return str_replace($search, $replace, $content);
+    }
+
+    public function activeAccount($act = null, $rmv = null)
+    {
+        if ($act) {
+            $data = json_decode(Base64::decrypt(json_encode($act), 'iunpes'), true);
+            //完整性对比
+            $model = MemberModel::getInstance();
+            $userinfo = $model->find($data['id']);
+
+//            \Sharin\dumpout($userinfo,$data);
+            if ($userinfo['username'] === $data['username'] and
+                $userinfo['email'] === $data['email'] and
+                intval($userinfo['status']) === intval($data['status'])
+            ) {
+                if ($model->update(['status' => 1], ['id' => $data['id']])) {
+                    $this->success('激活成功', 3, 'Active', '/login');
+                } else {
+                    $this->failure('你的账户不存在或者已经被激活', 3, 'Active', '/signup');
+                }
+            } else {
+                $this->failure('你访问的链接已经失效','Active', 3,  '/signup');
+            }
+
+        } elseif ($rmv) {
+
+        } else {
+            self::showError('你访问的链接被修改', 'Active Account', 403);
+        }
+    }
+
+    private static function showError($detail, $title = '', $code)
+    {
+        \Sharin::template('code', [
+            'code' => $code,
+            'title' => $title,
+            'detail' => $detail,
+        ]);
+    }
+
 
     public function resetPasswrod()
     {
@@ -81,6 +149,12 @@ class Sign
 
         }
         $this->display();
+    }
+
+    private function _sendActiveEmail($email)
+    {
+
+
     }
 
 

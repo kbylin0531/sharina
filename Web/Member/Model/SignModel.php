@@ -48,7 +48,7 @@ class SignModel extends Model
     public function getInfo(string $username)
     {
         $result = $this->where(['username' => $username])->find();
-        if(false === $result){
+        if (false === $result) {
             throw new DatabaseException($this);
         }
         return $result;
@@ -56,7 +56,7 @@ class SignModel extends Model
 
     public function signIn($username, $password)
     {
-        $info = $this->where(['username' => $username])->find();
+        $info = $this->where(['username' => $username, 'status' => 1])->find();
 
         if (!empty($info['password']) and $info['password'] === $password) {
             return $info;

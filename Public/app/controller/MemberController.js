@@ -11,13 +11,8 @@ rdash.MemberController = {
                     width: "2%"
                 },
                 {
-                    title: 'pid',
-                    data: 'pid',
-                    width: "4%"
-                },
-                {
-                    title: 'status',
-                    data: 'status',
+                    title: 'name',
+                    data: 'name',
                     width: "6%"
                 },
                 {
@@ -26,14 +21,19 @@ rdash.MemberController = {
                     width: "6%"
                 },
                 {
+                    title: 'status',
+                    data: 'status',
+                    width: "6%"
+                },
+                {
                     title: 'orderNo',
                     data: 'orderNo',
                     width: "6%"
                 },
                 {
-                    title: 'name',
-                    data: 'name',
-                    width: "6%"
+                    title: 'pid',
+                    data: 'pid',
+                    width: "4%"
                 }
             ]
         }
@@ -142,7 +142,6 @@ rdash.MemberController = {
     iTable: null,
     run: function ($scope) {
         var env = this;
-        $scope.index = "#/Admin/Member/index";
         $scope.member = "#/Admin/Member/member";
         $scope.role = "#/Admin/Member/role";
         $scope.auth = "#/Admin/Member/auth";
@@ -155,13 +154,10 @@ rdash.MemberController = {
                 $.post("/Admin/Member/changePasswd", {"old": $scope.oldpwd, "new": $scope.newpwd}, function (data) {
                     alert(data.message);
                     if (data.status) {
-                        location.href = "/Admin/Publics/logout";
+                        location.href = "/logout";
                     }
                 });
             }
-        };
-        $scope.switchManage = function (type) {
-            location.href = $scope[type];
         };
 
         (function () {
@@ -178,10 +174,10 @@ rdash.MemberController = {
                     activeIndex = 2;
                     break;
                 case $scope.roleauth:
-                    activeIndex = 0;
+                    activeIndex = 3;
                     break;
                 case $scope.memberrole:
-                    activeIndex = 1;
+                    activeIndex = 4;
                     break;
                 default:
                     return;
@@ -190,28 +186,24 @@ rdash.MemberController = {
             if ((nav = $("#nav")).length) {
                 nav.html(isea.bootstrap.navtab([
                     {
-                        href: "#/Admin/Member/member",
+                        href: $scope.member,
                         title: "Member"
                     },
                     {
-                        href: "#/Admin/Member/role",
+                        href: $scope.role,
                         title: "Role"
                     },
                     {
-                        href: "#/Admin/Member/auth",
+                        href: $scope.auth,
                         title: "Auth"
-                    }
-                ], activeIndex));
-            }
-            if ((nav = $("#navr")).length) {
-                nav.html(isea.bootstrap.navtab([
-                    {
-                        href: "#/Admin/Member/mapRoleAuth",
-                        title: "Member"
                     },
                     {
-                        href: "#/Admin/Member/mapMemberRole",
-                        title: "Role"
+                        href: $scope.roleauth,
+                        title: "RoleAuth"
+                    },
+                    {
+                        href: $scope.memberrole,
+                        title: "MemberRole"
                     }
                 ], activeIndex));
             }
@@ -219,17 +211,17 @@ rdash.MemberController = {
 
         if ($("#ra").length) {
             var rTable, aTable, currentRole;
-            window.ra_authorize = function (add, rid, aid) {
-                console.log(add, rid, aid);
-                $.get("/Admin/Member/addRoleAuth", function (data) {
-
-
+            var loadRuleAuth = function (id) {
+                $.get("/Admin/Member/mapRoleAuth?rid=" + (currentRole = id), function (data) {
+                    aTable.load(data.data, true);
                 });
             };
+
             //关系设置页面
             isea.loader.use("datatables", function () {
                 isea.datatables.solve(function () {
                     rTable = isea.datatables.create("#rTable", {
+                        onselect: 1,
                         config: {
                             columns: [
                                 {
@@ -246,14 +238,10 @@ rdash.MemberController = {
                         }
                     }).onDraw(null, function (tr) {
                         var data = rTable.data(tr);
-                        //筛选
-                        $.get("/Admin/Member/mapMemberRole?rid=" + (currentRole = data.id), function (data) {
-                            aTable.load(data.data, true);
-                        });
+                        loadRuleAuth(data.id);
                     });
                     aTable = isea.datatables.create("#aTable", {
                         config: {
-                            onselect: 0,
                             columns: [
                                 {
                                     title: 'id',
@@ -280,22 +268,143 @@ rdash.MemberController = {
                                 {
                                     title: "operation",
                                     data: function (row) {
-                                        var params = row['rid'] + "," + row.id;
                                         if (parseInt(row.auth) > 0) {
-                                            return '<button class="btn btn-sm btn-primary" href="javascript:ra_authorize(false,' + params + ');"> - </button>';
+                                            return '<button class="btn btn-sm btn-primary remove_auth"> - </button>';
                                         } else {
-                                            return '<button class="btn btn-sm btn-default" href="javascript:ra_authorize(true,' + params + ');"> + </button>';
+                                            return '<button class="btn btn-sm btn-default add_auth"> + </button>';
                                         }
                                     },
                                     width: "5%"
                                 }
                             ]
                         }
-                    }).onDraw(null, function () {
+                    }).onDraw(function () {
+                        aTable.table().find("button.remove_auth").unbind("click").click(function () {
+                            var tr = $(this).closest("tr");
+                            var data = aTable.data(tr);
+                            $.get("/Admin/Member/removeRoleAuth", {rid: currentRole, aid: data.id}, function (data) {
+                                if (data.status) {
+                                    loadRuleAuth(currentRole);
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                        });
+                        aTable.table().find("button.add_auth").unbind("click").click(function () {
+                            var tr = $(this).closest("tr");
+                            var data = aTable.data(tr);
+                            $.get("/Admin/Member/addRoleAuth", {rid: currentRole, aid: data.id}, function (data) {
+                                if (data.status) {
+                                    loadRuleAuth(currentRole);
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                        });
                     });
 
                     $.get("/Admin/Member/role", function (data) {
                         rTable.load(data.data);
+                    });
+                })
+            });
+        } else if($("#mr").length){
+
+            var mTable, rTable, currentMemberId;
+            var loadMemberRole = function (id) {
+                $.get("/Admin/Member/mapMemberRole?mid=" + (currentMemberId = id), function (data) {
+                    rTable.load(data.data, true);
+                });
+            };
+
+            //关系设置页面
+            isea.loader.use("datatables", function () {
+                isea.datatables.solve(function () {
+                    mTable = isea.datatables.create("#mTable", {
+                        onselect: 1,
+                        config: {
+                            columns: [
+                                {
+                                    title: 'id',
+                                    data: 'id',
+                                    width: "2%"
+                                },
+                                {
+                                    title: 'username',
+                                    data: 'username',
+                                    width: "6%"
+                                },
+                                {
+                                    title: 'email',
+                                    data: 'email',
+                                    width: "6%"
+                                }
+                            ]
+                        }
+                    }).onDraw(null, function (tr) {
+                        var data = mTable.data(tr);
+                        loadMemberRole(data.id);
+                    });
+                    rTable = isea.datatables.create("#rTable", {
+                        config: {
+                            columns: [
+                                {
+                                    title: 'id',
+                                    data: 'id',
+                                    width: "2%"
+                                },
+                                {
+                                    title: 'name',
+                                    data: 'name',
+                                    width: "4%"
+                                },
+                                {
+                                    title: 'roled',
+                                    data: function (row) {
+                                        return parseInt(row.role) > 0 ? "√" : "";
+                                    },
+                                    width: "1%"
+                                },
+                                {
+                                    title: "operation",
+                                    data: function (row) {
+                                        if (parseInt(row.role) > 0) {
+                                            return '<button class="btn btn-sm btn-primary remove_role"> - </button>';
+                                        } else {
+                                            return '<button class="btn btn-sm btn-default add_role"> + </button>';
+                                        }
+                                    },
+                                    width: "5%"
+                                }
+                            ]
+                        }
+                    }).onDraw(function () {
+                        rTable.table().find("button.remove_role").unbind("click").click(function () {
+                            var tr = $(this).closest("tr");
+                            var data = rTable.data(tr);
+                            $.get("/Admin/Member/removeMemberRole", {mid: currentMemberId, rid: data.id}, function (data) {
+                                if (data.status) {
+                                    loadMemberRole(currentMemberId);
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                        });
+                        rTable.table().find("button.add_role").unbind("click").click(function () {
+                            var tr = $(this).closest("tr");
+                            var data = rTable.data(tr);
+                            $.get("/Admin/Member/addMemberRole", {mid: currentMemberId, rid: data.id}, function (data) {
+                                if (data.status) {
+                                    loadMemberRole(currentMemberId);
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                        });
+                    });
+
+                    $.get("/Admin/Member/member", function (data) {
+                        mTable.load(data.data);
                     });
                 })
             });
@@ -369,7 +478,7 @@ rdash.MemberController = {
                         });
                     },
                     editRow: function (that) {
-                        if(!that) that = this;
+                        if (!that) that = this;
                         //customer和loan暂时没有区分
                         var row = env.iTable.data(env.currentRow = $(that));
                         row.id && $.get(page.url.get, {id: row.id}, function (data) {
@@ -411,7 +520,7 @@ rdash.MemberController = {
                                         env.modal.hide();
                                         actions.requestData();
                                     } else {
-                                        alert(data.message);
+                                        alert(("message" in data) ? data.message : '添加失败');
                                     }
                                 });
                             }).show();
@@ -419,7 +528,7 @@ rdash.MemberController = {
                         });
                     },
                     deleteRow: function (that) {
-                        if(!that) that = this;
+                        if (!that) that = this;
                         var row = env.iTable.data(env.currentRow = $(that));
                         if (confirm("删除的数据将无法恢复，请确认操作")) {
                             $.get(page.url.del, {id: row.id}, function (data) {
